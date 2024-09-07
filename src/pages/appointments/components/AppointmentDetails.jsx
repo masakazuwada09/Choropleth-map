@@ -108,8 +108,7 @@ const AppointmentDetails = ({
 	return (
 		<div className="flex flex-col ">
 			<h4 className="border flex items-center text-base font-bold p-2 mb-0 bg-white border-indigo-100 lg:col-span-12">
-				<span>Patient Information</span>
-				<span className="ml-auto">
+				<span className="">
 					Status:{" "}
 					<b className="uppercase font-normal">
 						<AppointmentStatus
@@ -122,7 +121,7 @@ const AppointmentDetails = ({
 			</h4>
 			{appointment?.id ? (
 				<>
-					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl shadow-lg bg-white pt-5 pb-4">
+					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl shadow-lg bg-white pt-2 ">
 						{showService &&
 						(appointment?.vital_id ||
 							appointment?.has_for_reading?.length) ? (

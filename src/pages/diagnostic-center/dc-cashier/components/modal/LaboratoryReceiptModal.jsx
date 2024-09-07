@@ -122,7 +122,8 @@ const LaboratoryReceiptModal = (props, ref) => {
           leaveFrom="translate-y-0 opacity-100"
           leaveTo="-translate-y-full opacity-0"
         >
-							<Dialog.Panel className=" w-[900px] rounded-2xl bg-slate-200 text-left align-middle shadow-xl transition-all">
+
+	<Dialog.Panel className=" w-[900px] rounded-2xl bg-slate-200 text-left align-middle shadow-2xl transition-all ">
 								
 		<div className="mt-5 w-[900px] flex justify-center">
 			<div className="border-2 px-3 py-1 bg-gray-800 rounded-lg">
@@ -144,9 +145,9 @@ const LaboratoryReceiptModal = (props, ref) => {
 				</div>
 				<div className="" ref={componentRef}>
 					{/* Add the content that you want to print or save as PDF */}
-					<div className="flex flex-col-4 gap-2 bg-blue-200 mx-auto p-2">
+					<div className="flex gap-1 bg-blue-200 mx-auto p-2">
 						<div className="">
-							<img src="/laboratory.png" className="w-16 h-16 object-contain m-2" />
+							<img src="/laboratory.png" className="w-16 h-16" />
 						</div>
 						<div className="">
 							<div className="text-sm font-semibold">
@@ -164,15 +165,15 @@ const LaboratoryReceiptModal = (props, ref) => {
 							</div>
 						</div>
 
-						<div className="flex flex-col-2 text-sm ml-auto m-2 bg-blue-200">
+						<div className="flex flex-col-1 text-sm ml-auto bg-blue-200">
 							<div>
 								<InfoTextForPrint
-									contentClassName="text-sm"
+									contentClassName="text-sm w-full"
 									title="Fullname"
 									value={patientFullName(patient)}
 								/>
 								<InfoTextForPrint
-									contentClassName="text-sm"
+									contentClassName="text-sm "
 									title="Address"
 									value={patientAddress(patient)}
 								/>
@@ -185,8 +186,8 @@ const LaboratoryReceiptModal = (props, ref) => {
 									title="Laboratory Attendant"
 									value={doctorName(doctor)}
 								/>
-								
 							</div>
+							
 							<QRCode
 								value={`user-${appointment?.scheduledBy?.username}`}
 								className="ml-8"

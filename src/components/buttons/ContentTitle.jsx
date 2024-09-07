@@ -2,7 +2,7 @@ const ContentTitle = ({ title, children }) => {
 	return (
 		<>
 			<div className="flex items-center gap-4">
-				<h5 className="text-xl text-left font-bold  text-black mb-0">
+				<h5 className="text-md text-left font-bold  text-gray-600 mb-0">
 					{title}
 				</h5>
 				{children}

@@ -382,8 +382,8 @@ const LaboratoryOrders = (props) => {
 console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
 	return (
 		
-		<div className="flex flex-col items-start px-8">
-			<div className="flex flex-row justify-between w-full">
+		<div className="flex flex-col items-start px-2 bg-white ml-2 mr-2">
+			<div className="flex flex-row justify-between w-full px-2 py-2">
 			{/* <TextInputField
 										label="Date"
 										type="date"

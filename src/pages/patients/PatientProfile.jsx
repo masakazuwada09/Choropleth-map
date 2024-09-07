@@ -27,6 +27,7 @@ import PatientPharmacyOrder from "../department/his-nurse/components/PatientPhar
 import AddEmergencyCareModal from "../hims/his-er/modal/AddEmergencyCareModal";
 import CreateEmergencyCareModal from "../hims/his-er/modal/CreateEmergencyCareModal";
 import CreateTriageModal from "../hims/his-opd/modal/CreateTriageModal";
+import CreateDiagnosticModal from "../diagnostic-center/dc-nurse/components/modal/CreateDiagnosticModal";
 
 // import ReferToRHUModal from "./components/ReferToRHUModal";
 
@@ -38,6 +39,7 @@ const PatientProfile = (props) => {
 	const referToRHURef = useRef(null);
 	const appointmentChoiceRef = useRef(null);
 	const ERCareChoiceRef = useRef(null);
+  const createDiagnosticRef = useRef(null);
 	const CreateTriageRef = useRef(null);
 	const bookTeleMedicineRef = useRef(null);
 	const operationProcedureRef = useRef(null);
@@ -143,14 +145,14 @@ const PatientProfile = (props) => {
         )}
         {checkUserType("DC-NURSE") && (
           <ActionBtn
-            type="secondary"
-            className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
+            type="foreground-dark"
+            className="ml-auto h-9 !rounded-md font-medium text-x gap-2 px-2"
             onClick={() => {
-              ERCareChoiceRef.current.show({ patient: patient });
+              createDiagnosticRef.current.show({ patient: patient });
             }}
           >
-            <FlatIcon icon="bs-add" />
-            EMERGENCY APPOINTMENT
+            <FlatIcon icon="fi fi-rr-microscope" className="text-xl"/>
+            DIAGNOSE PATIENT
           </ActionBtn>
         )}
 
@@ -372,6 +374,7 @@ const PatientProfile = (props) => {
 			/>
 			{/* <AddEmergencyCareModal ref={ERCareChoiceRef}/>  */}
 			<CreateEmergencyCareModal ref={ERCareChoiceRef}/>
+      <CreateDiagnosticModal ref={createDiagnosticRef}/>
 			<CreateTriageModal ref={CreateTriageRef}/> 
 
 			<PrivacyPolicyModal

@@ -16,7 +16,7 @@ const DoctorInQueueRegular = ({
 			className={`p-3 gap-5 relative rounded-[20px] border border-gray-300 bg-gray-100 flex items-center justify-start ${className}`}
 			onClick={onClick}
 			>
-			<span className="flex items-center justify-center bg-blue-50 border border-teal-700 text-teal-700 tracking-tight rounded-full font-bold w-12 aspect-square">
+			<span className="flex items-center justify-center bg-blue-50 border border-teal-700 dark:!text-blue-500 dark:!border-blue-500 text-teal-700 tracking-tight rounded-full font-bold w-12 aspect-square">
 				#{number}
 			</span>
 
@@ -48,8 +48,12 @@ const DoctorInQueueRegular = ({
 			{acceptAction ? (
 				
 				<ActionBtn
-					type="teal"
-					className="absolute right-4 !rounded-3xl"
+					type={
+						data?.status == "in-service-result-reading"
+							? "secondary"
+							: "teal"
+					}
+					className="absolute right-4 !rounded-3xl bg-teal-700 dark:!bg-blue-500"
 					onClick={acceptAction}
 				>
 					<FlatIcon icon="rr-check" className=" font-bold"  /> Accept

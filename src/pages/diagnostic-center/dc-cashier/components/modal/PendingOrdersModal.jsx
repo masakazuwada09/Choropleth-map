@@ -43,7 +43,7 @@ const PendingOrdersModal = (props, ref) => {
 		setLoading,
 		paginate,
 		setPaginate,
-		data,
+		data : modalData,
 		setData,
 		column,
 		setColumn,
@@ -64,9 +64,8 @@ const PendingOrdersModal = (props, ref) => {
 		},
 	});
 	const [mount, setMount] = useState(0);
-	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
-	const [modalData, setModalData] = useState(null);
+	
 	
 
 	useEffect(() => {
@@ -83,9 +82,9 @@ const PendingOrdersModal = (props, ref) => {
 		hide: hide,
 	}));
 
-	const show = (modalData = null) => {
+	const show = (showData = null) => {
 		setModalOpen(true);
-		if (modalData) {
+		if (showData) {
 			setModalData(modalData);
 		}
 	};
@@ -93,36 +92,14 @@ const PendingOrdersModal = (props, ref) => {
 	const hide = () => {
 		setModalOpen(false);
 	};
-	const submit = (data) => {
-		let formData = new FormData();
+	const submit = () => {
+		let modalData = new FormData();
 		if (modalData.fn) {
 			modalData.fn();
 			hide();
 		}
 	};
-	// const submit = (data) => {
-	// 	console.log("Form data being submitted:", data);
-	// 	console.log("Show data:", showData);
-	// 	setLoading(true);
-	// 	Axios.post(
-	// 		`/v1/doctor/laboratory-order/send-patient-to-laboratory/${modalData?.id}`,
-	// 		{
-	// 			_method: "PATCH",
-	// 		}
-	// 	).then((res) => {
-	// 		if (res?.data?.pending_lab_orders?.length == 0) {
-	// 			toast.error("Error! NO PENDING LABORATORY ORDER.");
-	// 		} else {
-	// 			toast.success(
-	// 				"Success! Patient sent to Laboratory for test(s)."
-	// 			);
-	// 			setLoading(false);
-	// 			mutateAll();
-				
-	// 		}
-	// 	});
-	// };
-
+	
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" onClose={hide}>
@@ -162,6 +139,10 @@ const PendingOrdersModal = (props, ref) => {
 									</span>
 								</Dialog.Title>
 								<div className="pt-5 grid grid-cols-1 gap-5 relative">
+								{console.log(
+										"PENDING DATA TO SEND ORDER SERVICE",
+										modalData?.data
+									)}
 									<LaboratoryOrders
 										showTitle={false}
 										patient={patient}

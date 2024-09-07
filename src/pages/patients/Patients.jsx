@@ -76,7 +76,7 @@ const Patients = () => {
 									newPatientFormRef.current.show();
 								}}
 								title="Add new patient"
-								type="success"
+								type="foreground-dark"
 							>
 								<FlatIcon icon="fi fi-ss-clipboard-user" /> Add new patient
 							</ActionBtn>

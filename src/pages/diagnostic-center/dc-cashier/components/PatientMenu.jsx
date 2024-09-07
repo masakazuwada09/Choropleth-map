@@ -50,7 +50,7 @@ const PatientMenu = ({ patient, active = false, ...rest }) => {
 				<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
 					<FlatIcon icon="fi fi-rr-money-bill-wave" className="text-sm text-red-400" /> 
 					<div className="flex flex-col">
-					<span className="text-red-500 font-bold">PENDING FOR PAYMENT</span>
+					<span className="text-red-500 font-bold">For initial Payment</span>
 					
 					</div>
 					

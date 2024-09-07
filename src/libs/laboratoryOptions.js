@@ -1,8 +1,8 @@
 export const payment = [
 	{
-		label: "Paid",
-		value: "Paid",
-		name: "Paid",
+		label: "Check",
+		value: "Check",
+		name: "Check",
 	},
 	
 ]

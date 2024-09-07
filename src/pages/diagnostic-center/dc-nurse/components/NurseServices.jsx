@@ -45,6 +45,8 @@ import MenuTitle from "../../../../components/buttons/MenuTitle";
 import MedicalCertificate from "./Forms/MedicalCertificate";
 import Prescription from "./Forms/Prescription";
 import Diagnosis from "./Forms/Diagnosis";
+import TabGroupHorizontal from "../../../../components/TabGroupHorizontal";
+import Chat from "../../../../libs/Chat";
 
 
 
@@ -647,31 +649,23 @@ const NurseServices = ({
 
 
 
-	
-
-
-
-
-
-
-
 	return (
-		<div className="flex flex-col items-start overflow-x-scroll ">
+		<div className="flex flex-col justify-center items-center ">
 			{appointment?.status == "pending-for-his-release" ? (
 				<>
 					<TabGroup
-						tabClassName="py-3 bg-slate-100 border-b w-[660px] "
-						contentClassName="max-h-[unset]"
+						tabClassName="py-2 bg-slate-50 w-full "
+						contentClassName=""
 						contents={[
 							{
 							title: (
-								<MenuTitle src="/profile.png">
+								<MenuTitle src="/certifiedlogo.png">
 								Medical Certificate
 								</MenuTitle>
 							),
 							content: (
-								<div className=" flex rotate-180">
-								<div className="transform rotate-180">
+								<div className=" flex ">
+								<div className="transform  ">
 									<MedicalCertificate
 									loading={loading}
 									onSave={cashierApproval}
@@ -684,13 +678,13 @@ const NurseServices = ({
 							},
 							{
 							title: (
-								<MenuTitle src="/profile.png">
+								<MenuTitle src="/prescriptionlogo.png">
 								Prescription
 								</MenuTitle>
 							),
 							content: (
-								<div className="overflow-x-auto transform rotate-180">
-								<div className="transform rotate-180">
+								<div className="overflow-x-auto transform ">
+								<div className="transform ">
 									<Prescription
 									loading={loading}
 									appointment={appointment}
@@ -702,13 +696,13 @@ const NurseServices = ({
 							},
 							{
 							title: (
-								<MenuTitle src="/profile.png">
+								<MenuTitle src="/diagnosislogo.png">
 								Diagnosis
 								</MenuTitle>
 							),
 							content: (
-								<div className="overflow-x-auto transform rotate-180">
-								<div className="transform rotate-180">
+								<div className="overflow-x-auto transform ">
+								<div className="transform ">
 									<Diagnosis
 									
 									loading={loading}
@@ -719,14 +713,17 @@ const NurseServices = ({
 								</div>
 							),
 							},
-							
-						]}
-						/>
-
-
-					<div className="flex items-center w-full justify-center px-4 pb-4 gap-4">
+							{
+								title: (
+									<MenuTitle src="/send-to-billing.png">
+									Send to Billing
+									</MenuTitle>
+								),
+								content: (
+									
+					<div className="flex items-center w-full justify-center pb-4 gap-4">
 						<ActionBtn
-							className="text-gray-700 flex items-center  cursor-pointer rounded-lg gap-2 "
+							className="text-gray-700 flex items-center justify-center  cursor-pointer rounded-lg gap-2 "
 							onClick={approveRelease}
 							type="secondary"
 							>
@@ -734,47 +731,14 @@ const NurseServices = ({
 							Send to Billing
 						</ActionBtn>
 					</div>
-					<div className="p-5 mx-auto w-4/5 border rounded-xl">
-
-
-					<div className="mx-auto rounded-2xl bg-white pb-2 shadow-xl w-full flex gap-3">
-									
-									{/* <ActionBtn
-										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
-										onClick={() => printMedicalCertificate.current.show({...data, appointment})}
-										type="foreground-dark"
-										
-									>
-										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
-										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
-										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
-										
-									<FlatIcon icon="rs-document" />
-									Certificate Available					
-									</ActionBtn> */}
-
-									{/* <ActionBtn
-										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px]"
-										onClick={() => printPrescription.current.show({...data, appointment})}
-										type="foreground-dark"
-									>
-										
-										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
-										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
-										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
-
-										
-										<FlatIcon icon="fi fi-ss-file-prescription" />
-										Prescription Available
-									</ActionBtn> */}
-
+								),
+								},
 							
-   								 </div>
+						]}
+						
+						/>
 
-							
-
-
-					</div>
+			
 				</>
 
 
@@ -791,17 +755,13 @@ const NurseServices = ({
 
 			{appointment?.status == "pending" ? (
 				<>
-					<div className="flex flex-col w-full gap-4 pb-2 pt-5">
-					<div className="p-0 flex flex-col gap-y-4 relative w-full">
-						<h4 className="text-md text-indigo-800 border-b border-b-indigo-600 border-t border-t-pink-600 border-r border-r-pink-600 border-l border-l-indigo-600 pb-1 font-bold mb-0 px-2">
+					<div className="flex flex-col w-full gap-4 pb-2 ">
+					<div className="p-0 flex flex-col gap-y-4 relative w-full ">
+						<h4 className="text-md ">
 							Diagnosis Services
 						</h4>
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
 						
-						
-				
-							
 						<Controller
 							name="referred_to"
 							control={control}
@@ -862,7 +822,8 @@ const NurseServices = ({
 								</div>
 							)}
 							/>
-							<div className="flex flex-row justify-start items-center">
+
+						<div className="flex flex-row justify-end items-end ">
 							<ActionBtn
 							className="text-gray-700 flex items-center justify-end  cursor-pointer rounded-lg gap-2 w-[170px] h-[40px]"
 							onClick={handleSubmit(sendToDoctor)}
@@ -873,20 +834,19 @@ const NurseServices = ({
 							Send to Doctor
 							</ActionBtn>
 							</div>
-							
-												
+						
 						</div>
 
-							<div className="flex justify-end">
+							{/* <div className="flex justify-end">
 											<ActionBtn
 												className="text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] h-[40px]"
 												onClick={() => printMedicalCertificate.current.show({...data, appointment})}
 												type="success"	
 													>
 												<FlatIcon icon="rr-check" />
-													Done Diagnosis
+												Done Diagnosis
 											</ActionBtn>
-							</div>		
+							</div>		 */}
 
 					</div>
 					

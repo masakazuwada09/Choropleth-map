@@ -6,9 +6,7 @@ const DCLabLinks = ({ isActive }) => {
 	const { pending } = useLabQueue();
 	return (
 		<>
-			<span className="text-xs font-light text-white	pt-3 pb-1 px-2 w-full border-t border-t-black border-opacity-10">
-				Main Menu
-			</span>
+			
 			<MenuLink
 				to={``}
 				active={isActive(``)}
@@ -24,7 +22,7 @@ const DCLabLinks = ({ isActive }) => {
 			<MenuLink
 				to="/patient-lab-queue"
 				active={isActive("/patient-lab-queue")}
-				icon="rr-clipboard-list-check"
+				icon="rr-microscope"
 				text="Laboratory Queue"
 				counter={pending?.data?.length}
 			/>

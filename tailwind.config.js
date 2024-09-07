@@ -5,7 +5,8 @@ export default {
 		"./src/**/*.{js,ts,jsx,tsx}",
 		"./node_modules/tw-elements-react/dist/js/**/*.js",
 	],
-	
+	darkMode:"class",
+	lightMode:"class",
 	theme: {
 		// fontSize: {
 		// 	sm: ['14px', '20px'],

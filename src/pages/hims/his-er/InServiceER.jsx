@@ -15,7 +15,7 @@ const InServiceER = ({
 }) => {
     console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
   return (
-    <div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl relative">
+    <div className="flex flex-col bg-gray-50 border border-blue-100 p-4 rounded-xl relative">
 			{data?.status == "in-service-result-reading" ? (
 				<span className="bg-red-50 text-red-500 mb-4 text-center italic rounded-xl py-1 px-3 text-xs">
 					Pending 
@@ -33,11 +33,9 @@ const InServiceER = ({
 			) : (
 				""
 			)}
-			<div className="grid grid-cols-1 lg:grid-cols-2 divide-x">
+			<div className="grid grid-cols-1 lg:grid-cols-1 ">
 				<div className="flex flex-col justify-center items-center">
-					<span className="font-light text-sm text-slate-600 mb-1">
-						Room No
-					</span>
+					
 					<h2 className=" text-3xl font-bold  text-success -mb-1">
 					{/* {patientRoomNumber(room?.room)} */}
 					{data?.room_number}
@@ -48,7 +46,7 @@ const InServiceER = ({
 					<span className="font-light text-sm text-slate-600 mb-1">
 						Patient
 					</span>
-					<h2 className=" text-3xl tracking-tight text-center font-bold text-success -mb-1">
+					<h2 className=" text-3xl tracking-tight text-center font-bold text-teal-600 -mb-1">
 						{patientFullName(data?.patient)}
 					</h2>
 				</div>

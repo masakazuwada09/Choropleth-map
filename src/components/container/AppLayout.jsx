@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Header from "../layout/Header";
 import FlatIcon from "../FlatIcon";
@@ -29,7 +29,6 @@ import HISSurgeonLink from "../../userLinks/hmis/HISSurgeonLink";
 import HISPacuLink from "../../userLinks/hmis/HISPacuLink";
 import HISOpdLink from "../../userLinks/hmis/HISOpdLink";
 import HISCashierLink from "../../userLinks/hmis/HISCashierLink";
-import DCFrontDeskLink from "../../userLinks/dc/DCFrontdeskLinks";
 import DCFrontdeskLinks from "../../userLinks/dc/DCFrontdeskLinks";
 import DCNurseLinks from "../../userLinks/dc/DCNurseLinks";
 import DCDoctorLinks from "../../userLinks/dc/DCDoctorLinks";
@@ -38,216 +37,231 @@ import DCImagingLinks from "../../userLinks/dc/DCImagingLinks";
 import DCCashierLinks from "../../userLinks/dc/DCCashierLinks";
 import DCPharmacyLinks from "../../userLinks/dc/DCPharmacyLinks";
 
-
-
 const AppLayout = (props) => {
-	useReValidateAuth();
-	const confirmLogoutRef = useRef(null);
-	const location = useLocation();
-	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [isMobile, setIsMobile] = useState(false);
-	const { user, logout } = useAuth({
-		middleware: "auth",
-		redirectIfAuthenticated: "/",
-	});
-	const { children } = props;
-	const isActive = (name) => {
-		if (name == "") {
-			return location?.pathname == `/${String(user?.type).toLowerCase()}`;
-		}
-		return location?.pathname?.includes(name);
-	};
-	useNoBugUseEffect({
-		functions: () => {
-			// if (window) {
-			// 	window.onresize = (event) => {
-			// 		console.log("TEST", detectMobile());
-			// 	};
-			// }
-			setIsMobile(detectMobile());
-		},
-		params: [],
-	});
-	const renderLinks = () => {
-		switch (String(user?.type).toLowerCase()) {
-			case "his-nurse":
-				return <RHUNurseLinks isActive={isActive} />;
+    useReValidateAuth();
+    const confirmLogoutRef = useRef(null);
+    const location = useLocation();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const { user, logout } = useAuth({
+        middleware: "auth",
+        redirectIfAuthenticated: "/",
+    });
+    const { children } = props;
+    
+    const isActive = (name) => {
+        if (name == "") {
+            return location?.pathname == `/${String(user?.type).toLowerCase()}`;
+        }
+        return location?.pathname?.includes(name);
+    };
+    
+    useNoBugUseEffect({
+        functions: () => {
+            setIsMobile(detectMobile());
+        },
+        params: [],
+    });
 
-			case "his-laboratory":
-				return <RHULabLinks isActive={isActive} />;
+    const renderLinks = () => {
+        switch (String(user?.type).toLowerCase()) {
+            case "his-nurse":
+                return <RHUNurseLinks isActive={isActive} />;
+            case "his-laboratory":
+                return <RHULabLinks isActive={isActive} />;
+            case "his-imaging":
+                return <RHUImagingLinks isActive={isActive} />;
+            case "his-cashier":
+                return <HISCashierLink isActive={isActive} />;
+            case "his-pharmacy":
+                return <RHUPharmaLinks isActive={isActive} />;
+            case "rhu-admin":
+                return <RHUAdminLinks isActive={isActive} />;
+            case "his-monitoring":
+                return <HISAnesthesiaMonitorLink isActive={isActive} />;
+            case "his-anesthesia":
+                return <HISAnesthesiaLink isActive={isActive} />;
+            case "his-er":
+                return <HISErLink isActive={isActive} />;
+            case "his-billing":
+                return <HISBillingLink isActive={isActive} />;
+            case "his-housekeeping":
+                return <HISHousekeepingLink isActive={isActive} />;
+            case "opd-infectious":
+                return <OPDInfectiousLink isActive={isActive} />;
+            case "his-surgeon":
+                return <HISSurgeonLink isActive={isActive} />;
+            case "pacu-nurse":
+                return <HISPacuLink isActive={isActive} />;
+            case "opd-nurse":
+                return <HISOpdLink isActive={isActive} />;
+            case "dc-frontdesk":
+                return <DCFrontdeskLinks isActive={isActive} />;
+            case "dc-nurse":
+                return <DCNurseLinks isActive={isActive} />;
+            case "dc-doctor":
+                return <DCDoctorLinks isActive={isActive} />;
+            case "dc-laboratory":
+                return <DCLabLinks isActive={isActive} />;
+            case "dc-imaging":
+                return <DCImagingLinks isActive={isActive} />;
+            case "dc-cashier":
+                return <DCCashierLinks isActive={isActive} />;
+            case "dc-pharmacy":
+                return <DCPharmacyLinks isActive={isActive} />;
+            case "his-md":
+                return <HISDoctorLinks isActive={isActive} />;
+            default:
+                break;
+        }
+    };
 
-			case "his-imaging":
-				return <RHUImagingLinks isActive={isActive} />;
+    return (
+		<div className="flex ">
+ 
 
-			case "his-cashier":
-				return <HISCashierLink isActive={isActive} />;
+		<div 				
+		className={`cursor-pointer h-full w-20 ${!sidebarOpen ? 
+								"w-80" : "w-50"} duration-500 relative`}
+					
+		onClick={() => {
+								setSidebarOpen(!sidebarOpen);
+								setSidebarOpen(false);
+								
+							}}>
 
-			case "his-pharmacy":
-				return <RHUPharmaLinks isActive={isActive} />;
+		<div className=" dark:bg-white duration-500 shadow-2xl">
+			<div className=" flex w-[280px] h-[22px] dark:bg-blue-500 z-10 duration-400 items-center justify-start">
 
-			case "rhu-admin":
-				return <RHUAdminLinks isActive={isActive} />;
-			case "his-monitoring":
-				return <HISAnesthesiaMonitorLink isActive={isActive} />;
-			case "his-anesthesia":
-				return <HISAnesthesiaLink isActive={isActive} />;
-			// case "his-nurse":
-			// 	return <HISNurseLink isActive={isActive} />;
-			case "his-er":
-				return <HISErLink isActive={isActive} />;
-			case "his-billing":
-				return <HISBillingLink isActive={isActive} />;
-			case "his-housekeeping":
-				return <HISHousekeepingLink isActive={isActive} />;
-			case "opd-infectious":
-				return <OPDInfectiousLink isActive={isActive} />;
-			case "his-surgeon":
-				return <HISSurgeonLink isActive={isActive} />;
-			case "pacu-nurse":
-					return <HISPacuLink isActive={isActive} />;
-			case "opd-nurse":
-			return <HISOpdLink isActive={isActive} />;
-			//DIAGNOSTIC USERS
-			case "dc-frontdesk":
-			return <DCFrontdeskLinks isActive={isActive} />;
-			case "dc-nurse":
-			return <DCNurseLinks isActive={isActive} />;
-			case "dc-doctor":
-			return <DCDoctorLinks isActive={isActive} />;
-			case "dc-laboratory":
-			return <DCLabLinks isActive={isActive} />;
-			case "dc-imaging":
-			return <DCImagingLinks isActive={isActive} />;
-			case "dc-cashier":
-			return <DCCashierLinks isActive={isActive} />;
-			case "dc-pharmacy":
-			return <DCPharmacyLinks isActive={isActive} />;
-			
-			//doctors
-			case "his-md":
-				return <HISDoctorLinks isActive={isActive} />;
-			
-			default:
-				break;
-		}
-	};
+					<div className="px-5 py-6 mt-2  flex items-center gap-5">
 
-
-
-	return (
-		<div className="w-full flex">
-			{/* <span
-				className={`absolute z-30 top-[10px] duration-200 cursor-pointer lg:hidden shadow shadow-blue-500 rounded bg-white h-8 w-8 flex items-center justify-center ${
-					sidebarOpen ? "left-[244px]" : "left-[12px] rotate-180"
-				}`}
-				onClick={() => {
-					setSidebarOpen((prevOpen) => !prevOpen);
-				}}
-			>
-				<FlatIcon
-					icon="rr-arrow-left-from-line"
-					className="text-blue-500 text-xs -mt-[-2px]"
-				/>
-			</span> */}
-			<div>
-				<div
-					className={`absolute lg:relative  duration-200 h-[100dvh] border-r-[0.1px] lg:!border-r-[0px] shadow-white lg:!left-0 w-[256px] z-20 bg-blue-600 ${
-						!sidebarOpen ? "left-[-256px]" : "left-0"
-					}`}
-				>
-					<div className="h-[60px] z-20 bg-black bg-opacity-20 flex items-center relative pl-4 justify-center">
-						<Link to="/" className=" cursor-pointer w-full">
-							<div className="h-[44px]  flex items-center gap-4">
-								<img
-									src="/laboratory.png"
-									alt="logo"
-									className="h-[20px] w-[20px] rounded-full"
-								/>
-								<span
-									className="text-lg font-semibold text-white tracking-wider"
-									style={{ textShadow: "1px 1px 2px black" }}
-								>
-									Diagnostic Center
-								</span>
-							</div>
-						</Link>
-						{detectMobile() && sidebarOpen ? (
-							<span
-								className="bg-indigo-900 text-xm flex items-center p-2 justify-center -mr-3 text-white rounded-lg shadow-md"
-								onClick={() => {
-									setSidebarOpen(false);
-								}}
-							>
-								<FlatIcon icon="rr-angle-double-left" />
-							</span>
-						) : (
-							""
-						)}
+					<h1 className={`text-gray-600 dark:!text-white duration-500 mt-5 font-semibold text-md text cursor-pointer ${
+						sidebarOpen ? "scale-0 duration-500" : "scale-100 duration-500"
+						  }`}
+						  onClick={() => {
+						setSidebarOpen((prevVal) => !prevVal);
+						  }}>
+							Diagnostic Center
+						</h1>
 					</div>
-					<div className="flex flex-col z-20">
-						<div className="flex flex-col h-[calc(100dvh-84px)]">
-							<div className="mb- flex ml- justify-start items-center gap-2 bg-primary-dark bg-opacity-10 px-3 py-6">
-								<Img
-									src={user?.avatar}
-									type="user"
-									name={user?.name}
-									className="h-10 w-10 rounded border border-white"
-								/>
-								<div className="flex flex-col">
-									<span className="text-md border-b border-b-blue-300 font-light font-opensans mb-1 text-white">
-										{user?.name}
-									</span>
-									<span className="text-[10px] font-light text-white">
-										{user?.type}
-									</span>
-								</div>
-							</div>
-							{renderLinks()}
-							<span className="text-xs font-light text-white pt-3 pb-1 px-2  w-full">
-								My Account
-							</span>
 
-							<MenuLink
-								to="/my-account"
-								active={isActive("/my-account")}
-								icon="rr-user"
-								text="My Account"
-							/>
+				{detectMobile() && sidebarOpen ? (
+					<span
+						className=""
+						onClick={() => {
+							setSidebarOpen(true);
+						}}
+					>
+						
+					</span>
+				) : (
+					""
+				)}
 
-							<MenuLink
-								to="/logout"
-								active={isActive("/logout")}
-								onClick={async (e) => {
-									await e.preventDefault();
-									await e.stopPropagation();
-									// await logout();
-									confirmLogoutRef.current.show();
-								}}
-								icon="rr-sign-out-alt"
-								text="Logout"
-							/>
-						</div>
-						<div className="flex items-center mt-auto justify-center pb-2">
-							<span className="text-white font-roboto text-xs font-light">
-								POWERED BY GTC <b>&nbsp;© 2024</b>
-							</span>
-						</div>
+
+			</div>
+
+
+
+			<div className="flex flex-col  dark:!bg-blue-500 bg-white">
+				<div  className={'flex flex-col mt-7 h-[calc(100dvh-123px)] '}>
+					
+					{renderLinks()}
+				
+				<div className="">
+					<div className="gap-2">
+						
+					<MenuLink
+						to="/my-account"
+						active={isActive("/my-account")}
+						icon="rr-user"
+						text="My Account"
+					/>
+
+					<MenuLink
+
+						to="/logout"
+						active={isActive("/logout")}
+						onClick={async (e) => {
+							await e.preventDefault();
+							await e.stopPropagation();
+							// await logout();
+							confirmLogoutRef.current.show();
+						}}
+						icon="rr-sign-out-alt"
+						text="Logout"
+					/>
+
+				
 					</div>
+					</div>
+					
+					
 				</div>
+				
 			</div>
-			<div className="relative bg-white bg-opacity-80 h-[100dvh] w-full lg:w-[calc(100vw-257px)] ">
-				<Header
-					sidebarOpen={sidebarOpen}
-					setSidebarOpen={setSidebarOpen}
-				/>
-				<div className="overflow-auto  relative h-[calc(100vh-64px)]">
-					{children}
-				</div>
+
+			<div className=" flex justify-start gap-2 px-2 py-2 pl-3 bg-white dark:!bg-blue-500 border-t-gray-300 dark:!border-t-blue-600 border-t dark:!border-opacity-70">
+						<Img
+							src={user?.avatar}   // PROFILE AVATAR
+							type="user"
+							name={user?.name}
+							className="h-14 w-14 rounded-lg"
+						/>
+						<div className="flex flex-col">
+							
+							<span className={`text-gray-600 text-sm  dark:!text-white font-bold cursor-pointer ${
+							sidebarOpen ? "scale-0 duration-200" : "-left-[58px] -top-[-15px]"
+							  }`}
+
+						onClick={() => {
+							setSidebarOpen((prevVal) => !prevVal);
+							
+						}}>
+								{user?.name}
+								
+							</span>
+							<span className={`text-gray-600 text-xs  dark:!text-white font-body cursor-pointer ${
+							sidebarOpen ? "scale-0 duration-200" : "-left-[58px] -top-[-15px]"
+							  }`}
+
+						onClick={() => {
+							setSidebarOpen((prevVal) => !prevVal);
+							
+						}}>
+								{user?.type}
+							</span>
+						</div>
+						
+				</div>					
 			</div>
-			<ToastContainer theme="colored" />
-			<ConfirmLogoutModal logout={logout} ref={confirmLogoutRef} />
 		</div>
-	);
+
+
+	<div className="h-full w-full ">
+
+		
+		<Header
+			setsidebarOpen={sidebarOpen}
+			setSidebarOpen={setSidebarOpen}
+			/>
+		{children}
+
+		
+	</div>
+
+
+
+
+
+	<ToastContainer theme="colored" />
+
+
+	<ConfirmLogoutModal logout={logout} ref={confirmLogoutRef} />
+
+
+</div>
+    );
 };
 
 export default AppLayout;

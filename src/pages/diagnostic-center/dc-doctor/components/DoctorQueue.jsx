@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AppLayout from "../../../../components/container/AppLayout";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import PageHeader from "../../../../components/layout/PageHeader";
@@ -13,7 +13,6 @@ import {
 } from "../../../../libs/helpers";
 import ReferToSPHModal from "../../../../components/modal/ReferToSPHModal";
 import { useAuth } from "../../../../hooks/useAuth";
-import useDoctorQueue from "../../../../hooks/useDoctorQueue";
 import ConsultPatientModal from "../../../department/his-md/components/ConsultPatientModal";
 import DoctorInServiceItem from "../../../department/his-md/components/DoctorInServiceItem";
 import PatientProfileModal from "./modal/PatientProfileModal";
@@ -21,23 +20,21 @@ import DoctorInQueuePriority from "../../../department/his-md/components/DoctorI
 import PendingOrdersModal from "../../../../components/PendingOrdersModal";
 import useERQueue from "../../../../hooks/useERQueue";
 import useMDQueue from "../../../../hooks/useMDQueue";
-import useOPDQueue from "../../../../hooks/useOPDQueue";
-import { data } from "autoprefixer";
-
-
+import useDoctorQueue from "./hooks/useDoctorQueue";
+import useCashierQueue from "../../../../hooks/useCashierQueueOLD";
+import useLabQueue from "../../../../hooks/useLabQueue";
+import usePharmaQueue from "../../../../hooks/usePharmaQueue";
+import useNurseQueue from "../../dc-nurse/components/hooks/useNurseQueue";
 
 
 const DoctorQueue = () => {
 	const { user } = useAuth();
-	
-	//In Queue
 	const referToSphModalRef = useRef(null);
 	const patientProfileRef = useRef(null);
 	const acceptPatientRef = useRef(null);
 	const pendingOrdersRef = useRef(null);
-	const { pending, nowServing } = useOPDQueue();
+	const { pending, nowServing } = useERQueue();
 
-	//In-Service
 	const {
 		pending: doctorsPending,
 		nowServing: doctorsNowServing,
@@ -45,34 +42,42 @@ const DoctorQueue = () => {
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
-	} = useMDQueue();
-
-
+	} = useDoctorQueue();
 
 	const [appointment, setAppointment] = useState(null);
-	
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	useNoBugUseEffect({
 		functions: () => {},
 	});
+
 	const isDoctor = () => {
-		return user?.type == "dc-doctor" ; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
+		return user?.type == "dc-doctor";
 	};
 
 	const listPending = () => {
 		return (isDoctor() ? doctorsPending?.data : pending?.data) || [];
 	};
+
 	const mutateAll = () => {
 		mutatePending();
 		mutatePendingForResultReading();
 		mutateNowServing();
 	};
+
+	const handleAcceptAction = (queue) => {
+		if (isModalOpen) {
+			// Optionally, you can also disable the button or show a loading indicator
+			return;
+		}
+		acceptPatientRef.current.show(queue);
+	};
+
+	const handleModalOpen = () => setIsModalOpen(true);
+	const handleModalClose = () => setIsModalOpen(false);
+
 	return (
-		<AppLayout>
-			{/* <PageHeader
-				title="Patient Queue"
-				subtitle={"View patients in queue"}
-				icon="rr-clipboard-list-check"
-			/> */}
+		<AppLayout >
 			<div className="p-4 h-full overflow-auto ">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
 					<div className="lg:col-span-4">
@@ -95,7 +100,6 @@ const DoctorQueue = () => {
 								if (
 									queue.status != "in-service-result-reading"
 								) {
-									console.log("queuequeuequeuequeuequeuequeuequeuequeuequeuequeuequeuequeue", queue);
 									return (
 										<DoctorInQueuePriority
 											labOrdersStr={JSON.stringify(
@@ -104,28 +108,19 @@ const DoctorQueue = () => {
 											date={formatDate(
 												new Date(queue?.created_at)
 											)}
-											acceptAction={() => {
-												acceptPatientRef.current.show(
-													queue
-												);
-											}}
+											acceptAction={() => handleAcceptAction(queue)}
 											key={`iqr-prio-${queue.id}`}
 											number={`${queue.id}`}
 											patientName={patientFullName(
 												queue?.patient
 											)}
-											// roomNumber={patientRoomNumber(
-											// 	data?.room_number
-											// )}
 											data={data}
-											
-
 										/>
 									);
 								}
 							})}
 							
-							{listPending()?.map((queue, data, index) => {
+							{listPending()?.map((queue, data) => {
 								return (
 									<DoctorInQueueRegular
 										data={data}
@@ -135,21 +130,13 @@ const DoctorQueue = () => {
 										onClick={() => {
 											setAppointment(queue);
 										}}
-										acceptAction={() => {
-											acceptPatientRef.current.show(
-												queue
-											);
-										}}
+										acceptAction={() => handleAcceptAction(queue)}
 										key={`iqr-prio-${queue.id}`}
 										number={`${queue.id}`}
 										patientName={patientFullName(
 											queue?.patient
 										)}
-
-									>
-										
-										 </DoctorInQueueRegular>
-									
+									/>
 								);
 							})}
 						</div>
@@ -163,7 +150,7 @@ const DoctorQueue = () => {
 						</span>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-							{doctorsNowServing?.data?.map((data, queue) => {
+							{doctorsNowServing?.data?.map((data) => {
 								return (
 									<DoctorInServiceItem
 										data={data}
@@ -201,7 +188,9 @@ const DoctorQueue = () => {
 				appointment={appointment}
 				ref={acceptPatientRef} 
 				mutateAll={mutateAll}
-				/>
+				onOpen={() => handleModalOpen()}
+				onClose={() => handleModalClose()}
+			/>
 			
 			<PatientProfileModal
 				pendingOrdersRef={pendingOrdersRef}

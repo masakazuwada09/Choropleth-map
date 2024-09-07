@@ -482,7 +482,7 @@ const PatientPharmacyQueue = () => {
 													/>
 													</div>
 
-														<div className="table w-full px-1 mt-2">
+														<div className="table w-full px-1 mt-2 ">
 														<table>
 															<thead>
 																<tr>

@@ -8,8 +8,8 @@ import ContentTitle from "./buttons/ContentTitle";
 /* eslint-disable react/prop-types */
 const PatientProfileDetails = ({ patient }) => {
 	return (
-		<div className="flex flex-col items-start">
-			<ContentTitle title={"Patient Information"} />
+		<div className="flex flex-col items-start px-2">
+		
 			<PatientProfileContent patient={patient} />
 			{/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 w-full mb-2">
 				<InfoText

@@ -108,10 +108,10 @@ const TabGroup = ({
 							selectedIndex == i ? "selected" : ""
 						}
 						as="div"
-						className={`p-3 duration-200 text-base rounded-xl flex flex-col ${contentClassName} ${
-							contentClassName.includes("max-h")
+						className={` mt-2 duration-200 text-base rounded-xl  flex flex-col ${contentClassName} ${
+							contentClassName.includes("")
 								? ""
-								: " max-h-[calc(100vh-300px)]   min-h-[288px]"
+								: ""
 						}`}
 					>
 						{typeof content == "function"

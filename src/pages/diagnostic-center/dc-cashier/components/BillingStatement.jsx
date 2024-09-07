@@ -112,10 +112,10 @@ const BillingStatement = (props) => {
     return (
         
         <div
-			className="bg-gray-900 p-1 w-[8.7in] h-[13in]  rounded-lg ">
-        <div className="relative">
+			className=" w-[8.7in]  rounded-lg ">
+        <div className="relative ">
             {loading ? (
-                <div className="absolute top-0 left-0 h-full w-full flex items-start justify-center bg-slate-200 bg-opacity-95 backdrop-blur pt-[244px] z-10">
+                <div className="absolute top-0 left-0 h-full w-full flex items-start justify-center bg-slate-200 bg-opacity-95 backdrop-blur pt-[244px] ">
                     <div className="flex items-center justify-center text-2xl animate-pulse">
                         Loading, please wait...
                     </div>
@@ -123,7 +123,7 @@ const BillingStatement = (props) => {
             ) : (
                 ""
             )}
-            <div className="p-4 flex items-center justify-end">
+            <div className="p-4 flex items-center justify-end ">
                     {/* {billingStatus === "mgh" && ( */}
                         <ActionBtn
                             className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
@@ -132,15 +132,7 @@ const BillingStatement = (props) => {
                             <FlatIcon icon="rr-print" /> Print
                         </ActionBtn>
                     {/* )} */}
-                    <ActionBtn
-                        type="success"
-                        className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
-                        loading={btnLoading}
-                        onClick={handleSave}
-                    >
-                        <FlatIcon icon="rr-check" />
-                        Done
-                    </ActionBtn>
+                    
                     <ActionBtn
 						className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
 						onClick={handleDownload}
@@ -148,19 +140,24 @@ const BillingStatement = (props) => {
 					>
 						<FlatIcon icon="fi fi-bs-disk" /> Save
 					</ActionBtn>
+                    <ActionBtn
+                        type="success"
+                        className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
+                        loading={btnLoading}
+                        onClick={handleSave}
+                    >
+                        <FlatIcon icon="rr-check" />
+                        Done Diagnose
+                    </ActionBtn>
                 </div>
 
             
                 
-            <div className="p-1">
-            <div className="w-full">
-                <div className="bg-gradient-to-bl from-rose-100 to-teal-100 flex flex-col w-[8.5in] h-[11.8in]  border-gray-200 border-2   mx-auto relative overflow-hidden rounded-lg px-1 py-1" ref={componentRef}>
-
-                                    
-                    
-                        
-        <header class="mb-2">
-            <div class="flex justify-between items-center border-b border-b-slate-500 border-dashed ">
+            <div className="p-1 ">
+    <div className="w-full h-[7.5in]">
+        <div className="bg-gradient-to-blfrom-rose-100 to-teal-100 flex flex-col w-[8.5in] h-[11.8in] border-gray-200 border-2 mx-auto relative overflow-auto rounded-lg px-1 py-1" ref={componentRef}>   
+            <header class="mb-2">
+                <div class="flex justify-between items-center border-b border-b-slate-500 border-dashed ">
                 <div className="flex gap-2">
                 <img
 			    src="/laboratory.png"
@@ -340,12 +337,12 @@ const BillingStatement = (props) => {
                     
                     </div>
 <footer
-  class="flex flex-col items-start bg-gradient-to-bl from-rose-100 to-teal-100 text-center text-white mt-[17px]">
-  <div class="container p-1">
-  <div className="flex  overflow-hidden flex-row">
-    <div className="  sm:w-full  md:w-full  lg:w-full  xl:w-full ">
-    <div className="flex flex-col justify-start items-start">
-        <div className="flex flex-row gap-2">
+  class="flex flex-col items-end  bg-gradient-to-bltext-center text-white mt-[17px] justify-between">
+  <div class="">
+  <div className="flex  overflow-hidden flex-row gap-2 mt-2">
+    <div className="  sm:w-full  md:w-full  lg:w-full  xl:w-full">
+    <div className="flex flex-col justify-start items-end gap-2">
+        <div className="flex flex-row gap-2 ">
         <FlatIcon
             icon="fi fi-sr-circle-phone"
             className="text-teal-800 opacity-70"
@@ -359,7 +356,7 @@ const BillingStatement = (props) => {
            
           </div>
  </div>
- <div className=" justify-end flex flex-row items-end">
+ <div className=" ">
                     <QRCode
 						value={`user-${showData?.receivedBy?.username}`}
 						level="H"

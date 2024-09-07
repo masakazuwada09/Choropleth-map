@@ -383,7 +383,7 @@ const renderPrintCell = (data) => {
         if (isLaboratoryUser()) {
             const labPrintRefs = {
 				//Chemistry
-                "FBS": printReceipt,
+                "FBS":uploadFBSRef,
                 "RBS": uploadRBSRef,
                 "Creatinine": uploadCreatinineRef,
                 "Uric Acid": uploadUricAcidRef,
@@ -463,7 +463,7 @@ const renderPrintCell = (data) => {
                 // <Status status={data?.order_status} />
 				<span
                     className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
-                    onClick={() => printRef.current.show(data)}
+                    onClick={() => printReceipt.current.show(data)}
                 >
                     <FlatIcon icon="rr-document" />
                     {data?.type?.name === "CBC" || data?.type?.name === "RBS" || data?.type?.name === "FBS" ? "Print" : "Upload"}

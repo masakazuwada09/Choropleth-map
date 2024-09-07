@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import MenuLink from "../components/buttons/MenuLink";
-import useCashierQueue from "../hooks/useCashierQueue";
+import useCashierQueue from "../hooks/useCashierQueueOLD";
 
 const RHUCashierLinks = ({ isActive }) => {
 	const { pending } = useCashierQueue();

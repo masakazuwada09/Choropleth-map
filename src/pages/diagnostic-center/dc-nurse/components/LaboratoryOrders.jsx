@@ -398,10 +398,10 @@ const LaboratoryOrders = (props) => {
 					}
 				>
 					{user?.type == "DC-NURSE"  &&  allowCreate ? (
-						<ActionBtn
-							className="px-4 rounded-xl"
+						<button
+							className="px-4 rounded-xl text-sm items-center justify-center text-blue-700 hover:text-blue-500"
 							size="sm"
-							type="success"
+							
 							onClick={() => {
 								createLabOrderRef.current.show(
 									patient,
@@ -419,7 +419,7 @@ const LaboratoryOrders = (props) => {
 								? "Imaging"
 								: "Laboratory"}{" "}
 							Order
-						</ActionBtn>
+						</button>
 					) : (
 						""
 					)}

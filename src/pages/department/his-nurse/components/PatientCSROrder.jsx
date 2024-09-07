@@ -55,17 +55,16 @@ console.log("dataaaaaaa----------------->>>", patient?.id)
     }, [data]);
 
     return (
-        <div>
-            <ContentTitle title="CSR" />
+        <div className=''>
             <ActionBtn
-                type="success"
+                type="teal"
                 title="Add CSR"
-                className="h-8 w-8 ml-auto !rounded-md mb-2"
+                className=" mb-2 ml-auto mr-2 h-6"
                 onClick={() => {
                     csrFormRef.current.show(patient);
                     console.log('patient CSR Modal Patient:', patient);
                 }}
-            >
+            > Add
                 <FlatIcon icon="fi fi-rr-plus-small" className="mt-1 text-xl" />
             </ActionBtn>
             <div className="flex flex-col items-start">

@@ -1,57 +1,77 @@
-import React from "react";
 import FlatIcon from "../../../../components/FlatIcon";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
+import Img from "../../../../components/Img";
+import { calculateAge, formatDate, patientFullName } from "../../../../libs/helpers";
 
-const InQueueRegular = ({
+const InQueueForRelease = ({
 	children,
-	roomNumber,
 	onClick,
 	referAction,
 	number,
 	selected,
+	patient,
 	patientName,
 	date,
-}) => {
+	width, // current width as a prop
+	minWidth, // minWidth as a prop
+	}) => {
+	const shouldHideContent = width <= minWidth; // condition to hide content
+
 	return (
 		<div
-			className={` p-3 gap-3 relative rounded-[20px] border border-blue-300 bg-blue-50  cursor-pointer hover:bg-green-100 hover:border-green-500 duration-200 ${
+			className={`rounded-xl  flex gap-1 cursor-pointer duration-300 border border-blue-300 hover:border-blue-500 hover:shadow-lg ${
 				selected
-					? "!bg-green-100 !border-indigo-800 shadow-sm shadow-green-500"
+					? "!bg-green-50 !border-green-800 shadow-sm shadow-green-500"
 					: ""
 			}`}
 			onClick={onClick}
+			style={{ height: shouldHideContent ? '2px' : '70px' }} // Adjust the height
 		>
-			<div className="flex items-center gap-7 mt-2">
-				<span className="flex items-center justify-center bg-blue-100 text-blue-500 tracking-tight rounded-[18px] font-bold w-12 aspect-square">
+			<div className="flex flex-row items-center overflow-hidden">
+				<span
+					className={`flex items-center justify-center p-0.5 bg-gray-300 text-white  rounded-l-xl rounded-r-xl font-bold text-lg w-[80px] h-full ${
+						selected
+							? "!bg-green-50 !border-green-800 !text-green-700 shadow-sm "
+							: ""
+					}`}
+					style={{ width: shouldHideContent ? '2px' : '100px' }}
+				>
 					#{number}
 				</span>
-
-				<div>
-
-				{date ? (
-					<div className="flex items-center gap-2 text-sm -ml-3 -mt-3 font-bold text-gray-600">
-						<FlatIcon icon="rr-calendar" className="text-gray-800" />
-						{date}
+				
+				{!shouldHideContent && (
+					<div className="flex flex-row  w-full gap-1 justify-center">
+					<div className="flex flex-col justify-center  border-gray-400 ">
+						<div className={`flex gap-1 text-sm font-bold font-mono items-center text-gray-300 ${
+						selected
+							? "!bg-green-50  text-green-600 "
+							: ""
+					}`}>
+							<FlatIcon icon="rr-calendar" className={`${
+						selected
+							? "!bg-green-50  text-green-600 "
+							: ""
+					}`} />
+							{date}
+						</div>
+						<span className={`tracking-tight font-bold text-lg text-gray-300 ${
+						selected
+							? "!bg-green-50  text-green-700 text-xl duration-200"
+							: ""
+					}`}>
+							{patientName}
+						</span>
+						
 					</div>
+					<span className="flex items-center ">{children}</span>
 					
-				) : (
-					""
+					</div>
 				)}
-				<div className="tracking-tight font-bold text-gray-700 text-lg">
-					{patientName}
-				</div>
-
-				</div>
-				
-
-				
-					
-			</div>
-			{children}
-				
 			</div>
 
+			
+		</div>
 	);
 };
 
-export default InQueueRegular;
+export default InQueueForRelease;

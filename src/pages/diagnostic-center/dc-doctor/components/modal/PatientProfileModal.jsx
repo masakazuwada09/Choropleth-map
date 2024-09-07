@@ -110,7 +110,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 			formData.append("inventory_id[]", data?.item?.inventory?.id);
 			formData.append("quantity[]", data.quantity);
 			formData.append("items[]", data?.item?.id);
-			formData.append("sig[]", data?.notes || " ");
+			formData.append("sig[]", data?.notes || "");
 		});
 		// return;
 		Axios.post(`/v1/clinic/tb-prescribe/${appointment?.id}`, formData)
@@ -128,9 +128,9 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 		console.log("SUBMIT PRESCRIPTION");
 	};
 	return (
-		<div>
+		<div className="">
 			
-			<div className="pb-4">
+			<div className="px-2">
 
 				<AppointmentDetails
 					appointment={appointment}
@@ -150,12 +150,10 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 									loading={loading}
 								/>
 					}
-
-
 					serviceComponent={
 						<>
 							{(appointment?.status ==
-								"pending" &&
+								"in-service-result-reading" &&
 								appointment?.prescribed_by == null) ||
 								appointment?.has_for_reading?.length > 0 ? (
 								<AddPrescription
@@ -286,7 +284,7 @@ const PatientProfileModal = (props, ref) => {
 							leaveTo="opacity-0 scale-95"
 						>
 							<Dialog.Panel
-								className={`w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all ${
+								className={`w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all ${
 									full
 										? " lg:max-w-[99vw]"
 										: " lg:max-w-[80vw]"
@@ -294,7 +292,7 @@ const PatientProfileModal = (props, ref) => {
 							>
 								<Dialog.Title
 									as="div"
-									className=" p-4 font-medium leading-6 flex relative flex-col items-start text-gray-900 bg-slate-50 border-b"
+									className="p-2 font-medium leading-6 flex relative flex-col items-start text-gray-900 bg-slate-50 border-b"
 								>
 									<span className="text-xl text-left font-bold  text-blue-900">
 										Patient Profile
@@ -323,14 +321,14 @@ const PatientProfileModal = (props, ref) => {
 										<FlatIcon icon="br-cross-small" /> Close
 									</ActionBtn>
 								</Dialog.Title>
-								<div className="flex flex-col gap-y-4 relative min-h-[calc(100dvh-152px)] bg-slate-300">
+								<div className="flex flex-col relative min-h-[calc(100dvh-152px)] bg-slate-400">
 									<div className="flex flex-col">
-										<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-4 border-b justify- md:justify-start bg-slate-50 p-4 h-full">
+										<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-1 border-b md:justify-start bg-slate-50  h-full">
 											<PatientInfo 
 											patient={patient} 
 											
 											/>
-											<div className="flex items-center justify-end  w-1/2 flex-wrap gap-3 ml-auto">
+											<div className="flex items-center justify-end w-1/2 flex-wrap gap-3 ml-auto">
 												{showData?.status ==
 												"in-service-consultation" ? (
 													<>
@@ -404,39 +402,14 @@ const PatientProfileModal = (props, ref) => {
 															</div>
 														</ActionBtn> */}
 
-														<ActionBtn
-															loading={
-																loadingDone
-															}
-															type="success"
-															size="lg"
-															onClick={() => {
-																markAsDone();
-															}}
-															className="px-5 py-1"
-														>
-															<FlatIcon
-																className="text-3xl mr-1	"
-																icon="rr-badge-check"
-															/>
-															<div className="flex flex-col text-left">
-																<span className="font-bold -mb-1">
-																	Consultation
-																	Done
-																</span>
-																<span className="text-[10px] font-light">
-																	Patient is
-																	free to go
-																</span>
-															</div>
-														</ActionBtn>
+														
 											</div>
 										</div>
 										<div>
 											<TabGroup
-												tabClassName={`py-2 bg-slate-100 border-b`}
+												tabClassName={`py-2 bg-slate-100 border-b `}
 												contentClassName={
-													"max-h-[unset]"
+													"h-[625px] overflow-auto"
 												}
 												contents={[
 													{

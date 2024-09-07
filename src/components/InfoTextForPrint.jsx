@@ -15,7 +15,7 @@ const InfoTextForPrint = ({
 			{...rest}
 		>
 			<label
-				className={`w-full  text-placeholder flex text-xs font-light border-opacity-50 capitalize text-slate-800 lg:col-span-2  ${labelClassName}`}
+				className={`w-full text-placeholder flex text-xs font-light border-opacity-50 capitalize text-slate-800 lg:col-span-2  ${labelClassName}`}
 			>
 				{icon ? <FlatIcon icon={icon} className="mr-1 " /> : ""} {title}:
 			</label>

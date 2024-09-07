@@ -236,7 +236,7 @@ html {
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-	background: #919191;
+	background: #dadada;
   }
   
   /* Handle on hover */
@@ -293,3 +293,26 @@ html {
   .bg-dots.secondary {
 	--dot-color: #f1c40f;
   }
+
+  .draggable-cursor {
+	cursor: move;
+  }
+
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* src/App.css */
+.user {
+	text-align: right;
+	margin: 5px;
+  }
+
+  .ai {
+	text-align: left;
+	margin: 5px;
+  }
+  

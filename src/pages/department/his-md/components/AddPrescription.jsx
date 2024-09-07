@@ -85,7 +85,7 @@ const AddPrescription = ({
     return (
         <>
             <div className="flex flex-col w-full gap-4 pb-2">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     {/* Diagnosis Section */}
                     <div className="flex flex-col gap-5 border p-5 rounded-xl shadow-xl">
                         <div>
@@ -151,19 +151,19 @@ const AddPrescription = ({
                     </div>
 
                     {/* Procedure Section */}
-                    <div className="flex flex-col gap-5 border p-5 w-[900px] rounded-xl shadow-xl">
+                    <div className="flex flex-col gap-5 border p-5 w-full rounded-xl shadow-xl">
 					<div className="flex flex-row justify-between px-5">
                             <h4 className="text-sm text-gray-400 font-bold mb-0 ">
                                 Add Prescription
                             </h4>
                             <div className="flex items-center justify-end gap-2">
                                 <ActionBtn
-                                    className="!rounded-full"
+                                    className="w-12"
                                     type="teal"
                                     size="sm"
                                     onClick={addNewSelectedItem}
                                 >
-                                    <FlatIcon icon="rr-plus" />
+                                    <FlatIcon icon="rr-plus"  />
                                 </ActionBtn>
                             </div>
                         </div>
@@ -233,7 +233,7 @@ const AddPrescription = ({
                                                             )}
                                                         />
                                                         <div className="flex flex-row items-start gap-2 p-4 divide-x">
-                                                            <div className="flex flex-col mt-2">
+                                                            <div className="flex flex-col">
                                                                 <span className="font-bold mb-1 text-xs">
                                                                     Item Code
                                                                 </span>
@@ -333,7 +333,22 @@ const AddPrescription = ({
                     {/* Prescription Section */}
                    
                 </div>
-
+                {/* <div className=" ml-[20px]">
+                <span className="text-md font-bold text-gray-700 ">
+                   
+                   Remarks
+               
+                     </span>
+                           <div className="flex flex-col w-[500px] ">
+                                   <ReactQuillField
+                                       label="Doctors remarks"
+                                       placeholder="Enter doctor's remarks here..."
+                                       inputClassName = "h-[100px] "
+                                   />
+                               </div>
+                </div> */}
+                
+                                    
                 <div className="flex flex-row justify-end">
                     <ActionBtn
                         className="px-4 !rounded- mx-auto w-1/6"
@@ -348,8 +363,9 @@ const AddPrescription = ({
                             icon="rr-file-prescription"
                             className="mr-2 text-xl"
                         />
-                        Submit Prescription
+                        Send to Pharmacy
                     </ActionBtn>
+                    
                 </div>
             </div>
         </>

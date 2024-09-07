@@ -6,9 +6,7 @@ const DCPharmacyLinks = ({ isActive }) => {
 	const { pending, pendingMedsRelease } = usePharmaQueue();
 	return (
 		<>
-			<span className="text-xs font-light text-white	pt-3 pb-1 px-2 w-full border-t border-t-black border-opacity-10">
-				Main Menu
-			</span>
+			
 			<MenuLink
 				to={``}
 				active={isActive(``)}

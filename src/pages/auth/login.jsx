@@ -53,7 +53,7 @@ const Login = () => {
 			<ToastContainer theme="colored" />
 			<div className=" z-20 mx-auto w-4/5 lg:w-[384px] p-11  absolute opacity rounded-xl flex flex-col items-center  bg-clip-padding shadow-lg">
 				<img
-					src="/laboratory.png"
+					src="/diagnosislogo.png"
 					alt="gtc-logo"
 					className="w-[70px] mb-2"
 				/>

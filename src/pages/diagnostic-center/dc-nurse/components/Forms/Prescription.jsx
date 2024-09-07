@@ -205,20 +205,15 @@ const onHematologyChecked = (name) => {
 									
 
 											
-<div
-className="bg-white p-2 w-[9.3in] gap-y-6 "
-id="phic-form-printable" ref={componentRef}
->
-<div className="bg-white flex flex-col w-[9.1in] min-h-[11in]  border-blue-100 border-2 rounded-xl px-1 py-1">
-<div className="flex flex-row justify-between w-full pb-1">
+		<div
+		className="bg-white p-2 w-[9.3in] gap-y-6 "
+		id="phic-form-printable" ref={componentRef}
+		>
+		<div className="bg-white flex flex-col w-[9.1in] min-h-[11in]  border-blue-100 border-2 rounded-xl px-1 py-1">
+		<div className="flex flex-row justify-between w-full pb-1">
 		<div>
 		
-          <Img src="/bmcdc_medical.png" className="mx-auto h-20 w-20 text-gray-300"  />
-        
-
-		</div>
-		
-		<div className="absolute ml-[90px]">
+        <div className="">
 			<p className="text-xs font-mono font-bold text-gray-900">
 				<i>GTC Diagnostic Center</i>
 			</p>
@@ -237,6 +232,32 @@ id="phic-form-printable" ref={componentRef}
 			<p className="text-xs font-mono text-gray-500">www.laboratory.gov.ph</p>
 				
 		</div>
+		<div className="flex mt-5 ml-[80px] gap-5">
+		<Img src="/prescriptionlogo.png" className="mx-auto h-20 w-20 text-gray-300"  />
+		<div className="flex-row">
+							<div className="font-semibold text-sm  text-gray-800  flex">
+								{patientFullName(patient)}
+							</div>
+							
+							<div className="text-xs font-mono  flex">
+								{patientAddress(patient)}
+							</div>
+
+							<div className="text-xs  flex">
+								{patient?.gender}
+							</div>
+
+							<div className="text-xs font-mono  flex">
+								Diagnosis Date: {dateMMDDYYYY()}
+							</div>
+							
+						</div>
+		</div>
+        
+		
+		</div>
+		
+		
 					
 
 					<div className="px-2 flex flex-row justify-end items-start  gap-2">
@@ -244,24 +265,7 @@ id="phic-form-printable" ref={componentRef}
 					
 					<div className="px-2 flex flex-row justify-end items-start  gap-2">
 						<div className="mt-1 flex flex-row gap-2">
-						<div className="flex-row">
-							<div className="font-semibold text-sm  text-gray-800 justify-end flex">
-								{patientFullName(patient)}
-							</div>
-							
-							<div className="text-xs font-mono justify-end flex">
-								{patientAddress(patient)}
-							</div>
-
-							<div className="text-xs justify-end flex">
-								{patient?.gender}
-							</div>
-
-							<div className="text-xs font-mono justify-end flex">
-								Diagnosis Date: {dateMMDDYYYY()}
-							</div>
-							
-						</div>
+						
 										<QRCode
 											value={`user-${appointment?.scheduledBy?.username}`}
 											className=""
@@ -312,62 +316,20 @@ id="phic-form-printable" ref={componentRef}
     </div>
 	  <div className="flex flex-col text-start w-full mx-auto">
 	  <div className="flex flex-row justify-between ">
-                    <div className="">
-                        
-					    {/* <div className=" bg-blue-600 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
-						        <div className="col-span-3">
-                                ADMISSION DATE
-                                </div>
-						         <div className="col-span-3">
-                                DISCHARGE DATE
-                                </div>
-                            
-                                
-					    </div>
-                
-					    <div className="grid grid-cols-2 text-sm font-light font-mono shadow">
-							
-					
 
-						<div className="">
-		
-                        <InfoTextForBilling
-                            value={dateMMDDYYYY()}/>
-						</div>
-
-						<div className="">
-                        <InfoTextForBilling
-                                />
-                        </div>
-                        
-                        </div> */}
-
-
-						
-
-						
-                       
-					</div>
-
-                    
                                 </div>
 	  		
 									</div>
 									
 									</div>
-                                    <div className="flex flex-row justify-center mt-5">
-                                    <h4 className="font-bold text-xl text-gray-600">
-				                        PRESCRIPTION
-			                        </h4>
+                                    <div className="flex flex-row justify-center mt-5 border-b-slate-800 border-b border-spacing-10">
+										<div className="flex flex-row "></div>
+                                   
                                    
                                     </div>
-                                   
 
-								
-										<div className="px-5  font-mono justify-center items-center">
-
+									<div className="px-5  font-mono justify-center items-center">
 										<div className="flex flex-row items-end justify-start mt-5 font-bold text-gray-600">
-										<FlatIcon icon="fi fi-bs-prescription" className="text-5xl opacity-40" />Prescription:
 						                     </div>
 
 											 <div className="flex flex-row items-start gap-4 ml-[160px]">
@@ -559,7 +521,8 @@ id="phic-form-printable" ref={componentRef}
                 <span className="text-xs">Prescribed Medicine</span>
               </div>
               <div className="flex flex-row gap-x-4">
-                <div className="flex items-center">
+				GET MEDICINE DATA
+                {/* <div className="flex items-center">
                   <input
                     id="fitToWork"
                     type="checkbox"
@@ -570,8 +533,8 @@ id="phic-form-printable" ref={componentRef}
                   <label htmlFor="fitToWork" className="ml-2 text-xs font-medium text-gray-700">
                     Fit to Work
                   </label>
-                </div>
-                <div className="flex items-center">
+                </div> */}
+                {/* <div className="flex items-center">
                   <input
                     id="notFitToWork"
                     type="checkbox"
@@ -582,8 +545,8 @@ id="phic-form-printable" ref={componentRef}
                   <label htmlFor="notFitToWork" className="ml-2 text-xs font-medium text-gray-900">
                     Not Fit to Work
                   </label>
-                </div>
-                <div className="flex items-center">
+                </div> */}
+                {/* <div className="flex items-center">
                   <input
                     id="none"
                     type="checkbox"
@@ -594,7 +557,7 @@ id="phic-form-printable" ref={componentRef}
                   <label htmlFor="none" className="ml-2 text-xs font-medium text-gray-900">
                     None
                   </label>
-                </div>
+                </div> */}
               </div>
             </div>
 

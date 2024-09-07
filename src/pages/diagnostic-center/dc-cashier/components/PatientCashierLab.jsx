@@ -38,6 +38,7 @@ import CashierAppointmentDetails from "./CashierAppointmentDetails";
 import PatientProfile from "./PatientProfile";
 import PendingOrdersModal from "./modal/PendingOrdersModal";
 import useMDQueue from "../../../../hooks/useMDQueue";
+import useCashierQueue from "../../../../hooks/useCashierQueue";
 import TextInput from "../../../../components/inputs/TextInput";
 import Pagination from "../../../../components/table/Pagination";
 import useDataTable from "../../../../hooks/useDataTable";
@@ -72,8 +73,8 @@ const PatientCashierLab = () => {
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
-	} = useMDQueue();
-	const { pending, nowServing } = useLabQueue();
+	} = useCashierQueue();//cashier to pendingorder to laboratory to doctor
+	const { pending, nowServing } = useCashierQueue();
 	const patientProfileRef = useRef(null);
 	const pendingOrdersRef = useRef(null);
 	const [order, setOrder] = useState(null);
@@ -125,7 +126,11 @@ const PatientCashierLab = () => {
 		  setPatient(null);
 		}
 	  };
-	  
+	  const mutateAll = () => {
+		mutatePending();
+		mutatePendingForResultReading();
+		mutateNowServing();
+	};
 
 	return (
 		<AppLayout>
@@ -134,23 +139,23 @@ const PatientCashierLab = () => {
 				subtitle={"View patients in queue"}
 				icon="rr-clipboard-list-check"
 			/> */}
-			<div className="p-4 h-full overflow-auto ">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
-					<div className="lg:col-span-4">
+			<div className="p-4  ">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x ">
+					<div className="lg:col-span-4 ">
 						<h1 className="text-lg font-semibold font-opensans text-gray-400 tracking-wider -mb-1">
 							Patient Queue
 						</h1>
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
 							Patients pending for laboratory services
 						</span>
-			<div className="pr-5 py-3">
+			<div className="pr-5 py-3 ">
               <TextInput
                 iconLeft={"rr-search"}
                 placeholder="Search patient..."
                 onChange={handleSearch}
               />
             </div>
-			<div className="flex flex-col gap-y-4 relative">
+			<div className="flex flex-col gap-y-4 relative  overflow-auto ">
               {loading && <LoadingScreen />}
               <div className="flex flex-col gap-y-2 max-h-[calc(100vh-312px)] overflow-auto pr-5">
                 {filteredPatients.length === 0 ? (
@@ -183,43 +188,43 @@ const PatientCashierLab = () => {
               />
             </div>
 					</div>
-					<div className="lg:col-span-8 pl-4">
-						<div className="flex items-center gap-4 pb-4">
-							<h1 className="text-lg font-semibold font-opensans text-gray-400 tracking-wider -mb-1">
+					<div className="lg:col-span-8 pl-4  ">
+						<div className="flex items-center gap-4 pb-4 ">
+							<h1 className="text-lg font-semibold font-opensans text-gray-400 mb-1 ">
 								In Service...
 							</h1>
 						</div>
-						<div>
+						<div className="">
 						{order?.relationships?.patient ? (
 								<Fade key={`order-${order?.id}`}>
-									<div className="flex flex-col items-center justify-center">
+									<div className="flex flex-col items-center justify-center ">
 										<PatientInfo
 											patient={
 												order?.relationships?.patient
 											}
 											
 										/>
-										<div className="py-4">
-										{billingStatus === "pending" ? (
-											<>
+										<div className="py-2 overflow-auto ">
+										{billingStatus === "pending " ? (
+											<div className="">
 											<LaboratoryOrders
 												pendingOrdersRef={pendingOrdersRef}
 												patient={
 													order?.relationships
 														?.patient
 												}
+												mutateAll={mutateAll}
 											/>
 
-											<BillingStatement
+										<BillingStatement
 											loading={loading}
 											// onSave={cashierApproval}
 											appointment={appointment}
-											patient={
-												order?.relationships
-													?.patient
-											}
-											/>
-											</>
+											patient={appointment?.patient}
+										/>
+
+											
+											</div>
                             
 						
                         ) : (

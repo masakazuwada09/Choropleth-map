@@ -38,25 +38,8 @@ const PatientPrescriptions = (props) => {
 	const selecItemRef = useRef(null);
 
 	return (
-		<div className="flex flex-col items-start">
-			<ContentTitle title="Patient Prescriptions">
-				{/* {user?.type == "RHU-DOCTOR" ? (
-					<ActionBtn
-						className="px-4 rounded-xl"
-						size="sm"
-						type="success"
-						onClick={() => {
-							createPrescriptionRef.current.show(patient);
-							// setUpdate(true);
-						}}
-					>
-						<FlatIcon icon="rr-edit" className="mr-1" />
-						Create prescription
-					</ActionBtn>
-				) : (
-					""
-				)} */}
-			</ContentTitle>
+		<div className="flex flex-col items-start px-2 py-2">
+			
 			<Table
 				className={`pb-2`}
 				loading={loading}

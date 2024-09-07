@@ -107,7 +107,7 @@ const PatientInfo = ({
 
 
 	return (
-		<div className='flex flex-row w-full items-center  px-3 py-1'>
+		<div className='flex flex-row w-full items-center'>
 			
 
 			<div className="  rounded-full aspect-square bg-background">

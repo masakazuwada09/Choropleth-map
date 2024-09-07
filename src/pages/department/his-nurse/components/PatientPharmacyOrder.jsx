@@ -62,21 +62,17 @@ const PatientPharmacyOrder = (props) => {
     }, [data]);
   return (
      <div>
-    <ContentTitle title="Pharmacy Order" />
-    <ActionBtn
-		type="success"
-		title="Add Pharmacy"
-		className="h-8 w-8 ml-auto !rounded-md mb-2"
-		onClick={() => {
-			pharmacyFormRef.current.show(patient);
-			console.log('patient CSR Modal Patient:-------------------------------', patient)
-		}}
-	>
-		<FlatIcon
-			icon="fi fi-rr-plus-small"
-			className="mt-1 text-xl"
-		/>
-	</ActionBtn> 
+     <ActionBtn
+                type="teal"
+                title="Add CSR"
+                className=" mb-2 ml-auto mr-2 h-6"
+                onClick={() => {
+                    csrFormRef.current.show(patient);
+                    console.log('patient CSR Modal Patient:', patient);
+                }}
+            > Add
+                <FlatIcon icon="fi fi-rr-plus-small" className="mt-1 text-xl" />
+            </ActionBtn>
      <div className="flex flex-col items-start">	
 			<Table
 				className={`pb-2`}

@@ -108,7 +108,7 @@ const LaboratoryOrders = (props) => {
 		reloadData,
 	} = useDataTable
 	({
-		url: `/v1/doctor/laboratory-order/patient/${patient?.id}`, 
+		url: patient?.id ? `/v1/doctor/laboratory-order/patient/${patient?.id}` : null, 
 		defaultFilters: {
 			...(order_id ? { order_id: order_id } : {}),
 			...(laboratory_test_type
@@ -120,7 +120,7 @@ const LaboratoryOrders = (props) => {
 	const sendPatientToLab = () => {
 		setLoading(true);
 		Axios.post(
-			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${showData?.id}`,
+			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${modalData?.id}`,
 			{
 				_method: "PATCH",
 			}
@@ -330,7 +330,7 @@ const LaboratoryOrders = (props) => {
 																);
 																pendingOrdersRef?.current.show(
 																	{
-																		data: showData,
+																		data: modalData,
 																		fn: sendPatientToLab,
 																	}
 																);
@@ -398,32 +398,37 @@ const LaboratoryOrders = (props) => {
 	) : (
 		""
 	)}
-		<div>
+	<div className="gap-2 flex">
+	<div>
 		
-          <Img src="/aLab.png" className="mx-auto h-10 w-10 text-gray-300" aria-hidden="true" />
-        
+	<Img src="/laboratory.png" className="mx-auto h-10 w-10 text-gray-300 filter grayscale" aria-hidden="true" />
 
-		</div>
+	  
+
+	  </div>
+	  
+	  <div className=" ">
+		  <p className="text-xs font-mono font-bold text-gray-900">
+			  <i>GTC Diagnostic Center</i>
+		  </p>
+		  
+		  <p className="text-xs font-mono font-bold text-gray-900">
+			  <i>Republic of the Philippines</i>
+		  </p>
+		  
+		  <p className="text-xs font-mono text-gray-500">
+			  Citystate Centre 709 Street, Address City
+		  </p>
+		  <p className="text-xs font-mono text-gray-500">
+			  Call Center (02) 441-7442 l Trunkline (02)
+			  441-7444
+		  </p>
+		  <p className="text-xs font-mono text-gray-500">www.laboratory.gov.ph</p>
+			  
+	  </div>
+
+	</div>
 		
-		<div className="absolute ml-[40px]">
-			<p className="text-xs font-mono font-bold text-gray-900">
-				<i>GTC Diagnostic Center</i>
-			</p>
-			
-			<p className="text-xs font-mono font-bold text-gray-900">
-				<i>Republic of the Philippines</i>
-			</p>
-			
-			<p className="text-xs font-mono text-gray-500">
-				Citystate Centre 709 Street, Address City
-			</p>
-			<p className="text-xs font-mono text-gray-500">
-				Call Center (02) 441-7442 l Trunkline (02)
-				441-7444
-			</p>
-			<p className="text-xs font-mono text-gray-500">www.laboratory.gov.ph</p>
-				
-		</div>
 					
 
 					<div className="px-2 flex flex-row justify-end items-start  gap-2">
@@ -691,7 +696,7 @@ const LaboratoryOrders = (props) => {
 												2
 											}
 											appointment={
-												showData
+												modalData
 											}
 											allowCreate={
 												false

@@ -35,7 +35,7 @@ const PatientMenu = ({ patient, active = false, ...rest }) => {
         src={patient?.avatar || ""}
         type="user"
         name={patientFullName(patient)}
-        className="h-[120px] w-14 rounded-md object-contain bg-slate-200"
+        className=" w-14 rounded-md object-contain bg-slate-200"
       />
       
       {/* FlatIcon only active when PatientMenu is active */}
@@ -73,7 +73,7 @@ const PatientMenu = ({ patient, active = false, ...rest }) => {
         </div>
 
         {/* ProgressBar Section with Tooltip */}
-        <div className="relative w-[270px] mb-4">
+        {/* <div className="relative w-[270px] mb-4">
           <ProgressBar
             progress={currentStageData.progress}
             statusText={currentStageData.statusText}
@@ -83,12 +83,12 @@ const PatientMenu = ({ patient, active = false, ...rest }) => {
               {currentStageData.statusText}
             </span>
           </div>
-        </div>
+        </div> */}
 
         {/* Conditional Content */}
         {checkUserType("DC-NURSE") ? (
           <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-            <span className="text-green-700 font-bold">On Diagnosis</span>
+            <span className="text-green-700 font-bold"></span>
           </div>
         ) : checkUserType("DC-CASHIER") ? (
           <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">

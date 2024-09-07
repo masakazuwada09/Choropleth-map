@@ -40,6 +40,7 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 import Img from "../../../../../components/Img";
 import ReactQuillField from "../../../../../components/inputs/ReactQuillField";
 import DOMPurify from "dompurify";
+import ReactSelectInputField from "../../../../../components/inputs/ReactSelectInputField";
 
 
 const laboratory_tests = chemistry?.map((data) => data?.name);
@@ -77,32 +78,51 @@ const MedicalCertificate = (props, ref) => {
 		formState: { errors },
 	} = useForm();
 
-	const [showData, setShowData] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [modalOpen, setModalOpen] = useState(false);
-	const componentRef = React.useRef(null);
-	const [image, setImage] = useState(null);
-	const [tests, setTests] = useState([]);
-	const [showAdvanced, setShowAdvanced] = useState(false);
-	const [hasChemistry, setHasChemistry] = useState(0);
-	const [hasHematology, setHasHematology] = useState(0);
+    const [showData, setShowData] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const componentRef = React.useRef(null);
+    const [hasChemistry, setHasChemistry] = useState(0);
+    const [hasHematology, setHasHematology] = useState(0);
     const [recommendation, setRecommendation] = useState(""); 
-    const { control, handleSubmit } = useForm();
-    const [fitToWork, setFitToWork] = useState("");
+    const [purpose, setPurpose] = useState(""); 
     const [imageSrc, setImageSrc] = useState(null);
     const [isMinimized, setIsMinimized] = useState(true);
-	const [position, setPosition] = useState({ x: 5, y: 0 });
-	
+	  const [position, setPosition] = useState({ x: 5, y: 0 });
+    const [showEmploymentSection, setShowEmploymentSection] = useState(false);
+    const [showDiagnosisSection, setDiagnosisSection] = useState(false)
+    const [selectedOption, setSelectedOption] = useState("");
+    const { control, handleSubmit } = useForm();
+    const [fitToWork, setFitToWork] = useState("");
+    const [isEmploymentChecked, setIsEmploymentChecked] = useState("");
+    const [isDiagnosisChecked, setIsDiagnosisChecked] = useState("");
+
+    const handleEmploymentChange = () => {
+        setIsEmploymentChecked(!isEmploymentChecked);
+        if (isDiagnosisChecked) {
+            setIsDiagnosisChecked(false);
+        }
+    };
+    
+    const handleDiagnosisChange = () => {
+        setIsDiagnosisChecked(!isDiagnosisChecked);
+        if (!isDiagnosisChecked) {
+            setIsEmploymentChecked(false);
+        }
+    };
+
+    const handleCheckboxChange = (option) => {
+        setSelectedOption(option === selectedOption ? "" : option); 
+    };
+
 	const handleStop = (e, data) => {
 		setPosition({ x: data.x, y: data.y });
 	  };
 
-	const handleToggleAdvanced = () => {
-	  setShowAdvanced(!showAdvanced);
-	};
+	
     const onSubmit = (data) => {
         // Update recommendation state
         setRecommendation(data.recommendation);
+		setPurpose(data.purpose);
         // Handle form submission
     };
 
@@ -211,10 +231,10 @@ const onHematologyChecked = (name) => {
 
 											
 <div
-className="bg-white p-2 w-[9.5in] gap-y-6"
+className="bg-white p-2 w-[9.3in] gap-y-6"
 id="phic-form-printable" ref={componentRef}
 >
-    <div className="  bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px] [mask-image:radial-gradient(ellipse_90%_90%_at_50%_10%,#000_70%,transparent_100%)] flex flex-col w-[9.3in] min-h-[11in]  border-blue-50 border-2 rounded-xl px-1 py-1">
+    <div className="  bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px] [mask-image:radial-gradient(ellipse_90%_60%_at_50%_10%,#000_70%,transparent_100%)] flex flex-col w-[9.3in] min-h-[11in]  rounded-xl px-1 py-1">
 
         <div className="flex w-full pb-1 justify-between">
 
@@ -260,7 +280,7 @@ id="phic-form-printable" ref={componentRef}
                                                 </div>
                     
                                                 <div className="text-xs font-mono justify-end flex">
-                                                    Admission Date: {dateMMDDYYYY()}
+                                                    Admission Date: {formatDateMMDDYYYYHHIIA(new Date(appointment?.created_at))}
                                                 </div>
                                                 
                                             </div>
@@ -334,27 +354,44 @@ id="phic-form-printable" ref={componentRef}
 												</div>
 											</div>
                                             <div class="content">
-                                                <p >To whom it may concern:</p>
-                                                <br></br>
-                                                <p className="justify-center flex gap-2">This is to certify that, <b>{patientFullName(patient)}, </b>{calculateAge(patient?.birthday)} years old, {String(patient?.gender).toLowerCase() == "male" ? (
-							<span className="">Male</span>
-						) : (
-							<span className="">Female</span>
-						)}</p>
-                                                <br></br>
-                                                <p className="justify-center flex gap-4">Presently residing at, <b>{patientAddress(patient)}</b>,</p>
-                                                <br></br>
-                                                <p className="justify-center flex gap-4">consulted/was examined/treated for <p className="capitalize"><b>{appointment?.post_notes}</b></p> on {formatDateMMDDYYYYHHIIA(
-									new Date(appointment?.created_at)
-								)} for the purpose of ________.</p>
-                                                <br></br>
-                                                <span className="justify-center flex flex-row gap-4"> <p>That He/She is </p> <b>{fitToWork}</b></span>
-                                               
-                                            </div>
-											
-											
-
-                                                <div className="mt-[50px]  ml-[20px]">
+                                            <p className="mb-6">To whom it may concern:</p>
+    
+                                                        <p className="mb-6">
+                                                            This is to certify that, <b>{patientFullName(patient)}</b>, 
+                                                            {calculateAge(patient?.birthday)} years old, 
+                                                            {String(patient?.gender).toLowerCase() === "male" ? (
+                                                                <span> Male</span>
+                                                            ) : (
+                                                                <span> Female</span>
+                                                            )}.
+                                                        </p>
+                                                        
+                                                        <p className="mb-6">
+                                                            Presently residing at, <b>{patientAddress(patient)}</b>,
+                                                        </p>
+                                                        
+                                                        <p className="mb-6">
+                                                        <p className="mb-6">
+                                                            Consulted/was examined/treated for 
+                                                            <span className="capitalize mx-2"><b>{appointment?.post_notes}</b></span>
+                                                            on 
+                                                            <span className="mx-2">{formatDateMMDDYYYYHHIIA(new Date(appointment?.created_at))}</span>
+															<div className="flex flex-row gap-2">
+															for the purpose of 
+                                                            <div
+                                                            className="font-bold" 
+                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(purpose) }} 
+                                                        />
+															</div>
+                                                            
+                                                            
+                                                            
+                                                            
+                                                        </p>
+                                                        </p>
+                                                        <span className="justify-start flex flex-row gap-4"> <b>{fitToWork}</b></span> 
+                                                        <br></br>
+                                                        <div className="ml-[420px]">
                                                 <div class="flex flex-row mt-1">
                                                 <p><strong>Clinical Impression:</strong></p>
                                                 </div>
@@ -367,7 +404,13 @@ id="phic-form-printable" ref={componentRef}
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-col items-center mt-[10px] ml-[450px]">
+                                                
+                                               
+                                                </div>
+                                                        <p>Sincerely,</p>
+                                                        <br></br>
+
+                                            <div className="flex flex-col items-start  ">
                                                 {imageSrc && (
                                                     <div className="  flex flex-col justify-end items-center">
                                                     <img
@@ -379,116 +422,17 @@ id="phic-form-printable" ref={componentRef}
                                                     </div>
                                                 )}
                                                 <span className="border-t-gray-500 border-t px-9">Diagnosed by: </span>
+                                                
                                                 </div>
-                                               
-                                                </div>
+
+                                                <br></br>
+                                                
+                                            </div>
+                                                
 										</div>
 										
 										</div>
-										
-
-									
-									
-
-								{hasHematology ? (
-										<div className="px-5 py-5 font-mono justify-center items-center">
-
-										<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Hematology</h1>
-											<table className="flex flex-col gap-4">
-												
-										
-												<thead>
-													<tr className="flex flex-row justify-between gap-12 border-b ">
-														<th>Investigation</th>
-														<th>Result</th>
-														<th>Normal Range Value</th>
-														<th>Unit</th>
-														
-													</tr>
-												</thead>
-												<tbody>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
-														<th className="capitalize">
-															GLUCOSE, FASTING, PLASMA
-														</th>
-														<td className="absolute ml-[285px]">
-														
-															{
-																showData
-																	?.appointment
-																	?.fbs
-															}
-														</td>
-														<td className=" ml-[100px] flex flex-row">
-													
-															70.00 - 100.00
-														</td>
-														<td>
-															
-															mg/dL
-														</td>
-
-													</tr>
-													
-													
-													
-												</tbody>
-											</table>
-										</div>
-										
-										) : showData?.type?.name == "RBS" ? (
-											<div className="px-5 py-5 font-mono justify-center items-center">
 	
-												<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Random blood sugar (RBS)</h1>
-												<table className="flex flex-col gap-4">
-													
-											
-													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b ">
-															<th>Investigation</th>
-															<th>Result</th>
-															<th>Normal Range Value</th>
-															<th>Unit</th>
-															
-														</tr>
-													</thead>
-													<tbody>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
-															<th className="capitalize">
-																GLUCOSE, FASTING, PLASMA
-															</th>
-															<td className="absolute ml-[285px]">
-															
-																{
-																	showData
-																		?.appointment
-																		?.rbs
-																}
-															</td>
-															<td className=" ml-[90px] flex flex-row">
-														
-																75.00 - 100.00
-															</td>
-															<td>
-																
-																mg/dL
-															</td>
-	
-														</tr>
-														
-														
-														
-													</tbody>
-												</table>	
-									</div>
-
-									
-									) : (
-										""
-									)}
-									
-  			
-  
 									</div>
 
 									</div>
@@ -497,15 +441,18 @@ id="phic-form-printable" ref={componentRef}
     <Draggable  position={isMinimized ? position : undefined}
       onStop={handleStop}>
 
-      <div className={`bg-gray-300 w-[3.5in] gap-y-2 border rounded-md py-2 px-2 shadow-2xl ml-[10px] mt-[10px] absolute ${isMinimized ? 'minimized' : ''}`}>
-        <div className="flex justify-between">
-          <h2 className="block text-sm font-xs leading-6 text-gray-800 font-semibold">
+      <div className={`bg-gray-300 w-[3.5in] gap-y-2 border border-zinc-400  rounded-md z-50  shadow-2xl ml-[5px] mt-[10px] absolute ${isMinimized ? 'minimized' : ''}`}>
+        <div className="flex justify-between bg-zinc-300 px-2 rounded-tr-md rounded-tl-md">
+            <div>
+            <h2 className="block text-sm p-2 leading-6 text-black">
             Edit Certificate
-          </h2>
+             </h2>
+            </div>
+          
           <div className="flex items-center">
-            <FlatIcon className="text-md" icon="fi fi-ss-menu-burger" />
+            <FlatIcon className="text-sm text-black" icon="fi fi-ss-menu-burger" />
             <button
-              className="ml-2 text-xs text-gray-600"
+              className="ml-2 text-xs text-black"
               onClick={() => setIsMinimized(!isMinimized)}
             >
               {isMinimized ? '▲' : '▼'}
@@ -515,52 +462,222 @@ id="phic-form-printable" ref={componentRef}
 
         {!isMinimized && (
           <>
-            <div className="border mt-7 rounded-lg px-2 shadow-lg py-2">
-              <div className="flex flex-row gap-2 items-center border-b mb-3">
-                <FlatIcon icon="fi fi-rr-edit" className="block text-xs font-sm leading-6 text-gray-900" />
-                <span className="text-xs">For Employment</span>
+            <div className="border  rounded-lg px-2 py-2 shadow-lg mt-1 ml-1 mr-1 mb-5">
+            
+                <div className="flex flex-row gap-2 items-center border-b mb-3 ">
+                    <FlatIcon icon="fi fi-rr-edit" className="block text-xs font-sm leading-6 text-gray-900" />
+                <span className="text-xs">Purpose</span>
               </div>
-              <div className="flex flex-row gap-x-4">
-                <div className="flex items-center">
+           
+
+              <div className="flex flex-row mb-5">
+
+              { !isDiagnosisChecked && (
+                <div className="flex items-center ml-2">
                   <input
-                    id="fitToWork"
+                    id="employment"
                     type="checkbox"
-                    checked={fitToWork === "Fit to Work"}
-                    onChange={() => setFitToWork("Fit to Work")}
+                    checked={isEmploymentChecked}
+                    onChange={handleEmploymentChange}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label htmlFor="isEmploymentChecked" className="ml-2 text-xs font-medium text-gray-700">
+                    Employment
+                  </label>
+                </div>
+                 )}
+                
+                { !isEmploymentChecked && (
+                <div className="flex items-center ml-2">
+                  <input
+                    id="diagnosis"
+                    type="checkbox"
+                    checked={isDiagnosisChecked}
+                    onChange={handleDiagnosisChange}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label htmlFor="fitToWork" className="ml-2 text-xs font-medium text-gray-700">
-                    Fit to Work
+                    Diagnosis
                   </label>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    id="notFitToWork"
-                    type="checkbox"
-                    checked={fitToWork === "Not Fit to Work"}
-                    onChange={() => setFitToWork("Not Fit to Work")}
-                    className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label htmlFor="notFitToWork" className="ml-2 text-xs font-medium text-gray-900">
-                    Not Fit to Work
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    id="none"
-                    type="checkbox"
-                    checked={fitToWork === ""}
-                    onChange={() => setFitToWork("")}
-                    className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label htmlFor="none" className="ml-2 text-xs font-medium text-gray-900">
-                    None
-                  </label>
-                </div>
+                 )}
+
+               
               </div>
+
+                    {isEmploymentChecked && (
+						<div className="border mt-2 rounded-lg px-2 shadow-lg py-2 border-teal-500">
+							
+							<div className="flex flex-col gap-x-4 ">
+								<div className="flex flex-row gap-12">
+								<div className="flex items-center">
+									<input
+										id="fitToWork"
+										type="radio"
+										checked={fitToWork === "That He/She is Fit to Work"}
+										onChange={() => setFitToWork("That He/She is Fit to Work")}
+										className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									/>
+									<label htmlFor="fitToWork" className="ml-2 text-xs font-medium text-gray-700">
+										Fit to Work
+									</label>
+								</div>
+								<div className="flex items-center">
+									<input
+										id="notFitToWork"
+										type="radio"
+										checked={fitToWork === "That He/She is Not Fit to Work"}
+										onChange={() => setFitToWork("That He/She is Not Fit to Work")}
+										className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									/>
+									<label htmlFor="notFitToWork" className="ml-2 text-xs font-medium text-gray-700">
+										Not Fit to Work
+									</label>
+								</div>
+								</div>
+								
+			<div className="flex flex-row gap-2 mt-3 items-center">
+                <FlatIcon icon="fi fi-rr-edit" className="block text-xs font-sm leading-6 text-gray-900" />
+                <span className="text-xs">Patient's Purpose</span>
+              </div>
+              <div className="flex flex-col mt-2">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Controller
+                    name="purpose"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, name } }) => (
+                      <ReactQuillField
+                        name={name}
+                        value={value}
+                        onChange={onChange} // Ensure this updates the state
+                        placeholder="Enter Purpose here..."
+                      />
+                    )}
+                  />
+                  <div className="flex justify-end">
+                    <button className="text-xs bg-gray-200 hover:bg-gray-400 rounded-lg px-4 py-1 mt-2 text-teal-700 hover:text-teal-50 transition-colors duration-300" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+							</div>
+			
+						</div>
+					)}
+
+                {isDiagnosisChecked && (
+						<div className="border mt-2 rounded-lg px-2 shadow-lg py-2">
+
+			<div className="flex flex-row gap-2 mt-3 items-center">
+                <FlatIcon icon="fi fi-rr-edit" className="block text-xs font-sm leading-6 text-gray-900" />
+                <span className="text-xs">Patient's Purpose</span>
+              </div>
+              <div className="flex flex-col mt-2">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Controller
+                    name="purpose"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, name } }) => (
+                      <ReactQuillField
+                        name={name}
+                        value={value}
+                        onChange={onChange} // Ensure this updates the state
+                        placeholder="Enter Purpose here..."
+                      />
+                    )}
+                  />
+                  <div className="flex justify-end">
+                    <button className="text-xs bg-gray-200 hover:bg-gray-400 rounded-lg px-4 py-1 mt-2 text-teal-700 hover:text-teal-50 transition-colors duration-300" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+							
+							{/* <div className="flex flex-row gap-x-4">
+                                                <Controller
+													name="mode_of_consultation"
+													control={control}
+													rules={{
+														required: {
+															value: true,
+															message:
+																"This field is required",
+														},
+													}}
+													render={({
+														field: {
+															onChange,
+															onBlur,
+															value,
+															name,
+															ref,
+														},
+														fieldState: {
+															invalid,
+															isTouched,
+															isDirty,
+															error,
+														},
+													}) => (
+														<ReactSelectInputField
+															className=" text-xs"
+															isClearable={true}
+															labelClassName="font-bold  bg-black"
+															label={
+																<>
+																	Type
+																	<span className="text-danger ml-1 ">
+																		*
+																	</span>
+																</>
+															}
+															inputClassName=" "
+															ref={ref}
+															value={value}
+															onChange={(val) => {
+																console.log(
+																	"onChangeonChange",
+																	val
+																);
+																if (onChange) {
+																	onChange(
+																		val
+																	);
+																}
+															}} // send value to hook form
+															onBlur={onBlur} // notify when input is touched
+															error={
+																error?.message
+															}
+															placeholder="Select Diagnostic type"
+															options={[
+																{
+																	label: "Laboratory",
+																	value: "laboratory",
+																},
+                                                                {
+																	label: "Imaging",
+																	value: "imaging",
+																},
+															]}
+														/>
+													)}
+												/>
+							</div> */}
+						</div>
+					)}
+
+              
+
+
+              
             </div>
 
-            <div className="border mt-7 rounded-lg px-2 shadow-lg py-2">
+            <div className="border mt-1 ml-1 mr-1 rounded-lg px-3 shadow-lg py-1">
               <div className="flex flex-row gap-2 items-center">
                 <FlatIcon icon="fi fi-rr-edit" className="block text-xs font-sm leading-6 text-gray-900" />
                 <span className="text-xs">Doctor's Recommendation</span>
@@ -589,9 +706,11 @@ id="phic-form-printable" ref={componentRef}
               </div>
             </div>
 
-            <div className="mt-7 flex justify-center rounded-lg border border-dashed border-gray-900/25">
+			
+
+            <div className="mt-5 flex justify-center rounded-lg border border-dashed border-gray-900/25 mr-12 ml-12 mb-4">
               <div className="text-center">
-                <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                <PhotoIcon className=" h-1 w-12 text-gray-300" aria-hidden="true" />
                 <div className="flex text-sm leading-b text-gray-600">
                   <label
                     htmlFor="file-input"

@@ -395,7 +395,7 @@ const CashierAppointmentDetails = ({
 													},
 													{
 														title: (
-															<MenuTitle src="/public/walk-in-plus.png">
+															<MenuTitle src="/walk-in-plus.png">
 																Profile
 															</MenuTitle>
 														),

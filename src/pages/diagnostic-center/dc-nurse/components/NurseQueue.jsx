@@ -1,4 +1,4 @@
-import  { React, useRef, useState, Fragment, forwardRef, useImperativeHandle, } from 'react'
+import  { React, useRef, useState, useEffect, Fragment, forwardRef, useImperativeHandle, } from 'react'
 import { Controller, useForm } from "react-hook-form";
 import ReferToSPHModal from '../../../../components/modal/ReferToSPHModal';
 import InServiceER from '../../../hims/his-er/InServiceER';
@@ -18,10 +18,7 @@ import OPDAppointmentDetails from '../../../hims/his-opd/components/OPDAppointme
 import NurseAppointmentDetails from './NurseAppointmentDetails';
 import FlatIcon from '../../../../components/FlatIcon';
 import PendingOrdersModal from '../../../../components/PendingOrdersModal';
-
-
-
-
+import useNurseQueue from './hooks/useNurseQueue';
 
 
 const Status = ({ appointment }) => {
@@ -41,7 +38,7 @@ const Status = ({ appointment }) => {
 			);
 		}
 		if (appointment?.status == "pending" && appointment?.vital_id != null) {
-			return <span className="text-orange-600">Pending for service</span>;
+			return <span className="text-orange-600">For Laboratory/Imaging</span>;
 		}
 		if (
 			appointment?.status == "pending-doctor-confirmation" &&
@@ -110,10 +107,7 @@ const NurseQueue = ({
 		mutateNowServing,
 	} = useDoctorQueue();
 	
-	const patientProfileRef = useRef(null);
-	const acceptPatientRef = useRef(null);
-	
-	const { pending, nowServing } = useOPDQueue();
+	const { pending, nowServing } = useNurseQueue();
 	// useImperativeHandle(ref, () => ({
 	// 	show: show,
 	// 	hide: hide,
@@ -133,15 +127,36 @@ const NurseQueue = ({
 		mutatePendingForRelease,
 		mutatePendingPatient,
 		mutateNowServingPatient,
-	} = useOPDQueue();
+	} = useNurseQueue();
 	
 	const referToSphModalRef = useRef(null);
 	const [appointment, setAppointment] = useState(null);
-
 	const [showData, setShowData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const pendingOrdersRef = useRef(null);
-	
+	const [minWidth, maxWidth, defaultWidth] = [80, 810, 810];
+	const [width, setWidth] = useState(defaultWidth);
+	const isResized = useRef(false);
+	useEffect(() => {
+		window.addEventListener("mousemove", (e) => {
+		if (!isResized.current) {
+		return;
+		}
+		
+		setWidth((previousWidth) => {
+		const newWidth = previousWidth + e.movementX / 1;
+		
+		const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
+		
+		return isWidthInRange ? newWidth : previousWidth;
+		});
+		});
+		
+		window.addEventListener("mouseup", () => {
+		isResized.current = false;
+		});
+		}, []);
+		
 	useNoBugUseEffect({
 		functions: () => {},
 	});
@@ -176,7 +191,10 @@ const NurseQueue = ({
 		//mutatePendingPatient();
 		//mutateNowServingPatient();
 	};
-
+	const handleDoubleClick = () => {
+		setWidth((prevWidth) => (prevWidth === maxWidth ? minWidth : maxWidth));
+	};
+	const shouldHideContent = width <= minWidth;
 	const sendPatientToLab = () => {
 		setLoading(true);
 		Axios.post(
@@ -200,16 +218,31 @@ const NurseQueue = ({
 	console.log("APPOINTMENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", appointment);
 	return (
 		<AppLayout>
-			<div className="p-4 h-full ">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
-					<div className="lg:col-span-4">
-						<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1">
-							Patient Queue
-						</h1>
-						<span className="noto-sans-thin text-slate-500 text-sm font-light">
-							Patients pending for service
-						</span>
-						<div className="flex flex-col gap-y-4 py-4">
+			<div className="flex ">
+				<div style={{ width: `${width / 17}rem` }} className="bg-white">
+				
+					<div className="lg:col-span-4 overflow-y-scroll h-[860px]">
+						<div className='flex flex-row justify-start px-2 items-center gap-6 mb-2 mt-4 ml-3'>
+						{shouldHideContent ? (
+								<FlatIcon icon="fi fi-rr-users-alt" className="text-gray-400 text-3xl " />
+							) : (
+								<div className='flex flex-row gap-3 items-center '>
+									<FlatIcon icon="fi fi-rr-users-alt" className="text-teal-600 text-2xlml-7" />
+								<h1 className="text-lg font-bold font-opensans text-teal-600 tracking-wider">
+									Patient Queue
+								</h1>
+								</div>
+								
+							)}
+							{!shouldHideContent && (
+								<span className=" text-slate-700 text-sm font-md">
+									Patients pending for service
+								</span>
+							)}
+
+						</div>
+						
+						<div className="flex flex-col gap-y-1 py-1 mr-2 ml-2">
 							{listPending()?.map((queue, index) => (
 								<InQueueRegular
 									date={formatDateTime(
@@ -231,16 +264,17 @@ const NurseQueue = ({
 									patientName={patientFullName(queue?.patient)}
 									
 								>
-									<div className="w-full flex flex-col pl-16">
-										<div className="flex items-center text-slate-700 gap-2 mb-2">
-											<span className="text-sm">Status:</span>
-											<span className="font-bold text-sm">
+									<div className="w-full items-center">
+										<div className="flex flex-col items-center  text-slate-700 ">
+											<span className="text-xs font-bold">Status:</span>
+											<span className="font-bold text-xs">
 												<Status appointment={queue} />
 											</span>
 										</div>
 									</div>
 								</InQueueRegular>
 							))}
+
 							{sortedPendingForRelease()?.map((queue, index) => (
 								<InQueueForRelease
 									date={formatDateTime(
@@ -255,10 +289,10 @@ const NurseQueue = ({
 									patientName={patientFullName(queue?.patient)}
 									
 								>
-									<div className="w-full flex flex-col pl-16">
-										<div className="flex items-center text-slate-700 gap-2 mb-2">
-											<span className="text-sm">Status:</span>
-											<span className={`font-bold text-sm text-red-600 ${
+									<div className="w-full items-center">
+										<div className="flex flex-col items-center  text-slate-700 ">
+											<span className="text-xs font-bold">Status:</span>
+											<span className={`font-bold text-xs text-red-600 ${
 				selected
 					? "!bg-green-50 !border-green-800 text-green-600 shadow-green-500 "
 					: ""
@@ -271,37 +305,53 @@ const NurseQueue = ({
 							))}
 							
 						</div>
+			
 					</div>
-					<div className="lg:col-span-8 pl-4">
-						<div className="flex items-center">
-							<h1 className="text-xl font-bold font-opensans text-success-dark tracking-wider -mb-1">
-								In Service...
+					</div>
+
+					{/* Handle */}
+				{/* <div
+                    className="w-1 bg-gray-100 cursor-col-resize justify-center items-center flex text-gray-400"
+                    onMouseDown={() => {
+                        isResized.current = true;
+                        document.body.classList.add('no-select');
+                    }}
+					onDoubleClick={handleDoubleClick}
+                ><span className='bg-gray-200 rounded-sm h-12 flex justify-center items-center absolute mr-2 shadow-2xl border border-gray-300'>|</span>
+				</div> */}
+
+			<div className="p-2 h-full w-full">
+				<div className="grid grid-cols-1 lg:grid-cols-1 gap-1 divide-x">
+					
+					
+					<div className="lg:col-span-8 pl-2 ">
+						<div className="flex items-center mb-1">
+							<h1 className="text-lg font-md font-opensans text-gray-400 tracking-wider ">
+								In Service
 							</h1>
 						</div>
-						<span className="mb-3 noto-sans-thin text-slate-500 text-sm font-light">
-							&nbsp;
-						</span>
-						<div>
+						
+						<div className=''>
 							{appointment?.patient ? (	
 								<Fade key={`order-${appointment?.id}`}>
 									<div>
-										<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12 justify-between">
+										<h4 className="border rounded-t-lg flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12 justify-between">
 											<span>Patient Information</span>
 											
-											<ActionBtn
-												className="ml-auto"
-												type="danger"
+											<button
+												className="rounded-full "
+												
 												onClick={() => {
 													setAppointment(null);
 												}}
 											>
-												Close
-											</ActionBtn>
+												x
+											</button>
 											
 						
 											
 										</h4>
-										<div className="flex flex-col lg:flex-row gap-2 border-indigo-100 p-4 bg-slate-100">
+										<div className="flex flex-col lg:flex-row gap-2 border-indigo-100 p-4 ">
 									
 											<PatientInfo 
 											mutateAll={mutateAll}
@@ -325,12 +375,12 @@ const NurseQueue = ({
 							
 						{appointment?.id ? (
 							<Fade key={`order-${appointment?.id}`}>
-							<>
-							<NurseAppointmentDetails
-							appointment={appointment} 
-							patient={appointment?.patient}
-							mutateAll={mutateAll}
-							/>
+								<>
+									<NurseAppointmentDetails
+									appointment={appointment} 
+									patient={appointment?.patient}
+									mutateAll={mutateAll}
+								/>
 		
 							</>
 							</Fade>
@@ -351,6 +401,10 @@ const NurseQueue = ({
 					</div>
 				</div>
 			</div>
+
+
+				</div>
+			
 			<ReferToSPHModal ref={referToSphModalRef} />
 			<PendingOrdersModal ref={pendingOrdersRef} />
 		</AppLayout>

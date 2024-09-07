@@ -83,7 +83,7 @@ const PatientImaging = () => {
               Patient Queue
             </h1>
             <span className="noto-sans-thin text-slate-500 text-sm font-light">
-              Patients pending for laboratory services
+              Patients pending for imaging services
             </span>
             <div className="pr-5 py-3">
               <TextInput
