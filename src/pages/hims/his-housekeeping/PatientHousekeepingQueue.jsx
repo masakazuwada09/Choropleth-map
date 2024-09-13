@@ -73,7 +73,7 @@ const PatientHousekeepingQueue = () => {
 										<div className="w-full flex flex-col pl-16">
 											<div className="flex items-center text-slate-700 gap-2 mb-2">
 												<span className="text-sm">
-													Room:<span className='font-bold text-red-600'>{appointment.room_number}</span> 
+													{/* Room:<span className='font-bold text-red-600'>{appointment.room_number}</span>  */}
 												</span>
 												<span className="font-bold text-sm text-red-600">
 													

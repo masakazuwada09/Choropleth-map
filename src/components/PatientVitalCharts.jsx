@@ -16,6 +16,8 @@ import PulseChart from "./vitals/PulseChart.JSX";
 import RespirationChart from "./vitals/RespirationChart";
 import TemperatureChart from "./vitals/TemperatureChart";
 import GlucoseChart from "./vitals/GlucoseChart";
+import HumanBiometric from "../spline/components/HumanBiometric";
+import HumanLungs from "../spline/components/HumanLungs";
 
 const PatientVitalCharts = (props) => {
 	const { patient, allowCreate } = props;
@@ -41,7 +43,7 @@ const PatientVitalCharts = (props) => {
 								</>
 							),
 							content: (
-								<div className="flex flex-col w-full relative">
+								<div className="flex flex-col w-[900px] relative">
 									<h3 className="font-bold px-4 flex items-center gap-3 relative mb-3 text-2xl">
 										<img
 											src="/vitals/bp.png"
@@ -55,6 +57,7 @@ const PatientVitalCharts = (props) => {
 										w={512}
 										h={384}
 									/>
+									
 								</div>
 							),
 						},
@@ -97,7 +100,7 @@ const PatientVitalCharts = (props) => {
 								</>
 							),
 							content: (
-								<div className="flex flex-col w-full relative">
+								<div className="flex flex-col  relative w-[900px] gap-2 ">
 									<h3 className="font-bold px-4 flex items-center gap-3 relative mb-3 text-2xl">
 										<img
 											src="/vitals/respiration.png"
@@ -110,6 +113,9 @@ const PatientVitalCharts = (props) => {
 										patient={patient}
 										w={512}
 										h={384}
+									/>
+									<HumanLungs 
+									className=""
 									/>
 								</div>
 							),
@@ -173,7 +179,9 @@ const PatientVitalCharts = (props) => {
 					]}
 				/>
 			</div>
+			
 		</div>
+		
 	);
 };
 

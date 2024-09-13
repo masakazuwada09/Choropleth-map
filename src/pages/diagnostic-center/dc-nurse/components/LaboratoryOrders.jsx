@@ -133,7 +133,7 @@ const LaboratoryOrders = (props) => {
 	const { user } = useAuth();
     const [appointment, setAppointment] = useState(propAppointment);
 	const isLaboratoryUser = () => {
-		return user?.type == "RHU-XRAY" || user?.type == "DC-LABORATORY";
+		return user?.type == "DC-Laboratory";
 	};
 	const isXrayUser = () => {
 		return user?.type === "HIS-IMAGING";
@@ -259,7 +259,7 @@ const LaboratoryOrders = (props) => {
 
 	const deleteLabOrderRef = useRef(null);
 	const isDoctor = () => {
-		return String(user?.type || "")
+		return String(user?.type || "DC-NURSE")
 			.toLowerCase()
 			.includes("doctor");
 	};
@@ -399,7 +399,7 @@ const LaboratoryOrders = (props) => {
 				>
 					{user?.type == "DC-NURSE"  &&  allowCreate ? (
 						<button
-							className="px-4 rounded-xl text-sm items-center justify-center text-blue-700 hover:text-blue-500"
+							className="px-4 rounded-xl text-sm items-center justify-center text-blue-600 hover:text-blue-500"
 							size="sm"
 							
 							onClick={() => {
@@ -445,9 +445,8 @@ const LaboratoryOrders = (props) => {
 			</div>
 			
 
-			<div className="h-[1.5px] w-2/5 bg-indigo-300 mb-[0.5px]" />
-			<div className="h-[1px] w-2/5 bg-red-300 mb-4" />
-
+			
+					
 			<div className="flex flex-col w-full">
 				<div>
 				<Table
@@ -473,6 +472,13 @@ const LaboratoryOrders = (props) => {
 						cell: (data) => {
 							return data?.type?.name;
 						},
+					},
+					{
+						header: "Rate",
+						className: "text-left",
+						tdClassName: "text-left",
+						key: "lab_rate",
+						cell: (data) => `₱ ${data.lab_rate}`,
 					},
 					{
 						header: "Notes",
@@ -520,10 +526,8 @@ const LaboratoryOrders = (props) => {
 					},
 					{
 						header: "Delete",
-						className: `text-center ${isDoctor() ? "" : "hidden"}`,
-						tdClassName: `text-center ${
-							isDoctor() ? "" : "hidden"
-						}`,
+						className: `text-center `,
+						tdClassName: `text-center `,
 						key: "delete",
 						cell: (data) => {
 							return (
@@ -534,7 +538,7 @@ const LaboratoryOrders = (props) => {
 										type="danger"
 										disabled={
 											data?.order_status ==
-											"for-result-reading"
+											""
 										}
 										className=" mx-auto"
 										onClick={() => {

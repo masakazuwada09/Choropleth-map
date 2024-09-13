@@ -27,6 +27,18 @@ const DCCashierLinks = ({ isActive }) => {
 				text="Patient Receipt"
 				counter={parseInt(pending?.data?.length)}
 			/>
+			<MenuLink
+				to="/laboratory-tests-rate"
+				active={isActive("/laboratory-tests-rate")}
+				icon="rr-microscope"
+				text="Lab Tests Rate"
+			/>
+			<MenuLink
+				to="/discounts"
+				active={isActive("/discounts")}
+				icon="rr-microscope"
+				text="Discounts"
+			/>
 			{/* <MenuLink
 				to="/consignments"
 				active={isActive("/consignments")}

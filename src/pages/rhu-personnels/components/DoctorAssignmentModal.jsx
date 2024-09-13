@@ -29,6 +29,7 @@ const DoctorAssignmentModal = (props, ref) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
 	const [mount, setMount] = useState(0);
 	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
@@ -90,7 +91,6 @@ const DoctorAssignmentModal = (props, ref) => {
 
 		formData.append("health_unit_id", data?.health_unit_id);
 		formData.append("room_id", data?.room_id);
-
 		let url = `v1/health-unit-personnels/assignment/${showData?.id}`;
 		formData.append("_method", "PATCH");
 		Axios.post(url, formData).then((res) => {

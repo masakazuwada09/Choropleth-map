@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Axios from "../../../../libs/axios";
 import AppLayout from "../../../../components/container/AppLayout";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import PageHeader from "../../../../components/layout/PageHeader";
@@ -65,6 +66,7 @@ const PatientCashierLab = () => {
 	  } = useDataTable({
 		url: `/v1/patients`,
 	  });
+	  
 	const { user } = useAuth();
 	const {
 		pending: doctorsPending,
@@ -87,6 +89,7 @@ const PatientCashierLab = () => {
 	const uploadLabResultRef = useRef(null);
 	const [selectedTab, setSelectedTab] = useState("");
 	const billingStatus = patient?.billing_status || "pending";
+	
 	
 
 	const listPending = () => {
@@ -172,9 +175,7 @@ const PatientCashierLab = () => {
                         patient={patientData}
                         active={queue?.id === patient?.id}
                         patientName={patientFullName(patientData)}
-                      >	<></>
-						<span className="text-gray-600 font-bold">Laboratory Test: </span>
-
+                      >
 					  </PatientMenu>
                     );
                   })
@@ -197,15 +198,18 @@ const PatientCashierLab = () => {
 						<div className="">
 						{order?.relationships?.patient ? (
 								<Fade key={`order-${order?.id}`}>
-									<div className="flex flex-col items-center justify-center ">
+									<div className="flex flex-col items-center justify-center gap-2">
+										<div className="w-[840px] rounded-lg shadow-lg p-2">
 										<PatientInfo
 											patient={
 												order?.relationships?.patient
 											}
 											
 										/>
+										</div>
+										
 										<div className="py-2 overflow-auto ">
-										{billingStatus === "pending " ? (
+										{billingStatus === "pending" ? (
 											<div className="">
 											<LaboratoryOrders
 												pendingOrdersRef={pendingOrdersRef}
@@ -216,12 +220,12 @@ const PatientCashierLab = () => {
 												mutateAll={mutateAll}
 											/>
 
-										<BillingStatement
+											<BillingStatement
 											loading={loading}
 											// onSave={cashierApproval}
 											appointment={appointment}
-											patient={appointment?.patient}
-										/>
+											patient={patient}
+											/>
 
 											
 											</div>
@@ -232,7 +236,7 @@ const PatientCashierLab = () => {
 											loading={loading}
 											// onSave={cashierApproval}
 											appointment={appointment}
-											patient={appointment?.patient}
+											patient={patient}
 										/>
                         )}
 											

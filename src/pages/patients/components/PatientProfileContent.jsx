@@ -19,7 +19,7 @@ const TRow = ({ title, value }) => {
 };
 const PatientProfileContent = ({ patient }) => {
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 px-2 gap-2 w-full text-slate-500 bg-gray-50 shadow-lg ">
+		<div className="grid grid-cols-1 lg:grid-cols-2 px-2 gap-2 w-full text-slate-500 bg-gray-50 shadow-lg overflow-y-scroll h-[740px]">
 			<CollapseDiv
 				defaultOpen={true}
 				title="I. PERSONAL DETAILS"
@@ -191,7 +191,7 @@ const PatientProfileContent = ({ patient }) => {
 						</tbody>
 					</table>
 				</div>
-				<div className="square-table w-full mb-2">
+				<div className="square-table mb-2 overflow-auto">
 					<table className="">
 						<tbody className="">
 							<TRow

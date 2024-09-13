@@ -917,6 +917,7 @@ const PersonnelFormModal = (props, ref) => {
 										SUBMIT
 									</ActionBtn>
 								</div>
+								
 							</Dialog.Panel>
 						</Transition.Child>
 					</div>

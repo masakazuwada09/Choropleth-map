@@ -1576,6 +1576,7 @@ const AppointmentDetailsForNurse = ({
 								bodyClassName="p-0"
 							>
 								{forCashier ? (
+									
 									<CashierApproval
 										setAppointment={setOrder}
 										showTitle={false}

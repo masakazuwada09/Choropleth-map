@@ -6,6 +6,14 @@ export const payment = [
 	},
 	
 ]
+export const filter_order = [
+	{
+		label: "Filter Order",
+		value: "Filter Order",
+		name: "Filter Order",
+	},
+	
+]
 export const laboratory_tests = [
 	{
 		label: "chemistry",

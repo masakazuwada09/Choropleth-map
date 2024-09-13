@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-mixed-spaces-and-tabs */
-/* eslint-disable react-refresh/only-export-components */
+
 import {
 	Fragment,
 	forwardRef,
@@ -30,9 +28,10 @@ import RadioInput from "../inputs/RadioInput";
 import { dataURItoBlob, formatDateYYYYMMDD } from "../../libs/helpers";
 import Axios from "../../libs/axios";
 import PickMapLocation from "../PickMapLocation";
+import Patients from "../../pages/patients/Patients";
 
 const NewPatientFormModal = (props, ref) => {
-	const { logout, patientSelfie, noRedirect, onSuccess } = props;
+	const { logout, patientSelfie, noRedirect, onSuccess, patient } = props;
 	const {
 		register,
 		getValues,
@@ -61,7 +60,7 @@ const NewPatientFormModal = (props, ref) => {
 			id: uuidv4(),
 			lastname: "",
 			firstname: "",
-			middlename: "",
+			middle_name: "",
 			suffix: "",
 			relationship: "",
 		},
@@ -110,7 +109,7 @@ const NewPatientFormModal = (props, ref) => {
 		setLoading(true);
 		console.log("submitform", dependents, data);
 		let formdata = new FormData();
-		const file = dataURItoBlob(patientSelfie);
+		// const file = dataURItoBlob(patientSelfie);
 		// formdata.append("avatar", file);
 		formdata.append("prefix", data?.prefix || " ");
 		formdata.append("suffix", data?.suffix || " ");
@@ -168,8 +167,8 @@ const NewPatientFormModal = (props, ref) => {
 			);
 
 			formdata.append(
-				`patientDependents[${index}][middlename]`,
-				dependent?.middlename || " "
+				`patientDependents[${index}][middle_name]`,
+				dependent?.middle_name || " "
 			);
 			formdata.append(
 				`patientDependents[${index}][suffix]`,
@@ -183,6 +182,7 @@ const NewPatientFormModal = (props, ref) => {
 			// formdata.append(`patientDependents[${index}]`, dependent);
 			// }
 		});
+		
 		Axios.post(`v1/pho/patients`, formdata, {})
 			.then((res) => {
 				// return resolve(res.data);
@@ -203,6 +203,9 @@ const NewPatientFormModal = (props, ref) => {
 			})
 			.catch((err) => {
 				console.log(err);
+				if (err?.response?.data?.message === "The birthdate must be a date before today.") {
+					toast.error("The birthdate must be a date before today.");
+				  }
 				setLoading(false);
 				// return reject(err);
 			});
@@ -238,7 +241,10 @@ const NewPatientFormModal = (props, ref) => {
 								<div className="flex flex-col gap-y-4 relative">
 									<div className="flex flex-col p-4 border-b">
 										<span className="text-xl font-bold  text-blue-900">
-											Create new patient form
+										{Patients?.id
+											? "Update "
+											: "Create New "}{" "}
+											patient form
 										</span>
 										<span className="text-sm font-light text-blue-900 ">
 											Complete form to create new patient
@@ -342,6 +348,7 @@ const NewPatientFormModal = (props, ref) => {
 															}
 															placeholder="Firstname"
 															className="lg:col-span-4"
+														
 															error={
 																errors
 																	?.firstname
@@ -1077,60 +1084,7 @@ const NewPatientFormModal = (props, ref) => {
 																)}
 															/>
 														</div>
-														{/* <div className="lg:col-span-4">
-									<Controller
-										name="purok"
-										control={control}
-										rules={{
-											required: {
-												value: true,
-												message:
-													"This field is required",
-											},
-										}}
-										onChange={(data) => {}}
-										render={({
-											field: {
-												onChange,
-												onBlur,
-												value,
-												name,
-												ref,
-											},
-											fieldState: {
-												invalid,
-												isTouched,
-												isDirty,
-												error,
-											},
-										}) => (
-											<ReactSelectInputField
-												isClearable={false}
-												label={
-													<>
-														Select Purok
-														<span className="text-danger ml-1">
-															*
-														</span>
-													</>
-												}
-												inputClassName=" "
-												ref={ref}
-												value={value}
-												onChange={(data) => {
-													onChange(data);
-												}} // send value to hook form
-												onBlur={onBlur} // notify when input is touched
-												error={error?.message}
-												placeholder="Select Purok"
-												options={puroks.map((data) => ({
-													label: data?.name,
-													value: data?.name,
-												}))}
-											/>
-										)}
-									/>
-								</div> */}
+												
 														<TextInputField
 															label={<>Purok</>}
 															placeholder="Enter Purok"
@@ -1348,7 +1302,7 @@ const NewPatientFormModal = (props, ref) => {
 																			) => {
 																				updateItem(
 																					data?.id,
-																					"middlename",
+																					"middle_name",
 																					e
 																						.target
 																						.value

@@ -21,10 +21,7 @@ import PendingOrdersModal from "../../../../components/PendingOrdersModal";
 import useERQueue from "../../../../hooks/useERQueue";
 import useMDQueue from "../../../../hooks/useMDQueue";
 import useDoctorQueue from "./hooks/useDoctorQueue";
-import useCashierQueue from "../../../../hooks/useCashierQueueOLD";
-import useLabQueue from "../../../../hooks/useLabQueue";
-import usePharmaQueue from "../../../../hooks/usePharmaQueue";
-import useNurseQueue from "../../dc-nurse/components/hooks/useNurseQueue";
+
 
 
 const DoctorQueue = () => {
@@ -193,6 +190,7 @@ const DoctorQueue = () => {
 			/>
 			
 			<PatientProfileModal
+				appointment={appointment}
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}
 				mutateAll={mutateAll}

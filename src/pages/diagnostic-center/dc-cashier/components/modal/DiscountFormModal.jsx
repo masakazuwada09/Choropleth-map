@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react-refresh/only-export-components */
-import {
+import React, {
 	Fragment,
 	forwardRef,
 	useEffect,
@@ -11,12 +11,12 @@ import {
 import { Dialog, Transition } from "@headlessui/react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import TextInputField from "../../../components/inputs/TextInputField";
-import ReactSelectInputField from "../../../components/inputs/ReactSelectInputField";
-import Axios from "../../../libs/axios";
+import ActionBtn from "../../../../../components/buttons/ActionBtn";
+import TextInputField from "../../../../../components/inputs/TextInputField";
+import ReactSelectInputField from "../../../../../components/inputs/ReactSelectInputField";
+import Axios from "../../../../../libs/axios";
 
-const LaboratoryTestFormModal = (props, ref) => {
+const DiscountFormModal = (props, ref) => {
 	const { onSuccess, healthUnits = [] } = props;
 	const {
 		register,
@@ -135,12 +135,12 @@ const LaboratoryTestFormModal = (props, ref) => {
 								>
 									<span className="text-xl font-bold  text-blue-900">
 										{room?.id ? "Update " : "Create "}{" "}
-										Laboratory Test
+										Discount
 									</span>
 									<span className="text-sm font-light text-blue-900 ">
 										Complete form to{" "}
 										{room?.id ? "update " : "create new "}{" "}
-										laboratory test
+										discount
 									</span>
 								</Dialog.Title>
 								<div className="px-6 pt-5 pb-7 grid grid-cols-1 gap-5 relative">
@@ -156,31 +156,7 @@ const LaboratoryTestFormModal = (props, ref) => {
 											},
 										})}
 									/>
-									<TextInputField
-										label="Rate"
-										error={errors?.name?.message}
-										placeholder="Enter Rate"
-										{...register("lab_rate", {
-											required: {
-												value: true,
-												message:
-													"This field is required",
-											},
-										})}
-									/>
-									<TextInputField
-										label="Description"
-										error={errors?.name?.message}
-										placeholder="Enter description"
-										{...register("description", {
-											required: {
-												value: true,
-												message:
-													"This field is required",
-											},
-										})}
-									/>
-									<Controller
+                                    <Controller
 										name="type"
 										control={control}
 										rules={{
@@ -214,20 +190,45 @@ const LaboratoryTestFormModal = (props, ref) => {
 												onChange={onChange}
 												onBlur={onBlur} // notify when input is touched
 												error={error?.message}
-												placeholder="Select laboratory test type"
+												placeholder="Select Discount type"
 												options={[
 													{
-														label: "Laboratory Test",
-														value: "laboratory-test",
+														label: "Percentage",
+														value: "percentage",
 													},
 													{
-														label: "Imaging",
-														value: "imaging",
+														label: "Amount",
+														value: "amount",
 													},
 												]}
 											/>
 										)}
 									/>
+									<TextInputField
+										label="Value"
+										error={errors?.name?.message}
+										placeholder="Enter Value"
+										{...register("lab_rate", {
+											required: {
+												value: true,
+												message:
+													"This field is required",
+											},
+										})}
+									/>
+									<TextInputField
+										label="Description"
+										error={errors?.name?.message}
+										placeholder="Enter description"
+										{...register("description", {
+											required: {
+												value: true,
+												message:
+													"This field is required",
+											},
+										})}
+									/>
+									
 								</div>
 
 								<div className="px-4 py-4 flex items-center justify-end bg-slate- border-t">
@@ -248,4 +249,4 @@ const LaboratoryTestFormModal = (props, ref) => {
 	);
 };
 
-export default forwardRef(LaboratoryTestFormModal);
+export default forwardRef(DiscountFormModal);

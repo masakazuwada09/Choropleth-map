@@ -27,7 +27,6 @@ const RHUPersonnels = (props) => {
 	const activatePersonnelFormRef = useRef(null);
 	const deactivatePersonnelFormRef = useRef(null);
 	const doctorAssignmentRef = useRef(null);
-
 	const [rhuList, setRhuList] = useState([]);
 	const [specialties, setSpecialties] = useState([]);
 	const {

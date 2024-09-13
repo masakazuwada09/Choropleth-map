@@ -14,7 +14,7 @@ const CollapseDiv = ({
 	return (
 		<Disclosure
 			as={"div"}
-			className="  border-gray-300 duration-200"
+			className="  border-gray-300 duration-200  "
 			defaultOpen={defaultOpen}
 		>
 			{({ open }) => (

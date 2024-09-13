@@ -90,6 +90,7 @@ import PrintAllLabResultModal from "../../../../components/patient-modules/modal
 import PrintLabResultModal from "../../../../components/patient-modules/modals/PrintLabResultModal";
 import PrintReceipt from "../../dc-cashier/components/PrintReceipt";
 import ImagingReceipt from "./ImagingReceipt";
+import ImagingReceiptModal from "../../dc-cashier/components/modal/ImagingReceiptModal";
 
 
 const Status = ({ status }) => {
@@ -133,7 +134,7 @@ const ImagingOrders = (props) => {
 	const { user } = useAuth();
 
 	const isLaboratoryUser = () => {
-		return user?.type == "DC-IMAGING" || user?.type == "DC-IMAGING";
+		return user?.type == "DC-NURSE" || user?.type == "DC-IMAGING";
 	};
 	const isXrayUser = () => {
 		return user?.type === "HIS-IMAGING";
@@ -342,12 +343,10 @@ const ImagingOrders = (props) => {
 				"Miscellaneous Form": uploadMiscellaneousRef,
 				
 			};
+
     const modalRef = labModalRefs[data?.type?.name] || uploadLabResultRef;
             return (
-                <Status status={data?.order_status} />
-            );
-        } else {
-            return (
+                // <Status status={data?.order_status} />
 				<span
                     className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
                     onClick={() => modalRef.current.show(data)}
@@ -356,10 +355,14 @@ const ImagingOrders = (props) => {
                     {data?.type?.name === "CBC" || data?.type?.name === "RBS" || data?.type?.name === "FBS" ? "Add Result" : "Upload"}
 					
                 </span>
+            );
+        } else {
+            return
+				 <Status status={data?.order_status} />;
 
 
-			);
-        }
+		}
+        
     } else if (data?.order_status === "for-result-reading") {
         return (
             <span
@@ -374,6 +377,127 @@ const ImagingOrders = (props) => {
         return null;
     }
 };
+
+const renderPrintCell = (data) => {
+    if (data?.order_status === "pending") {
+        if (isLaboratoryUser()) {
+            const labPrintRefs = {
+				//Chemistry
+                "FBS":uploadFBSRef,
+                "RBS": uploadRBSRef,
+                "Creatinine": uploadCreatinineRef,
+                "Uric Acid": uploadUricAcidRef,
+                "SGOT": uploadSGOTRef,
+                "SGPT": uploadSGPTRef,
+                "Alkaline Phos": uploadAlkalinePhosRef,
+                "LDH": uploadLDHRef,
+                "GGT": uploadGGTRef,
+                "Magnesium": uploadMagnesiumRef,
+                "Phophorus": uploadPhophorusRef,
+                "Amylase": uploadAmylaseRef,
+				"Culture and Sensitivity Initial Result": uploadcultureInitialRef,
+                "Lipid Profile": uploadLipidProfileRef,
+                "Electrolytes": uploadElectrolytesRef,
+                "Bilirubin": uploadBilirubinRef,
+                "Total Protein": uploadTotalProteinRef,
+                "Urea": uploadUreaRef,
+                "Oral Glucose Tolerance Test": uploadOralGlucoseRef,
+                "24 Hours Urine Creatinine Clearance": uploadUrineCreatinineRef,
+				//Hematology
+				"CBC": uploadCBCResultRef,
+                "Cuagulation Studies": uploadCuagulationStudiesRef,
+                "Differential Count": uploadDifferentialCountRef,
+                "Erythrocyte": uploadErythrocyteRef,
+                "Platelet Count": uploadPlateletCountRef,
+                "Red Cell Indices": uploadRedcellInficesRef,
+				"Rerticulocyte Count": uploadReticulocyteRef,
+				//Microbiology
+				"AFB Stain": uploadAFBStainRef,
+                "Culture Sensitivity Final Result": uploadCultureSensitivityFinalRef,
+                "Gram Stain": uploadGramStainRef,
+				"KOH": uploadKOHRef,
+				//Microscopy
+					//fecalysis
+					"Ascaris Lumbricoides Ova": uploadAscarisRef,
+					"Entamoeba Coli Cyst ": uploadEntomoebaCystRef,
+					"Entamoeba Coli Trophozoite": uploadEntomoebaTrophozoiteRef,
+					"Entamoeba Histolytica Cyst": uploadEntamoebaHistolyticaCystRef,
+					"Entamoeba Histolytica Trophozoite": uploadEntamoebaHistolyticaTrophozoiteRef,
+					"Fecal Occult Blood": uploadFecalOccultRef,
+					"Giardia Lamblia Cyst": uploadGiardiaCystRef,
+					"Giardia Lamblia Trophozoite": uploadGiardiaTrophozoiteRef,
+					"Hookworm Ova": uploadHookwormRef,
+					"Fecalysis Macroscopic Examination": uploadMacroscopicFecalysisRef,
+					"Fecalysis Microscopic Examination": uploadMicroscopicFecalysisRef,
+					"Trichiuris trichiura Ova": uploadTrichiurisRef,
+					//Urine
+					"Casts": uploadCastsRef,
+					"Chemical Examination": uploadChemicalRef,
+					"Crystal": uploadCrystalRef,
+					"Urine Macroscopic Examination": uploadMacroscopicUrineRef,
+					"Urine Microscopic Examination": uploadMicroscopicUrineRef,
+					"Pregnancy Test": uploadPregnancyTestRef,
+				//Serology
+				"HBsAg (Hepatitis B Surface Antigen)": uploadHBsAGRef,
+				"Anti - HBS": uploadAntiHBSRef,
+				"Anti - HCV": uploadAntiHCVRef,
+				"Syphilis (Rapid Test)": uploadSyphilisRef,
+				"ASO (Antistreptolysin O Titer)": uploadASORef,
+				"RA/RF (Rheumatoid Factor)": uploadRheumatoidRef,
+				"CRP (C-Reactive Protein)": uploadCRPRef,
+				"Troponin - I": uploadTroponinRef,
+				"Dengue Duo": uploadDengueDuoRef,
+				"Typhoid Test": uploadTyphoidRef,
+				"Widal Test": uploadWidalTestRef,
+				"CK - MB": uploadCKMBRef,
+
+				"Blood Typing": uploadBloodTypeRef,
+				"Covid-19 Rapid Test": uploadCovidTestRef,
+				"Cross Matching": uploadCrossMatchingRef,
+				"Miscellaneous Form": uploadMiscellaneousRef,
+				
+			};
+
+    const printRef = labPrintRefs[data?.type?.name];
+            return (
+                // <Status status={data?.order_status} />
+				<span
+                    className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
+                    onClick={() => printReceipt.current.show(data)}
+                >
+                    <FlatIcon icon="rr-document" />
+                    {data?.type?.name === "CBC" ||
+					 data?.type?.name === "RBS" || 
+					 data?.type?.name === "FBS" 
+					 
+					 ? "Print" : "Print"}
+					
+                </span>
+            );
+
+        } else {
+            return
+				 <Status status={data?.order_status} />;
+
+
+		}
+        
+    } else if (data?.order_status === "for-result-reading") {
+        return (
+            <span
+                className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
+                onClick={() => printLabResultRef.current.show({...data, appointment})}
+            >
+                <FlatIcon icon="rs-document" />
+                View Result
+            </span>
+        );
+    } else {
+        return null;
+    }
+};
+
+
 	return (
 		
 		<div className="flex flex-col items-start px-2">
@@ -434,14 +558,14 @@ const ImagingOrders = (props) => {
 			)}
 			
 
-				<ActionBtn
+				{/* <ActionBtn
                 className="text-gray-700 flex items-center justify-end cursor-pointer hover:bg-green-600 py-2 rounded-3xl gap-2"
                 onClick={() => printReceipt.current.show({...data, appointment})}
 				type="secondary"
             >
                 <FlatIcon icon="rs-document" />
                 Print Receipt
-            	</ActionBtn>
+            	</ActionBtn> */}
 
 			
 			
@@ -503,6 +627,13 @@ const ImagingOrders = (props) => {
 								</div>
 							);
 						},
+					},
+					{
+						header: "Print",
+						className: "text-left",
+						tdClassName: "text-left",
+						key: "order_status",
+						cell: renderPrintCell,
 					},
 					{
 						header: "Status",
@@ -571,9 +702,20 @@ const ImagingOrders = (props) => {
 				ref={createLabOrderRef}
 			/>
 
-			<ImagingReceipt
+			{/* <LaboratoryReceipt
+				
 				patient={patient}
 				onSuccess={() => {
+					onUploadLabResultSuccess();
+					reloadData();
+				}}
+				// ref={printReceipt}
+			/> */}
+
+			<ImagingReceiptModal
+				patient={patient}
+				onSuccess={() => {
+					onUploadLabResultSuccess();
 					reloadData();
 				}}
 				ref={printReceipt}

@@ -1,49 +1,50 @@
 /* eslint-disable react/prop-types */
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import FlatIcon from "../../../../components/FlatIcon";
 
 const uniqID = uuidv4();
+
 const TH = (props) => {
 	const { col, onSort } = props;
 	const [direction, setDirection] = useState(null);
+
+	// Toggle sorting direction between asc, desc, and null
 	const triggerDirection = useCallback(() => {
-		setDirection((prevDirection) =>
-			prevDirection == null ? "desc" : direction == "desc" ? "asc" : null
+		setDirection((prevDirection) => 
+			prevDirection == null ? "asc" : prevDirection === "asc" ? "desc" : null
 		);
-	}, [direction]);
+	}, []);
 
 	return (
 		<th
-			className={`${col?.className} ${
-				col?.sortable ? "cursor-pointer" : ""
-			}`}
+			className={`${col?.className} ${col?.sortable ? "cursor-pointer" : ""}`}
 			onClick={() => {
 				if (col?.sortable) {
+					const newDirection = direction === "asc" ? "desc" : "asc";
 					triggerDirection();
 					if (onSort) {
-						onSort(col?.key, direction);
+						onSort(col?.key, newDirection);
 					}
 				}
 			}}
 		>
 			<div className="relative text-xs">
 				{col?.header}
-				{col?.sortable ? (
-					<span className="flex flex-row right-1 top-[-2px] scale-125">
-						
-						
+				{col?.sortable && (
+					<span className="ml-2 text-sm">
+						{/* Display the sorting direction */}
+						{direction === "asc" ? "▲" : direction === "desc" ? "▼" : ""}
 					</span>
-				) : (
-					""
 				)}
 			</div>
 		</th>
 	);
 };
+
 const TotalAmount = (props) => {
 	const {
-		loading = true,
+		loading = false,
+		amount = 0,
 		className = "",
 		tableClassName = "",
 		theadClassName = "",
@@ -52,56 +53,46 @@ const TotalAmount = (props) => {
 		data = [],
 		onSort,
 	} = props;
+	const formattedAmount = isNaN(amount) ? 0 : parseFloat(amount).toFixed(2);
 	return (
-		<div className={`w-full   ${className}`}>
-			<table className=" flex flex-row">
-				<thead>
-					<tr>
-						{columns?.map((col, index) => {
-							return (
-								<TH
-									onSort={onSort}
-									key={`${uniqID}-th-${index}`}
-									col={col}
-								/>
-							);
-						})}
-					</tr>
-				</thead>
-				<tbody className="relative">
-					{loading ? (
-						<div className="flex items-center justify-start py-3 px-2  text-xs absolute ml-[5px] w-[200px] top-0 left-0 h-full  bg-gray-200 rounded-xl text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
-							Loading Total Amount...
-						</div>
-					) : data?.length == 0 ? (
+		<div className={`w-full ${className}`}>
+			{loading && (
+				<div className="flex items-center justify-start py-3 px-2 text-xs absolute ml-[5px] w-[200px] top-0 left-0 h-full bg-gray-200 rounded-xl text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
+					Loading Total Amount...
+				</div>
+			)}
+			{!loading && data.length === 0 && (
+				<div className="text-center py-4">No data to display.</div>
+			)}
+			{!loading && data.length > 0 && (
+				<table className={`w-full ${tableClassName}`}>
+					<thead className={theadClassName}>
 						<tr>
-							<td colSpan={9999}>No data to display.</td>
+							{columns.map((col, index) => (
+								<TH key={`${uniqID}-th-${index}`} col={col} onSort={onSort} />
+							))}
 						</tr>
-					) : (
-						data?.map((rowData, trIndex) => {
-							return (
-								<tr key={`${uniqID}-tr-${trIndex}`}>
-									{columns?.map((col, tdIndex) => {
-										return (
-											<td
-												key={`${uniqID}-td-${trIndex}-${tdIndex}`}
-												className={`w-[150px] ${col?.tdClassName}`}
-											>
-												{col?.cell
-													? col?.cell(rowData)
-													: rowData[col?.key]}
-											</td>
-										);
-                                        
-									})}
-                                   
-								</tr>
-                                
-							);
-						})
-					)}
-				</tbody>
-			</table>
+					</thead>
+					<tbody className={tbodyClassName}>
+						{data.map((rowData, trIndex) => (
+							<tr key={`${uniqID}-tr-${trIndex}`}>
+								{columns.map((col, tdIndex) => (
+									<td
+										key={`${uniqID}-td-${trIndex}-${tdIndex}`}
+										className={`w-[150px] ${col?.tdClassName}`}
+									>
+										{col?.cell ? col.cell(rowData) : rowData[col?.key]}
+									</td>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			)}
+			{/* Display the total amount */}
+			<div className="text-right font-bold text-lg mt-1">
+			Total Amount: ₱ {formattedAmount}
+			</div>
 		</div>
 	);
 };

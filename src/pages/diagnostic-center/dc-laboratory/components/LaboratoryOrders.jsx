@@ -134,10 +134,10 @@ const LaboratoryOrders = (props) => {
 	const { user } = useAuth();
 
 	const isLaboratoryUser = () => {
-		return user?.type == "DC-NURSE" || user?.type == "DC-LABORATORY";
+		return user?.type == "DC-LABORATORY";
 	};
 	const isXrayUser = () => {
-		return user?.type === "HIS-IMAGING";
+		return user?.type === "DC-IMAGING";
 	};
 	const testHeader = isXrayUser() ? "Imaging Test" : "Laboratory Test";
 	const {
@@ -265,118 +265,122 @@ const LaboratoryOrders = (props) => {
 	};
 
 	const renderResultCell = (data) => {
-    if (data?.order_status === "pending") {
-        if (isLaboratoryUser()) {
-            const labModalRefs = {
-				//Chemistry
-                "FBS": uploadFBSRef,
-                "RBS": uploadRBSRef,
-                "Creatinine": uploadCreatinineRef,
-                "Uric Acid": uploadUricAcidRef,
-                "SGOT": uploadSGOTRef,
-                "SGPT": uploadSGPTRef,
-                "Alkaline Phos": uploadAlkalinePhosRef,
-                "LDH": uploadLDHRef,
-                "GGT": uploadGGTRef,
-                "Magnesium": uploadMagnesiumRef,
-                "Phophorus": uploadPhophorusRef,
-                "Amylase": uploadAmylaseRef,
-				"Culture and Sensitivity Initial Result": uploadcultureInitialRef,
-                "Lipid Profile": uploadLipidProfileRef,
-                "Electrolytes": uploadElectrolytesRef,
-                "Bilirubin": uploadBilirubinRef,
-                "Total Protein": uploadTotalProteinRef,
-                "Urea": uploadUreaRef,
-                "Oral Glucose Tolerance Test": uploadOralGlucoseRef,
-                "24 Hours Urine Creatinine Clearance": uploadUrineCreatinineRef,
-				//Hematology
-				"CBC": uploadCBCResultRef,
-                "Cuagulation Studies": uploadCuagulationStudiesRef,
-                "Differential Count": uploadDifferentialCountRef,
-                "Erythrocyte": uploadErythrocyteRef,
-                "Platelet Count": uploadPlateletCountRef,
-                "Red Cell Indices": uploadRedcellInficesRef,
-				"Rerticulocyte Count": uploadReticulocyteRef,
-				//Microbiology
-				"AFB Stain": uploadAFBStainRef,
-                "Culture Sensitivity Final Result": uploadCultureSensitivityFinalRef,
-                "Gram Stain": uploadGramStainRef,
-				"KOH": uploadKOHRef,
-				//Microscopy
-					//fecalysis
-					"Ascaris Lumbricoides Ova": uploadAscarisRef,
-					"Entamoeba Coli Cyst ": uploadEntomoebaCystRef,
-					"Entamoeba Coli Trophozoite": uploadEntomoebaTrophozoiteRef,
-					"Entamoeba Histolytica Cyst": uploadEntamoebaHistolyticaCystRef,
-					"Entamoeba Histolytica Trophozoite": uploadEntamoebaHistolyticaTrophozoiteRef,
-					"Fecal Occult Blood": uploadFecalOccultRef,
-					"Giardia Lamblia Cyst": uploadGiardiaCystRef,
-					"Giardia Lamblia Trophozoite": uploadGiardiaTrophozoiteRef,
-					"Hookworm Ova": uploadHookwormRef,
-					"Fecalysis Macroscopic Examination": uploadMacroscopicFecalysisRef,
-					"Fecalysis Microscopic Examination": uploadMicroscopicFecalysisRef,
-					"Trichiuris trichiura Ova": uploadTrichiurisRef,
-					//Urine
-					"Casts": uploadCastsRef,
-					"Chemical Examination": uploadChemicalRef,
-					"Crystal": uploadCrystalRef,
-					"Urine Macroscopic Examination": uploadMacroscopicUrineRef,
-					"Urine Microscopic Examination": uploadMicroscopicUrineRef,
-					"Pregnancy Test": uploadPregnancyTestRef,
-				//Serology
-				"HBsAg (Hepatitis B Surface Antigen)": uploadHBsAGRef,
-				"Anti - HBS": uploadAntiHBSRef,
-				"Anti - HCV": uploadAntiHCVRef,
-				"Syphilis (Rapid Test)": uploadSyphilisRef,
-				"ASO (Antistreptolysin O Titer)": uploadASORef,
-				"RA/RF (Rheumatoid Factor)": uploadRheumatoidRef,
-				"CRP (C-Reactive Protein)": uploadCRPRef,
-				"Troponin - I": uploadTroponinRef,
-				"Dengue Duo": uploadDengueDuoRef,
-				"Typhoid Test": uploadTyphoidRef,
-				"Widal Test": uploadWidalTestRef,
-				"CK - MB": uploadCKMBRef,
-
-				"Blood Typing": uploadBloodTypeRef,
-				"Covid-19 Rapid Test": uploadCovidTestRef,
-				"Cross Matching": uploadCrossMatchingRef,
-				"Miscellaneous Form": uploadMiscellaneousRef,
+		// Ensure data is not null or undefined
+		if (!data) return null;
+	
+		// Define modal references based on laboratory test types
+		const labModalRefs = {
+			// Chemistry
+			"FBS": uploadFBSRef,
+			"RBS": uploadRBSRef,
+			"Creatinine": uploadCreatinineRef,
+			"Uric Acid": uploadUricAcidRef,
+			"SGOT": uploadSGOTRef,
+			"SGPT": uploadSGPTRef,
+			"Alkaline Phos": uploadAlkalinePhosRef,
+			"LDH": uploadLDHRef,
+			"GGT": uploadGGTRef,
+			"Magnesium": uploadMagnesiumRef,
+			"Phosphorus": uploadPhophorusRef,
+			"Amylase": uploadAmylaseRef,
+			"Culture and Sensitivity Initial Result": uploadcultureInitialRef,
+			"Lipid Profile": uploadLipidProfileRef,
+			"Electrolytes": uploadElectrolytesRef,
+			"Bilirubin": uploadBilirubinRef,
+			"Total Protein": uploadTotalProteinRef,
+			"Urea": uploadUreaRef,
+			"Oral Glucose Tolerance Test": uploadOralGlucoseRef,
+			"24 Hours Urine Creatinine Clearance": uploadUrineCreatinineRef,
+			// Hematology
+			"CBC": uploadCBCResultRef,
+			"Coagulation Studies": uploadCuagulationStudiesRef,
+			"Differential Count": uploadDifferentialCountRef,
+			"Erythrocyte": uploadErythrocyteRef,
+			"Platelet Count": uploadPlateletCountRef,
+			"Red Cell Indices": uploadRedcellInficesRef,
+			"Reticulocyte Count": uploadReticulocyteRef,
+			// Microbiology
+			"AFB Stain": uploadAFBStainRef,
+			"Culture Sensitivity Final Result": uploadCultureSensitivityFinalRef,
+			"Gram Stain": uploadGramStainRef,
+			"KOH": uploadKOHRef,
+			// Microscopy
+			// Fecalysis
+			"Ascaris Lumbricoides Ova": uploadAscarisRef,
+			"Entamoeba Coli Cyst": uploadEntomoebaCystRef,
+			"Entamoeba Coli Trophozoite": uploadEntamoebaHistolyticaCystRef,
+			"Entamoeba Histolytica Cyst": uploadEntamoebaHistolyticaCystRef,
+			"Entamoeba Histolytica Trophozoite": uploadEntamoebaHistolyticaTrophozoiteRef,
+			"Fecal Occult Blood": uploadFecalOccultRef,
+			"Giardia Lamblia Cyst": uploadGiardiaCystRef,
+			"Giardia Lamblia Trophozoite": uploadGiardiaTrophozoiteRef,
+			"Hookworm Ova": uploadHookwormRef,
+			"Fecalysis Macroscopic Examination": uploadMacroscopicFecalysisRef,
+			"Fecalysis Microscopic Examination": uploadMicroscopicFecalysisRef,
+			"Trichiuris trichiura Ova": uploadTrichiurisRef,
+			// Urine
+			"Casts": uploadCastsRef,
+			"Chemical Examination": uploadChemicalRef,
+			"Crystal": uploadCrystalRef,
+			"Urine Macroscopic Examination": uploadMacroscopicUrineRef,
+			"Urine Microscopic Examination": uploadMicroscopicUrineRef,
+			"Pregnancy Test": uploadPregnancyTestRef,
+			// Serology
+			"HBsAg (Hepatitis B Surface Antigen)": uploadHBsAGRef,
+			"Anti - HBS": uploadAntiHBSRef,
+			"Anti - HCV": uploadAntiHCVRef,
+			"Syphilis (Rapid Test)": uploadSyphilisRef,
+			"ASO (Antistreptolysin O Titer)": uploadASORef,
+			"RA/RF (Rheumatoid Factor)": uploadRheumatoidRef,
+			"CRP (C-Reactive Protein)": uploadCRPRef,
+			"Troponin - I": uploadTroponinRef,
+			"Dengue Duo": uploadDengueDuoRef,
+			"Typhoid Test": uploadTyphoidRef,
+			"Widal Test": uploadWidalTestRef,
+			"CK - MB": uploadCKMBRef,
+			"Blood Typing": uploadBloodTypeRef,
+			"Covid-19 Rapid Test": uploadCovidTestRef,
+			"Cross Matching": uploadCrossMatchingRef,
+			"Miscellaneous Form": uploadMiscellaneousRef,
+		};
+	
+		// Handle different order statuses
+		if (data.order_status === "pending") {
+			if (isLaboratoryUser()) {
+				const modalRef = labModalRefs[data.type.name] || uploadLabResultRef;
+	
+				return (
+					<span
+						className="text-teal-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
+						onClick={() => modalRef.current.show(data)}
+					>
+						<FlatIcon icon="rr-upload" />
+						{["CBC", "RBS", "FBS"].includes(data.type.name) ? "Add Result" : "Upload"}
+					</span>
+				);
+			} else if (isXrayUser()) {
+				// Handle Xray user scenario (if applicable)
+				return null; // Or your implementation for Xray users
+			} else {
+				return <Status status={data.order_status} />;
+			}
+		} else if (
 				
-			};
-
-    const modalRef = labModalRefs[data?.type?.name] || uploadLabResultRef;
-            return (
-                // <Status status={data?.order_status} />
-				<span
-                    className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
-                    onClick={() => modalRef.current.show(data)}
-                >
-                    <FlatIcon icon="rr-upload" />
-                    {data?.type?.name === "CBC" || data?.type?.name === "RBS" || data?.type?.name === "FBS" ? "Add Result" : "Upload"}
+				data.order_status === "for-result-reading") {
 					
-                </span>
-            );
-        } else {
-            return
-				 <Status status={data?.order_status} />;
-
-
+			return (
+				<span
+					className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
+					onClick={() => printLabResultRef.current.show({ ...data, appointment })}
+				>
+					<FlatIcon icon="rs-document" />
+					View Result
+				</span>
+			);
+		} else {
+			return null;
 		}
-        
-    } else if (data?.order_status === "for-result-reading") {
-        return (
-            <span
-                className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
-                onClick={() => printLabResultRef.current.show({...data, appointment})}
-            >
-                <FlatIcon icon="rs-document" />
-                View Result
-            </span>
-        );
-    } else {
-        return null;
-    }
-};
+	};
 
 const renderPrintCell = (data) => {
     if (data?.order_status === "pending") {
@@ -466,10 +470,15 @@ const renderPrintCell = (data) => {
                     onClick={() => printReceipt.current.show(data)}
                 >
                     <FlatIcon icon="rr-document" />
-                    {data?.type?.name === "CBC" || data?.type?.name === "RBS" || data?.type?.name === "FBS" ? "Print" : "Upload"}
+                    {data?.type?.name === "CBC" ||
+					 data?.type?.name === "RBS" || 
+					 data?.type?.name === "FBS" 
+					 
+					 ? "Print" : "Print"}
 					
                 </span>
             );
+
         } else {
             return
 				 <Status status={data?.order_status} />;

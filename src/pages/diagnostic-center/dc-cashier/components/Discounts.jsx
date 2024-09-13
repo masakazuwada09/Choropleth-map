@@ -1,20 +1,21 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../../hooks/useAuth";
-import useDataTable from "../../hooks/useDataTable";
-import AppLayout from "../../components/container/AppLayout";
-import Table from "../../components/table/Table";
-import ActionBtn from "../../components/buttons/ActionBtn";
-import FlatIcon from "../../components/FlatIcon";
-import Pagination from "../../components/table/Pagination";
-import TextInput from "../../components/inputs/TextInput";
-import PageTitle from "../../components/layout/PageTitle";
-import Axios from "../../libs/axios";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import LaboratoryTestFormModal from "./components/LaboratoryTestFormModal";
+import { useAuth } from "../../../../hooks/useAuth";
+import useDataTable from "../../../../hooks/useDataTable";
+import AppLayout from "../../../../components/container/AppLayout";
+import Table from "../../../../components/table/Table";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../components/FlatIcon";
+import Pagination from "../../../../components/table/Pagination";
+import TextInput from "../../../../components/inputs/TextInput";
+import PageTitle from "../../../../components/layout/PageTitle";
+import Axios from "../../../../libs/axios";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import LaboratoryTestFormModal from "../../../laboratory-tests/components/LaboratoryTestFormModal";
+import DiscountFormModal from "./modal/DiscountFormModal";
 const uniq_id = uuidv4();
-const LaboratoryTests = (props) => {
+const Discounts = (props) => {
 	const { patient } = props;
 	const { user } = useAuth();
 	const laboratoryTestFormRef = useRef(null);
@@ -70,7 +71,7 @@ const LaboratoryTests = (props) => {
 				<div className="sticky top-0 z-10 shadow py-4 px-5 flex items-center w-full bg-slate-100">
 					<PageTitle
 						icon={"rr-microscope"}
-						title={"Diagnosis Tests"}
+						title={"Discounts"}
 						subtitle={"Add, edit and view all tests."}
 					/>
 					<ActionBtn
@@ -81,7 +82,7 @@ const LaboratoryTests = (props) => {
 						}}
 					>
 						<FlatIcon icon="rr-layer-plus" className="mr-2" />
-						<span className="text-xs font-medium">Add</span>
+						<span className="text-xs font-medium">Add Discount</span>
 					</ActionBtn>
 					<div className="ml-5 lg:w-[256px]">
 						<TextInput
@@ -130,7 +131,7 @@ const LaboratoryTests = (props) => {
 								},
 							},
 							{
-								header: "Price Rate",
+								header: "Value",
 								className: "text-left",
 								tdClassName: "text-left",
 								sortable: true,
@@ -178,7 +179,7 @@ const LaboratoryTests = (props) => {
 					/>
 				</div>
 			</div>
-			<LaboratoryTestFormModal
+			<DiscountFormModal
 				ref={laboratoryTestFormRef}
 				onSuccess={() => {
 					reloadData();
@@ -186,27 +187,9 @@ const LaboratoryTests = (props) => {
 				healthUnits={healthUnits}
 			/>
 
-			{/* <RoomFormModal
-				ref={laboratoryTestFormRef}
-				onSuccess={() => {
-					reloadData();
-				}}
-				healthUnits={healthUnits}
-			/>
-			<ActivateRoomModal
-				ref={activateRoomFormRef}
-				onSuccess={() => {
-					reloadData();
-				}}
-			/>
-			<DeActivateRoomModal
-				ref={deactivateRoomFormRef}
-				onSuccess={() => {
-					reloadData();
-				}}
-			/> */}
+		
 		</AppLayout>
 	);
 };
 
-export default LaboratoryTests;
+export default Discounts;

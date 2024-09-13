@@ -148,7 +148,7 @@ const NurseAppointmentDetails = ({
 							<TabGroup
 								tabClassName={`py-1 shadow-lg `}
 								contentClassName={
-									"h-[600px] "
+									"h-[600px] overflow-auto"
 											} contents={[
 											{
 									title: (
@@ -230,7 +230,7 @@ const NurseAppointmentDetails = ({
 						</div>
 
 						<CollapseDiv
-							defaultOpen={true}
+							defaultOpen={false}
 							withCaret={true}
 							title="Personal / Social history"
 							headerClassName="bg-gray-200"

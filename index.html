@@ -3,22 +3,87 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
 	<link rel="icon" type="image/svg+xml" href="/logo.png" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Diagnostic Center</title>
+	<style>
+		/* Full-screen loader styling */
+		#loader-page {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: rgba(255, 255, 255, 0.7); /* Slight transparency */
+			backdrop-filter: blur(10px); /* Background blur */
+			z-index: 1000;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transition: opacity 0.5s ease-in-out;
+		}
+
+		/* Loader styling */
+		.container {
+			position: relative;
+			width: 50px;
+			height: 50px;
+		}
+
+		.react-logo {
+			width: 50px;
+			height: 50px;
+			border: 8px solid #61dafb;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			animation: spin 2s linear infinite;
+		}
+
+		.nucleo {
+			width: 10px;
+			height: 10px;
+			background-color: #61dafb;
+			border-radius: 10%;
+		}
+
+		/* Spin animation */
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
 </head>
 
 <body>
+	<!-- Loader Element -->
+	<div id="loader-page">
+		<div class="container">
+			<span class="react-logo">
+				<span class="nucleo"></span>
+			</span>
+		</div>
+	</div>
+
+	<!-- Root Element for React App -->
 	<div id="root"></div>
 
 	<script>
+		// Remove the loader after 2.5 seconds
 		document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("loader-page").style.opacity = 1;
 			setTimeout(() => {
 				document.getElementById("loader-page").style.opacity = 0;
+				setTimeout(() => {
+					document.getElementById("loader-page").style.display = 'none';
+				}, 500); // Ensure smooth transition
 			}, 2500);
 		});
 	</script>

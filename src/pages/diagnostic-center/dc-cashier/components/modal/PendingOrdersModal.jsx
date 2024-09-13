@@ -65,8 +65,6 @@ const PendingOrdersModal = (props, ref) => {
 	});
 	const [mount, setMount] = useState(0);
 	const [modalOpen, setModalOpen] = useState(false);
-	
-	
 
 	useEffect(() => {
 		let t = setTimeout(() => {

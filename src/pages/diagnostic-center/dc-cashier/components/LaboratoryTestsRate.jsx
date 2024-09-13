@@ -1,20 +1,20 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../../hooks/useAuth";
-import useDataTable from "../../hooks/useDataTable";
-import AppLayout from "../../components/container/AppLayout";
-import Table from "../../components/table/Table";
-import ActionBtn from "../../components/buttons/ActionBtn";
-import FlatIcon from "../../components/FlatIcon";
-import Pagination from "../../components/table/Pagination";
-import TextInput from "../../components/inputs/TextInput";
-import PageTitle from "../../components/layout/PageTitle";
-import Axios from "../../libs/axios";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import LaboratoryTestFormModal from "./components/LaboratoryTestFormModal";
+import { useAuth } from "../../../../hooks/useAuth";
+import useDataTable from "../../../../hooks/useDataTable";
+import AppLayout from "../../../../components/container/AppLayout";
+import Table from "../../../../components/table/Table";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../components/FlatIcon";
+import Pagination from "../../../../components/table/Pagination";
+import TextInput from "../../../../components/inputs/TextInput";
+import PageTitle from "../../../../components/layout/PageTitle";
+import Axios from "../../../../libs/axios";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import LaboratoryTestFormModal from "../../../laboratory-tests/components/LaboratoryTestFormModal";
 const uniq_id = uuidv4();
-const LaboratoryTests = (props) => {
+const LaboratoryTestsRate = (props) => {
 	const { patient } = props;
 	const { user } = useAuth();
 	const laboratoryTestFormRef = useRef(null);
@@ -209,4 +209,4 @@ const LaboratoryTests = (props) => {
 	);
 };
 
-export default LaboratoryTests;
+export default LaboratoryTestsRate;

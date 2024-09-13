@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Axios from "../../libs/axios";
 import TextInputField from "../../components/inputs/TextInputField";
+import HumanBiometric from "../../spline/components/HumanBiometric";
 
 const Login = () => {
 	const {
@@ -50,13 +51,17 @@ const Login = () => {
 
 	return (
 		<LayoutContainer>
+			<HumanBiometric 
+				
+			/>
 			<ToastContainer theme="colored" />
 			<div className=" z-20 mx-auto w-4/5 lg:w-[384px] p-11  absolute opacity rounded-xl flex flex-col items-center  bg-clip-padding shadow-lg">
-				<img
-					src="/diagnosislogo.png"
-					alt="gtc-logo"
-					className="w-[70px] mb-2"
-				/>
+			
+			<img
+	src="/diagnosislogo.png"
+	alt="gtc-logo"
+	className="w-[70px] mb-2 filter hue-rotate-[180deg] brightness-200"
+/>
 				<h5 className="text-gray-700 font-bold uppercase mb-5 ">
 					DIAGNOSTIC CENTER
 				</h5>

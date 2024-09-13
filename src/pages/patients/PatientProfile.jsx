@@ -28,6 +28,8 @@ import AddEmergencyCareModal from "../hims/his-er/modal/AddEmergencyCareModal";
 import CreateEmergencyCareModal from "../hims/his-er/modal/CreateEmergencyCareModal";
 import CreateTriageModal from "../hims/his-opd/modal/CreateTriageModal";
 import CreateDiagnosticModal from "../diagnostic-center/dc-nurse/components/modal/CreateDiagnosticModal";
+import NewPatientFormModal from "../../components/modal/NewPatientFormModal";
+import { data } from "autoprefixer";
 
 // import ReferToRHUModal from "./components/ReferToRHUModal";
 
@@ -46,6 +48,7 @@ const PatientProfile = (props) => {
 	const operationDeliveryRef = useRef(null);
 	const procedureChoiceRef = useRef(null);
 	const [patientSelfie, setPatientSelfie] = useState(null);
+  const newPatientFormRef = useRef(null);
 
 	return (
 		<div className="flex flex-col">
@@ -130,7 +133,7 @@ const PatientProfile = (props) => {
 	<span >{patient?.philhealth}</span>
 
   
-      <div className="flex items-center gap-2 text-base">
+      <div className="flex  items-center gap-2 text-base">
         {checkUserType("ER") && (
           <ActionBtn
             type="secondary"
@@ -205,6 +208,20 @@ const PatientProfile = (props) => {
             Create Operation
           </ActionBtn>
         )}
+
+        <ActionBtn
+          size="md"
+          type="primary"
+          onClick={() => {
+          newPatientFormRef.current.show(
+            patient
+          );
+            }}
+				>
+											<FlatIcon icon="rr-edit" />
+												  Edit Patient
+							</ActionBtn>
+            
       </div>
     </div>
   </div>
@@ -334,6 +351,11 @@ const PatientProfile = (props) => {
 
 				
 			</div>
+      <NewPatientFormModal
+				ref={newPatientFormRef}
+				patientSelfie={patientSelfie}
+        patient={patient}
+			/>
 			<CreateAppointmentsModal
 				referToRHURef={referToRHURef}
 				ref={createAppointmentRef}

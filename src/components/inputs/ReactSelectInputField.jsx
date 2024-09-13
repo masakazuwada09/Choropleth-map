@@ -154,8 +154,8 @@ const ReactSelectInputField = (props, ref) => {
 								: ""
 						}
 						classNamePrefix="react-select"
-						className={`react-select-container  text-xs ${selectClassName}`}
-						controlClassName={`text-xs flex flex-row duration-200 ${
+						className={`react-select-container text-xs ${selectClassName}`}
+						controlClassName={`text-xs flex flex-row duration-200 overflow-auto max-h-[300px] ${
 							icon && "pl-2 "
 						} ${error ? "error-input " : "default-input"} ${
 							label && "mt-2 text-xs "

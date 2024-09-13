@@ -26,6 +26,12 @@ const DCLabLinks = ({ isActive }) => {
 				text="Laboratory Queue"
 				counter={pending?.data?.length}
 			/>
+			<MenuLink
+				to="/laboratory-tests"
+				active={isActive("/laboratory-tests")}
+				icon="rr-microscope"
+				text="Laboratory Tests"
+			/>
 		</>
 	);
 };

@@ -132,7 +132,10 @@ const Patients = () => {
 						{patient ? (
 							<Fade 
 								key={`patient-profile-${patient?.id}`}>
-								<PatientProfile patient={patient} />
+								<PatientProfile 
+									patient={patient} 
+									newPatientFormRef={newPatientFormRef}
+								/>
 							</Fade>
 						) : (
 							""
@@ -142,6 +145,7 @@ const Patients = () => {
 			</div>
 			<NewPatientFormModal
 				ref={newPatientFormRef}
+				patient={patient}
 				patientSelfie={patientSelfie}
 			/>
 			<PrivacyPolicyModal
