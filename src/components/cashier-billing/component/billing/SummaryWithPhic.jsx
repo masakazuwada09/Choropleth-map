@@ -4,11 +4,30 @@ import { procedureRates } from "../../../../libs/procedureRates";
 import { caseCodes } from "../../../../libs/caseCodes";
 import { formatCurrency } from "../../../../libs/helpers";
 import InfoTextForSummary from "./InfoTextForSummary";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 /* eslint-disable react/prop-types */
 const uniq_id = uuidv4();
 const SummaryWithPhic = (props) => {
-	const { patient, appointment } = props;
+	const { patient, appointment, setSelectedCase, code = 0, } = props;
 	const [summaryData, setSummaryData] = useState(null);
+	useNoBugUseEffect({
+		functions: () => {
+			if (code && cases?.length > 0) {
+				let found = cases.find((x) => {
+					if (
+						String(x.CASE_CODE).toLowerCase() ==
+						String(code).toLowerCase()
+					) {
+						return x;
+					}
+				});
+				if (found) {
+					setSelectedCase(found);
+				}
+			}
+		},
+		params: [code],
+	});
 	useEffect(() => {
 		const fetchData = async () => {
 			try {

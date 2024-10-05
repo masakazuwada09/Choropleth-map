@@ -16,9 +16,9 @@ function HumanBiometric() {
   }
 
   return (
-    <div className = "absolute ml-[540px]" style={{ width: '100vw', height: '100vh' }}>
+    <div className = "absolute ml-[640px] mb-[150px]" style={{ width: '50vw', height: '60vh' }}>
       <Spline
-        scene="/src/spline/biometric_scan.spline"
+        scene="/src/spline/biometric.spline"
         onLoad={onLoad}
       />
     </div>

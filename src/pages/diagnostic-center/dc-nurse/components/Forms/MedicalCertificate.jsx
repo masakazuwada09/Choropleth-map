@@ -88,8 +88,6 @@ const MedicalCertificate = (props, ref) => {
     const [imageSrc, setImageSrc] = useState(null);
     const [isMinimized, setIsMinimized] = useState(true);
 	  const [position, setPosition] = useState({ x: 5, y: 0 });
-    const [showEmploymentSection, setShowEmploymentSection] = useState(false);
-    const [showDiagnosisSection, setDiagnosisSection] = useState(false)
     const [selectedOption, setSelectedOption] = useState("");
     const { control, handleSubmit } = useForm();
     const [fitToWork, setFitToWork] = useState("");

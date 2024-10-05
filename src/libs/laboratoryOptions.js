@@ -6,11 +6,11 @@ export const payment = [
 	},
 	
 ]
-export const filter_order = [
+export const delete_order = [
 	{
-		label: "Filter Order",
-		value: "Filter Order",
-		name: "Filter Order",
+		label: "Delete order(s)",
+		value: "Delete",
+		name: "Delete",
 	},
 	
 ]

@@ -123,20 +123,20 @@ const toggleTheme = () => {
 	return (
 		<>
 			<div className="flex ">
-				<div className=" h-full w-full dark:!bg-blue-500 duration-500 dark:text-white z-10  duration-400 drop-shadow-[0_0px_20px_rgba(0,0,0,0.10)] border-b">
-					<div className="flex gap-2 w-full justify-between px-5 py-3">
+				<div className=" h-full w-full dark:!bg-blue-500 duration-500 dark:text-white  duration-400 drop-shadow-[0_0px_20px_rgba(0,0,0,0.10)] border-b ">
+					<div className="flex gap-2 w-full justify-between px-5 py-3 ">
 						<div className="flex flex-row">
 						
 							<div
-							className={`text-gray-600 dark:!text-white text-xl cursor-pointer ${
-								sidebarOpen ? "" : "-left-[47px] -top-[-15px] absolute opacity-90  "
+							className={`text-gray-600 dark:!text-white text-xl cursor-pointer  ${
+								sidebarOpen ? "" : " -left-[4px] absolute opacity-90  "
 								  }`}
 								  onClick={() => {
 									setSidebarOpen((prevVal) => !prevVal);	
 								}}
 							>
 								<FlatIcon
-
+									
 									icon="fi fi-rr-menu-burger"
 								
 								/>

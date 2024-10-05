@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react-refresh/only-export-components */
-import {
+import React, {
 	Fragment,
 	forwardRef,
 	useEffect,
@@ -11,7 +11,7 @@ import {
 import { Dialog, Transition } from "@headlessui/react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import LaboratoryOrders from "./patient-modules/LaboratoryOrders";
+import LaboratoryOrders from "../pages/diagnostic-center/dc-doctor/components/LaboratoryOrders";
 import ActionBtn from "./buttons/ActionBtn";
 
 const PendingOrdersModal = (props, ref) => {

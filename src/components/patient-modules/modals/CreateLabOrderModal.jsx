@@ -29,6 +29,7 @@ import FlatIcon from "../../FlatIcon";
 import useDataTable from "../../../hooks/useDataTable";
 import Table from "../../table/Table";
 import TextInput from "../../inputs/TextInput";
+import LoadingScreen from "../../loading-screens/LoadingScreen";
 const uniq_id = uuidv4();
 // ... existing code ...
 
@@ -81,13 +82,17 @@ const CreateLabOrderModal = (props, ref) => {
 	const [filteredTests, setFilteredTests] = useState([])
 	const [searchQuery, setSearchQuery] = useState("");
 	const [isGridView, setIsGridView] = useState(true);
+	const [full, setFull] = useState(false);
+	const [selectionCounts, setSelectionCounts] = useState({});
+	const [recentTest, setRecentTest] = useState(null);
 	
 	useImperativeHandle(ref, () => ({
 	  show: show,
 	  hide: hide,
 	}));
-  
+	
 	const show = (data, appointmentData, type = null) => {
+	  setFull(false);
 	  setLabType(type);
 	  getLaboratoryTests(type);
 	  setShowData(data);
@@ -111,12 +116,72 @@ const CreateLabOrderModal = (props, ref) => {
 	  });
 	  setSelectedTest(null); // Reset selected test
 	};
-  
+	useEffect(() => {
+		// Load frequently selected or recent test from localStorage on mount
+		const storedCounts = JSON.parse(localStorage.getItem("selectionCounts")) || {};
+		const lastSelected = JSON.parse(localStorage.getItem("recentTest")) || null;
+		setSelectionCounts(storedCounts);
+		setRecentTest(lastSelected);
+	}, []);
+	
+	useEffect(() => {
+		// Update selection counts in localStorage
+		localStorage.setItem("selectionCounts", JSON.stringify(selectionCounts));
+	}, [selectionCounts]);
+	
+	useEffect(() => {
+		// Automatically select the most frequent or recent test in the filtered list when in Grid view
+		if (isGridView && filteredTests.length > 0) {
+			let testToSelect = null;
+	
+			// 1. If recentTest exists and is part of the filteredTests, select it
+			if (recentTest && filteredTests.some(test => test.id === recentTest.id)) {
+				testToSelect = recentTest;
+			}
+	
+			// 2. If no recentTest or it's not in the current filtered list, select the most frequent one
+			if (!testToSelect) {
+				testToSelect = filteredTests.reduce((prev, curr) => {
+					const prevCount = selectionCounts[prev.id] || 12;
+					const currCount = selectionCounts[curr.id] || 10;
+					return currCount > prevCount ? curr : prev;
+				}, filteredTests[0]);
+			}
+	
+			// Automatically select the determined test
+			setSelectedTest(testToSelect);
+		}
+	}, [filteredTests, isGridView, recentTest, selectionCounts]);
+
+	const handleTestSelect = (test) => {
+		// When a test is selected, update the recentTest and increment the count for that test
+		setSelectedTest(test);
+		setRecentTest(test);
+		localStorage.setItem("recentTest", JSON.stringify(test));
+	
+		// Update the selection count for this test
+		setSelectionCounts(prevCounts => ({
+			...prevCounts,
+			[test.id]: (prevCounts[test.id] || 0) + 1
+		}));
+	};
+
 	const getLaboratoryTests = (type) => {
-		Axios.get(`/v1/laboratory/tests/list?type=${type}`).then((res) => {
-		  setTests(res.data.data);
-		  setFilteredTests(res.data.data); // Initialize filtered tests
-		});
+		// Set loading to true before starting the request
+		setLoading(true);
+		
+		Axios.get(`/v1/laboratory/tests/list?type=${type}`)
+		  .then((res) => {
+			setTests(res.data.data);
+			setFilteredTests(res.data.data); // Initialize filtered tests
+		  })
+		  .catch((error) => {
+			console.error("Failed to fetch laboratory tests", error);
+		  })
+		  .finally(() => {
+			// Set loading to false after the request is finished
+			setLoading(false);
+		  });
 	  };
 	const handleStop = (e, data) => {
 		setPosition({ x: data.x, y: data.y });
@@ -142,7 +207,13 @@ const CreateLabOrderModal = (props, ref) => {
 	};
   
 	const noHide = () => {};
-  
+	const handleDragStart = () => {
+		setIsDragging(true);
+	  };
+	
+	  const handleDragStop = () => {
+		setIsDragging(false);
+	  };
 	const sendToInfectious = (data) => {
 	  setLoading(true);
 	  let formdata = new FormData();
@@ -177,8 +248,13 @@ const CreateLabOrderModal = (props, ref) => {
 	  };
 
 	  const handleToggleView = () => {
-		setIsGridView(!isGridView); // Toggle between Grid and List view
-	  };
+	setIsGridView((prev) => !prev);
+	// Optionally select the first test when switching to grid view
+	if (!isGridView && filteredTests.length > 0 && !selectedTest) {
+		let testToSelect = recentTest || filteredTests[0]; // Fallback to the first test if no recentTest
+		setSelectedTest(testToSelect);
+	}
+};
   
 	return (
 	  <Transition appear show={modalOpen} as={Fragment}>
@@ -193,7 +269,7 @@ const CreateLabOrderModal = (props, ref) => {
 			leaveFrom="opacity-100"
 			leaveTo="opacity-0"
 		  >
-			<div className="fixed inset-0 bg-black bg-opacity-60  z-[300]" />
+			<div className="fixed inset-0  z-[300]" />
 		  </Transition.Child>
 		  <Draggable  
 
@@ -210,21 +286,33 @@ const CreateLabOrderModal = (props, ref) => {
 				leaveTo="opacity-0 scale-95"
 			  >
 		
-				<Dialog.Panel className="w-full lg:max-w-[630px] transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+				<Dialog.Panel className={`w-full ml-[850px] mt-[300px] border border-blue-200 transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all ${
+									full
+										? " lg:max-w-[500vw]"
+										: " lg:max-w-[30vw]"
+								} `}>
 				  <Dialog.Title
 					as="div"
-					className=" p-4 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
+					className=" p-3 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
 				  >
 					<div className="flex gap-4 items-end">
-					<span className="text-xl text-center font-bold  text-gray-600">
+					<span className="text-xl text-center font-bold  text-gray-700">
 					  Create{" "}
 					  {labType == "imaging" ? "Imaging" : "Laboratory"} Order
 					</span>
-					<span className="text-sm font-light text-gray-900 ">
-					  Complete form to create laboratory order
-					</span>
-					</div>
 					
+					</div>
+					<ActionBtn
+											type="foreground"
+											size="sm"
+											className="absolute top-4 right-24 "
+											onClick={() => {
+												setFull((prevVal) => !prevVal);
+											}}
+										>
+											<FlatIcon icon="br-expand-arrows-alt" />{" "}
+											Fullscreen
+										</ActionBtn>
 					<ActionBtn
 					  type="danger"
 					  size="sm"
@@ -263,7 +351,7 @@ const CreateLabOrderModal = (props, ref) => {
 					
 				<div className="flex justify-end">
 					<div className="w-[190px]"> 
-					{selectedTest && ( <div className="text-md text-gray-700 border p-3 shadow-xl"> 
+				{selectedTest && ( <div className="text-xs text-gray-700 border p-3"> 
 						<span>Price Rate: </span>
 						 <b>{selectedTest.lab_rate}</b> 
 			<button
@@ -288,8 +376,8 @@ const CreateLabOrderModal = (props, ref) => {
         
         <div className='shadow-card flex h-[46px] w-[82px] items-center justify-center rounded-md bg-white'>
           <span
-            className={`flex h-9 w-9 items-center justify-center rounded ${
-              !isGridView ? 'bg-primary text-white' : 'text-body-color'
+            className={`flex h-7 w-7 items-center justify-center rounded-sm ${
+              !isGridView ? 'border text-gray-600 shadow-inner duration-300 ease-in-out' : 'text-gray-400'
             }`}
           >
            <FlatIcon 
@@ -297,8 +385,8 @@ const CreateLabOrderModal = (props, ref) => {
 		   />
           </span>
           <span
-            className={`flex h-9 w-9 items-center justify-center rounded ${
-              isGridView ? 'bg-primary text-white' : 'text-body-color'
+            className={`flex h-7 w-7  items-center justify-center rounded-sm ${
+              isGridView ? 'border text-gray-600 shadow-inner duration-300 ease-in-out' : 'text-gray-400'
             }`}
           >
 			<FlatIcon 
@@ -315,47 +403,62 @@ const CreateLabOrderModal = (props, ref) => {
 
 				</div>
 				  
-				<div className="overflow-auto border px-2 bg-gray-100 py-4 ">
-				
-                {isGridView ? (
-                  <div className="grid grid-cols-4 gap-4 ">
-                    {filteredTests.map((test) => (
-                      <div
-                        key={test.id}
-                        className={`p-4 border rounded cursor-pointer ${
-                          selectedTest?.id === test.id
-                            ? "border-blue-500 bg-blue-100"
-                            : "border-gray-300"
-                        }`}
-                        onClick={() => setSelectedTest(test)}
-                      >
-                        <h1 className="text-md font-bold">{test.name}</h1>
-                        <p className="text-sm text-gray-700">
-                          Price: <b>₱{test.lab_rate}</b>
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
+				<div className="overflow-auto border px-2 bg-gray-200 py-2 shadow-inner h-[500px]">
+						{loading ? (
+							<div className="p-5 flex items-center justify-center w-full">
+							<h2 className="text-2xl font-bold animate-pulse flex items-center mt-[120px] gap-2">
+								<l-cardio
+								size="45"
+								stroke="4"
+								speed="0.90"
+								color="black"
+								></l-cardio>
+							</h2>
+							</div>
+						) : 
+							isGridView ? (
+							<div className="grid grid-cols-4 gap-2 ">
+								{filteredTests.map((test) => (
+								<div
+									key={test.id}
+									className={`p-3 bg-white border shadow-xl gap-2 flex flex-col justify-center items-center rounded cursor-pointer ${
+									selectedTest?.id === test.id
+										? "border-blue-500 !bg-blue-100"
+										: "border-gray-300"
+									}`}
+									onClick={() => setSelectedTest(test)}
+								>
+									<h1 className="text-xs font-bold">{test.name}</h1>
+									<p className="text-xs text-green-700">
+									Price: <b>₱{test.lab_rate}</b>
+									</p>
+								</div>
+								))}
+							</div>
+										) : (
                   <div className="flex flex-col gap-2 ">
                     {filteredTests.map((test) => (
                       <div
                         key={test.id}
-                        className={`p-4 border rounded cursor-pointer ${
+                        className={`p-3 bg-white flex flex-row justify-between border rounded cursor-pointer ${
                           selectedTest?.id === test.id
-                            ? "border-blue-500 bg-blue-100"
+                            ? "border-blue-500 !bg-blue-100"
                             : "border-gray-300"
                         }`}
-                        onClick={() => setSelectedTest(test)}
+                        onClick={() => handleTestSelect(test)}
                       >
                         <h1 className="text-md font-bold">{test.name}</h1>
-                        <p className="text-sm text-gray-700">
+                        <p className="text-md text-green-700">
                           Price: <b>₱{test.lab_rate}</b>
                         </p>
                       </div>
                     ))}
                   </div>
                 )}
+
+				
+                
+
               </div>
 				
 				

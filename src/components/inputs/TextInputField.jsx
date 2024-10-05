@@ -55,8 +55,8 @@ const TextInputField = (props, ref) => {
 					disabled={disabled}
 					className={`${
 						!error
-							? "bg-gray-50  border border-border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:!bg-white focus:border-blue-500 block w-full pr-3 py-2.5"
-							: "bg-red-50 border  border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:!bg-white pr-3 py-2.5 w-full"
+							? "bg-gray-50 text-xs  border border-border text-gray-900 focus:ring-blue-500 focus:!bg-white focus:border-blue-500 block w-full pr-1 py-1"
+							: "bg-red-50 border  border-red-500 text-red-900 placeholder-red-700 text-sm  focus:ring-red-500 focus:!bg-white pr-1 py-1 w-full"
 					} !bg-opacity-60 text-sm duration-200 ${
 						icon ? "pl-10" : " pl-3"
 					} ${inputClassName ? inputClassName : ""} ${

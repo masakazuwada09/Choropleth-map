@@ -9,7 +9,7 @@ import { useAuth } from '../../hooks/useAuth';
 import FlatIcon from '../../components/FlatIcon';
 import Img from '../../components/Img';
 import AppLayout from '../../components/container/AppLayout';
-import LaboratoryOrders from '../../components/patient-modules/LaboratoryOrders';
+import LaboratoryOrders from '../diagnostic-center/dc-doctor/components/LaboratoryOrders';
 import LaboratoryFinalReport from '../patient-lab-queue/components/LaboratoryFinalReport';
 import ImagingFinalReport from './ImagingFinalReport';
 import TextInput from '../../components/inputs/TextInput';

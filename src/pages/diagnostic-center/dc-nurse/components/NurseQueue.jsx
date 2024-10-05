@@ -38,7 +38,7 @@ const Status = ({ appointment }) => {
 			);
 		}
 		if (appointment?.status == "pending" && appointment?.vital_id != null) {
-			return <span className="text-orange-600">For Laboratory/Imaging</span>;
+			return <span className="text-teal-600">For Laboratory/Imaging</span>;
 		}
 		if (
 			appointment?.status == "pending-doctor-confirmation" &&
@@ -96,6 +96,7 @@ const NurseQueue = ({
 	referAction,
 	number,
 	selected,
+	date,
 	patientName,
 }) => {
 	const { user } = useAuth();
@@ -310,7 +311,7 @@ const NurseQueue = ({
 					</div>
 
 					{/* Handle */}
-				{/* <div
+				<div
                     className="w-1 bg-gray-100 cursor-col-resize justify-center items-center flex text-gray-400"
                     onMouseDown={() => {
                         isResized.current = true;
@@ -318,7 +319,7 @@ const NurseQueue = ({
                     }}
 					onDoubleClick={handleDoubleClick}
                 ><span className='bg-gray-200 rounded-sm h-12 flex justify-center items-center absolute mr-2 shadow-2xl border border-gray-300'>|</span>
-				</div> */}
+				</div>
 
 			<div className="p-2 h-full w-full">
 				<div className="grid grid-cols-1 lg:grid-cols-1 gap-1 divide-x">
@@ -381,7 +382,6 @@ const NurseQueue = ({
 									patient={appointment?.patient}
 									mutateAll={mutateAll}
 								/>
-		
 							</>
 							</Fade>
 						) : (

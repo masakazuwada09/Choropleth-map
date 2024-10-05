@@ -9,7 +9,6 @@ const CaseDetails = (props) => {
 		cases,
 		selectedCase: propSelectedCase,
 		title = "Details",
-		className =""
 	} = props;
 	const [selectedCase, setSelectedCase] = useState(propSelectedCase);
 	useNoBugUseEffect({
@@ -31,31 +30,31 @@ const CaseDetails = (props) => {
 		params: [code],
 	});
 	return (
-		<div className="  ">
-			<b className="text-gray-900 flex justify-start border-b border-gray-400 mb-3">{title}</b>
-			<table className="text-xs text-slate-900 mt-2">
-				<tbody className="">
-					<tr className="text-gray-950 flex flex-row">
-						<td className="font-bold flex justify-between ">CASE CODE</td>
-						<td className="absolute ml-[210px]">{selectedCase?.CASE_CODE}</td>
+		<div className="table table-bordered">
+			<b>{title}</b>
+			<table className="text-xs">
+				<tbody>
+					<tr>
+						<td className="font-medium">CASE CODE</td>
+						<td>{selectedCase?.CASE_CODE}</td>
 					</tr>
-					<tr className="text-gray-950 flex flex-row">
-						<td className="font-bold flex  justify-between">CASE DESCRIPTION</td>
-						<td className="absolute ml-[210px]">{selectedCase?.CASE_DESCRIPTION}</td>
+					<tr>
+						<td className="font-medium">CASE DESCRIPTION</td>
+						<td>{selectedCase?.CASE_DESCRIPTION}</td>
 					</tr>
-					<tr className="text-gray-950 flex flex-row">
-						<td className="font-bold flex  justify-between">CASE TYPE</td>
-						<td className="absolute ml-[210px]">{selectedCase?.CASE_TYPE}</td>
+					<tr>
+						<td className="font-medium">CASE TYPE</td>
+						<td>{selectedCase?.CASE_TYPE}</td>
 					</tr>
-					<tr className="text-gray-950 flex flex-row">
-						<td className="font-bold flex  justify-between">CASE RATE</td>
-						<td className="absolute ml-[210px]">{selectedCase?.CASE_RATE}</td>
+					<tr>
+						<td className="font-medium">CASE RATE</td>
+						<td>{selectedCase?.CASE_RATE}</td>
 					</tr>
-					<tr className="text-gray-950 flex flex-row">
-						<td className="font-bold flex  justify-between">
+					<tr>
+						<td className="font-medium">
 							PROFESSIONAL FEE(PF) SHARE
 						</td>
-						<td className="absolute ml-[210px]">
+						<td>
 							{selectedCase?.PROFESSIONAL_FEE_PF_SHARE
 								? `₱ ${formatCurrency(
 										selectedCase?.PROFESSIONAL_FEE_PF_SHARE
@@ -67,9 +66,9 @@ const CaseDetails = (props) => {
 						<td className="font-medium">HOSPITAL SHARE</td>
 						<td>{selectedCase?.HOSPITAL_SHARE}</td>
 					</tr> */}
-					<tr className="text-gray-950 flex flex-row">
-						<td className="font-bold flex  justify-between">CASE RATE CODE</td>
-						<td className="absolute ml-[210px]">{selectedCase?.CASE_RATE_CODE}</td>
+					<tr>
+						<td className="font-medium">CASE RATE CODE</td>
+						<td>{selectedCase?.CASE_RATE_CODE}</td>
 					</tr>
 				</tbody>
 			</table>

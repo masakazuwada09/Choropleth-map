@@ -55,9 +55,9 @@ const TotalAmount = (props) => {
 	} = props;
 	const formattedAmount = isNaN(amount) ? 0 : parseFloat(amount).toFixed(2);
 	return (
-		<div className={`w-full ${className}`}>
+		<div className={`w-[220px] ${className}`}>
 			{loading && (
-				<div className="flex items-center justify-start py-3 px-2 text-xs absolute ml-[5px] w-[200px] top-0 left-0 h-full bg-gray-200 rounded-xl text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
+				<div className="flex items-center justify-start py-3 px-2 text-xs w-[200px] top-0 left-0 h-full bg-gray-200 rounded-xl text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
 					Loading Total Amount...
 				</div>
 			)}

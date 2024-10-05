@@ -29,7 +29,7 @@ const LaboratoryTestFormModal = (props, ref) => {
 		formState: { errors },
 	} = useForm();
 	const [mount, setMount] = useState(0);
-	const [room, setRoom] = useState(null);
+	const [test, setTest] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	useEffect(() => {
 		let t = setTimeout(() => {
@@ -56,9 +56,9 @@ const LaboratoryTestFormModal = (props, ref) => {
 			}
 		}, 300);
 		if (showData?.id) {
-			setRoom(showData);
+			setTest(showData);
 		} else {
-			setRoom(null);
+			setTest(null);
 			reset({
 				name: "",
 				status: "active",
@@ -68,7 +68,6 @@ const LaboratoryTestFormModal = (props, ref) => {
 	const hide = () => {
 		setModalOpen(false);
 	};
-	const nohide = () => {};
 
 	const submit = (data) => {
 		let formData = new FormData();
@@ -79,16 +78,16 @@ const LaboratoryTestFormModal = (props, ref) => {
 		formData.append("type", data?.type);
 
 		let url = `v1/laboratory/tests/store`;
-		if (room?.id) {
-			url = `v1/laboratory/tests/update/${room?.id}`;
+		if (test?.id) {
+			url = `v1/laboratory/tests/update/${test?.id}`;
 			formData.append("_method", "PATCH");
 		}
 		Axios.post(url, formData).then((res) => {
 			setTimeout(() => {
-				if (room?.id) {
-					toast.success("Room updated successfully!");
+				if (test?.id) {
+					toast.success("Tests updated successfully!");
 				} else {
-					toast.success("Room created successfully!");
+					toast.success("Tests created successfully!");
 				}
 				if (onSuccess) {
 					onSuccess();
@@ -134,12 +133,12 @@ const LaboratoryTestFormModal = (props, ref) => {
 									className="py-3 px-4 flex flex-col border-b "
 								>
 									<span className="text-xl font-bold  text-blue-900">
-										{room?.id ? "Update " : "Create "}{" "}
+										{test?.id ? "Update " : "Create "}{" "}
 										Laboratory Test
 									</span>
 									<span className="text-sm font-light text-blue-900 ">
 										Complete form to{" "}
-										{room?.id ? "update " : "create new "}{" "}
+										{test?.id ? "update " : "create new "}{" "}
 										laboratory test
 									</span>
 								</Dialog.Title>

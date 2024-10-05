@@ -7,7 +7,7 @@ const usePharmaQueue = () => {
 		// error,
 		mutate: mutatePending,
 	} = useSWR(
-		"/v1/clinic/pharmacy-pending-signal-for-release?status=pending",
+		"/v1/clinic/pharmacy-pending-signal-for-release?status=pending-for-pharmacy-medicine-release",
 		() =>
 			Axios.get("/v1/clinic/pharmacy-pending-signal-for-release")
 				.then((res) => {
@@ -28,10 +28,11 @@ const usePharmaQueue = () => {
 		// error,
 		mutate: mutatePendingMedsRelease,
 	} = useSWR(
-		"/v1/clinic/pharmacy-pending-medicine-release?status=pending",
+		"/v1/clinic/pharmacy-pending-medicine-release",
 		() =>
 			Axios.get("/v1/clinic/pharmacy-pending-medicine-release")
 				.then((res) => {
+					console.log("PHARMACY RELEASEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", res.data);
 					return res.data;
 				})
 				.catch((error) => {
@@ -50,9 +51,9 @@ const usePharmaQueue = () => {
 		// error,
 		mutate: mutateNowServing,
 	} = useSWR(
-		"/v1/laboratory/get-queue",
+		"/v1/clinic/pharmacy-pending-medicine-release",
 		() =>
-			Axios.get("/v1/laboratory/get-queue")
+			Axios.get("/v1/clinic/pharmacy-pending-medicine-release")
 				.then((res) => {
 					console.log("res.data clinic/rhu-patient-queue", res.data);
 					return res.data;
@@ -73,8 +74,8 @@ const usePharmaQueue = () => {
 		mutatePending,
 		pendingMedsRelease,
 		mutatePendingMedsRelease,
-		// nowServing,
-		// mutateNowServing,
+		nowServing,
+		mutateNowServing,
 	};
 };
 

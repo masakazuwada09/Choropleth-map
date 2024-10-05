@@ -464,13 +464,13 @@ const CreateDiagnosticModal = (props, ref) => {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full overflow-auto lg:max-w-[75vw] lg:max-h-[30vw] transform  rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+							<Dialog.Panel className=" w-full lg:max-w-[75vw] lg:max-h-[40vw] transform  rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
 								<Dialog.Title
 									as="div"
 									className="py-3 px-4 flex flex-col border-b "
 								>
 									<span className="text-xl font-bold  text-blue-900">
-										Patient Diagnostic Form
+										Diagnostic Form
 									</span>
 									<span className="text-sm font-light text-blue-900 ">
 										Complete form to create patient diagnostic
@@ -484,12 +484,12 @@ const CreateDiagnosticModal = (props, ref) => {
 										CLOSE
 									</span>
 								</Dialog.Title>
-								<div className="px-6 pt-5 pb-7 grid grid-cols-1 lg:grid-cols-12 gap-5 relative ">
-									<div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 ">
+								<div className="px-6 pt-5 pb-7 grid grid-cols-1 lg:grid-cols-12 gap-5 ">
+									<div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-15 ">
 										{modalData?.patient ? (
 											<div className="lg:col-span-12 flex flex-col pb-4 ">
 												
-												<div className="flex !text-center gap-1">
+												<div className="flex !text-center gap-1 ">
 													<PatientInfo
 														patientSelfie={
 															patientSelfie
@@ -585,6 +585,8 @@ const CreateDiagnosticModal = (props, ref) => {
 											</div>
 										</div> */}
 									</div>
+
+								
 									{hasSymptoms > 3 ? (
 										<div className="lg:col-span-12 ">
 											<h4 className="border-y-2 text-base font-bold p-2 mb-4 lg:col-span-12">
@@ -650,12 +652,19 @@ const CreateDiagnosticModal = (props, ref) => {
 										</div>
 									) : (
 										<>
+										
+										<div className="lg:col-span-12 h-full flex flex-col overflow-y-scroll shadow-inner p-5 lg:max-h-[20vw]">
+											
 											<div className="lg:col-span-12">
 												<h4 className="border-y-2 text-base font-bold p-2 mb-0">
 													Diagnostic Information
 												</h4>
 											</div>
-											<div className="lg:col-span-6">
+											
+											
+												
+											
+											<div className="flex flex-col ">
 												<Controller
 													name="mode_of_consultation"
 													control={control}
@@ -786,6 +795,7 @@ const CreateDiagnosticModal = (props, ref) => {
 													/>
 												</div>
 											</div>
+											
 											<div className="lg:col-span-6">
 												<div className="flex items-center mb-3">
 													<div className="w-full">
@@ -2093,9 +2103,13 @@ const CreateDiagnosticModal = (props, ref) => {
 															)}
 														/>
 													</label>
+													</div>
 												</div>
-											</div>
-										</>
+												</div>
+												</>
+											
+											
+										
 									)}
 								</div>
 

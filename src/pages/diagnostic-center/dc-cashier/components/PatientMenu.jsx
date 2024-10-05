@@ -4,7 +4,7 @@ import FlatIcon from "../../../../components/FlatIcon";
 import Img from "../../../../components/Img";
 import useDataTable from "../../../../hooks/useDataTable";
 
-const PatientMenu = ( { patient, active = false, ...rest }, props) => {
+const PatientMenu = ( { patient, date, active = false, ...rest }, props) => {
 	const {
 		showTitle = true,
 		appointment,
@@ -55,12 +55,14 @@ const PatientMenu = ( { patient, active = false, ...rest }, props) => {
 	
 	
 	return (
+		
 		<div
 			className={`outline-none rounded-xl p-3 flex items-center gap-3 hover:bg-white cursor-pointer duration-300 border border-blue-300 hover:border-blue-500 hover:shadow-lg ${
 				active ? "bg-white !border-blue-500 shadow-lg " : ""
 			}`}
 			{...rest}
 		>
+			
 			<Img
 				src={patient?.avatar || ""}
 				type="user"
@@ -71,6 +73,7 @@ const PatientMenu = ( { patient, active = false, ...rest }, props) => {
 				<span className="text-base text-slate-800 font-semibold">
 					{patientFullName(patient)}
 				</span>
+				
 				<div className="flex lg:gap-4">
 					<div className="flex gap-4 text-sm text-slate-500 mb-1">
 						<div className="flex items-center gap-2 text-sm">
@@ -92,19 +95,25 @@ const PatientMenu = ( { patient, active = false, ...rest }, props) => {
 						/>
 						<span>{calculateAge(patient?.birthday)} yrs old</span>
 					</div>
+					
 				</div>
 				<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
 					<FlatIcon icon="rr-calendar" className="text-sm" />
 					<span>{formatDate(patient?.birthday)}</span>
 				</div>
 				<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-					<FlatIcon icon="fi fi-rr-money-bill-wave" className="text-sm text-red-400" /> 
+					<FlatIcon icon="fi fi-rr-money-bill-wave" className="text-sm text-teal-700" />
+					<span><h1>Pending</h1></span>
 					<div className="flex flex-col">
 					<span className="text-red-500 font-bold">{data?.type?.name}</span>
 					
 					</div>
 					
 				</div>
+				<span className="text-sm text-gray-500">
+				{date}
+				</span>
+				
 				
 			</div>
 		</div>

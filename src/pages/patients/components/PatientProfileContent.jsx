@@ -19,7 +19,7 @@ const TRow = ({ title, value }) => {
 };
 const PatientProfileContent = ({ patient }) => {
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 px-2 gap-2 w-full text-slate-500 bg-gray-50 shadow-lg overflow-y-scroll h-[740px]">
+		<div className="grid grid-cols-1 lg:grid-cols-2 p-5 shadow-inner gap-2 w-full text-slate-500 bg-gray-50 overflow-y-scroll h-[540px]">
 			<CollapseDiv
 				defaultOpen={true}
 				title="I. PERSONAL DETAILS"

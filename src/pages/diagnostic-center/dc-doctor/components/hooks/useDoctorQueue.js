@@ -7,9 +7,9 @@ const useDoctorQueue = () => {
 		// error,
 		mutate: mutatePending,
 	} = useSWR(
-		"/v1/clinic/doctor-for-result-reading",
+		"/v1/profile/diagnosis-patient-queue/",
 		() =>
-			Axios.get("/v1/clinic/doctor-for-result-reading")
+			Axios.get("/v1/profile/diagnosis-patient-queue")
 				.then((res) => {
 					console.log("RESULT_READINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG", res.data);
 					return res.data;

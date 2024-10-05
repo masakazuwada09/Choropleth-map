@@ -1,4 +1,4 @@
-import {
+import React, {
 	Fragment,
 	forwardRef,
 	useEffect,
@@ -8,7 +8,7 @@ import {
 import { Dialog, Transition } from "@headlessui/react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import LaboratoryOrders from "../../../../../components/patient-modules/LaboratoryOrders";
+import LaboratoryOrders from "../../../dc-doctor/components/LaboratoryOrders";
 import ActionBtn from "../../../../../components/buttons/ActionBtn";
 import Axios from "../../../../../libs/axios";
 import useDataTable from "../../../../../hooks/useDataTable";
@@ -34,6 +34,7 @@ const PendingOrdersModal = (props, ref) => {
 		onUploadLabResultSuccess,
 		order_id,
 	} = props;
+
 	const {
 		page,
 		setPage,
@@ -43,7 +44,6 @@ const PendingOrdersModal = (props, ref) => {
 		setLoading,
 		paginate,
 		setPaginate,
-		data : modalData,
 		setData,
 		column,
 		setColumn,
@@ -52,20 +52,19 @@ const PendingOrdersModal = (props, ref) => {
 		filters,
 		setFilters,
 		reloadData,
-	} = useDataTable
-	({
+	} = useDataTable({
 		url: `/v1/doctor/laboratory-order/patient/${patient?.id}`, 
 		defaultFilters: {
 			...(order_id ? { order_id: order_id } : {}),
-			...(laboratory_test_type
-				? { laboratory_test_type: laboratory_test_type }
-				: {}),
+			...(laboratory_test_type ? { laboratory_test_type: laboratory_test_type } : {}),
 			...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
 		},
 	});
+	const [showData, setShowData] = useState(null);
 	const [mount, setMount] = useState(0);
 	const [modalOpen, setModalOpen] = useState(false);
-
+	const [modalData, setModalData] = useState(null);
+	
 	useEffect(() => {
 		let t = setTimeout(() => {
 			setMount(1);
@@ -83,21 +82,23 @@ const PendingOrdersModal = (props, ref) => {
 	const show = (showData = null) => {
 		setModalOpen(true);
 		if (showData) {
-			setModalData(modalData);
+			setModalData(showData); // Ensure you are setting modalData correctly
 		}
+		console.log("PENDING DATA TO SEND ORDER SERVICE", showData); // Log the data received
 	};
 
 	const hide = () => {
 		setModalOpen(false);
 	};
+
 	const submit = () => {
-		let modalData = new FormData();
-		if (modalData.fn) {
-			modalData.fn();
+		let modalDataForm = new FormData();
+		if (modalData?.fn) {
+			modalData.fn(); // Call the function if it exists
 			hide();
 		}
 	};
-	
+
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" onClose={hide}>
@@ -137,15 +138,12 @@ const PendingOrdersModal = (props, ref) => {
 									</span>
 								</Dialog.Title>
 								<div className="pt-5 grid grid-cols-1 gap-5 relative">
-								{console.log(
-										"PENDING DATA TO SEND ORDER SERVICE",
-										modalData?.data
-									)}
+									{console.log("PENDING DATA TO SEND ORDER SERVICE", modalData)} {/* Log the modalData */}
 									<LaboratoryOrders
 										showTitle={false}
 										patient={patient}
 										laboratory_test_type={"all"}
-										appointment={modalData?.data}
+										appointment={appointment} // Ensure modalData is used correctly
 										allowCreate={false}
 									/>
 								</div>

@@ -56,7 +56,7 @@ const DoctorInQueueRegular = ({
 					className="absolute right-4 !rounded-3xl bg-teal-700 dark:!bg-blue-500"
 					onClick={acceptAction}
 				>
-					<FlatIcon icon="rr-check" className=" font-bold"  /> Accept
+					<FlatIcon icon="rr-user" className=" font-bold"  /> View
 				</ActionBtn>
 				
 			) : (

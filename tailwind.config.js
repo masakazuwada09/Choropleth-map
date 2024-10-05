@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+
 export default {
 	content: [
 		"./index.html",
@@ -65,7 +67,21 @@ export default {
 				dots: "radial-gradient(#333 1px, transparent 1px)",
 			  },
 		},
+		"animation": {
+		  shimmer: "shimmer 2s linear infinite"
+		},
+		"keyframes": {
+		  shimmer: {
+			from: {
+			  "backgroundPosition": "0 0"
+			},
+			to: {
+			  "backgroundPosition": "-200% 0"
+			}
+		  }
+		}
 	},
+	
 	variants: {},
 	plugins: [require("tw-elements-react/dist/plugin.cjs")],
 };

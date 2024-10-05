@@ -30,11 +30,13 @@ const LaboratoryTests = (props) => {
 		loading,
 		setLoading,
 		paginate,
+		test,
 		setPaginate,
 		data,
 		setData,
 		column,
 		setColumn,
+		laboratoryResult,
 		direction,
 		setDirection,
 		filters,
@@ -42,6 +44,7 @@ const LaboratoryTests = (props) => {
 	} = useDataTable({
 		url: `v1/laboratory/tests/list`,
 		defaultFilters: {
+			
 			key: uniq_id,
 		},
 	});
@@ -83,7 +86,7 @@ const LaboratoryTests = (props) => {
 						<FlatIcon icon="rr-layer-plus" className="mr-2" />
 						<span className="text-xs font-medium">Add</span>
 					</ActionBtn>
-					<div className="ml-5 lg:w-[256px]">
+					<div className="ml-5 ">
 						<TextInput
 							iconLeft={"rr-search"}
 							placeholder="Search..."
@@ -96,7 +99,21 @@ const LaboratoryTests = (props) => {
 						/>
 					</div>
 				</div>
-				<div className="px-5 py-5">
+			<div className="px-2 py-2 flex gap-2">
+				<div className="w-[100vh] border">
+					<div className="flex flex-col text-left">
+							<span className="font-bold -mb-1">
+								Send Order
+							</span>
+							<span className="text-[10px] font-light">
+							Patient
+						queue to
+						laboratory/imaging
+						</span>
+					</div>
+
+					</div>
+					<div className="w-full">
 					<Table
 						className={`pb-2`}
 						onSort={(column, direction) => {
@@ -176,6 +193,8 @@ const LaboratoryTests = (props) => {
 						pageSize={paginate}
 						setPageSize={setPaginate}
 					/>
+					</div>
+					
 				</div>
 			</div>
 			<LaboratoryTestFormModal

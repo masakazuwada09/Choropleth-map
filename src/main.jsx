@@ -60,6 +60,8 @@ import PatientPharmacyQueue from "./pages/diagnostic-center/dc-pharmacy/componen
 import PatientImaging from "./pages/diagnostic-center/dc-imaging/components/PatientImaging.jsx";
 import LaboratoryTestsRate from "./pages/diagnostic-center/dc-cashier/components/LaboratoryTestsRate.jsx";
 import Discounts from "./pages/diagnostic-center/dc-cashier/components/Discounts.jsx";
+import DiagnosisRate from "./pages/diagnostic-center/dc-doctor/components/DiagnosisRate.jsx";
+import InventoryPharmacy from "./pages/diagnostic-center/dc-doctor/components/InventoryPharmacy.jsx";
 
 
 
@@ -261,6 +263,10 @@ const router = createBrowserRouter(
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element = {<Patients />}></Route>
 				<Route path="nurse-queue" element = {<NurseQueue />}></Route>
+				<Route
+					path="laboratory-tests"
+					element={<LaboratoryTests />}
+				></Route>
 			</Route>
 			
 			<Route path="dc-doctor">
@@ -269,6 +275,14 @@ const router = createBrowserRouter(
 				<Route
 					path="patient-queue"
 					element={<DoctorQueue />}
+				></Route>
+				<Route
+					path="diagnosis-rate"
+					element={<DiagnosisRate />}
+				></Route>
+				<Route
+					path="inventory-pharmacy"
+					element={<InventoryPharmacy />}
 				></Route>
 			</Route>
 
@@ -325,7 +339,6 @@ const router = createBrowserRouter(
 				<Route path="patient-monitoring" element = {<PatientMonitoring />}></Route>
 			</Route>
 
-			
 			{/* <Route path="his-nurse">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>

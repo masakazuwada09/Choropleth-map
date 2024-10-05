@@ -81,6 +81,7 @@ const Prescription = (props, ref) => {
 	} = useForm();
 
 	const [showData, setShowData] = useState(null);
+	const [order, setOrder] = useState(null);
 	const [fitToWork, setFitToWork] = useState("");
 	const componentRef = React.useRef(null);
 	const [image, setImage] = useState(null);
@@ -322,25 +323,99 @@ const onHematologyChecked = (name) => {
 									</div>
 									
 									</div>
-                                    <div className="flex flex-row justify-center mt-5 border-b-slate-800 border-b border-spacing-10">
+                                    <div className="flex flex-row justify-center mt-5 border-b-slate-400 border-b border-spacing-10">
 										<div className="flex flex-row "></div>
                                    
                                    
                                     </div>
 
 									<div className="px-5  font-mono justify-center items-center">
-										<div className="flex flex-row items-end justify-start mt-5 font-bold text-gray-600">
+										<div className="flex flex-row items-end justify-start mt-5 ml-[10px] text-gray-700 w-full">
+											
+										<tbody>
+											<h1>
+												(Prescription)
+											</h1>
+										
+																	{appointment?.prescriptions?.map(
+																		(item) => {
+																			console.log("RESULT_READINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG", item
+																				);
+																			return (
+																				<>
+																					<tr
+																						key={`opri-${item?.id}`}
+																						className="text-sm font-bold text-gray-800 gap-12 flex ml-5 divide-x-2 space-x-28 justify-items-end"
+																					>
+
+																						<td>
+																						{item
+																						?.quantity}
+																						</td>
+																						<td>
+																							{
+																								item
+																									?.item
+																									?.unit_measurement
+																							}
+																						</td>
+																						<td>
+																							{
+																								item
+																									?.item
+																									?.code
+																							}
+																						</td>
+																						
+																						<td>
+																							{
+																								item
+																									?.item
+																									?.name
+																							}
+																						</td>
+																						
+																					</tr>
+																					<span className="py-5">
+																									{" "}
+																									Sign:
+																								</span>
+																								<div
+																									className="bg-gray-100 px-2"
+																									dangerouslySetInnerHTML={{
+																										__html: item?.details,
+																									}}
+																								></div>
+																					<tr>
+																						<td
+																							colSpan={
+																								3
+																							}
+																						>
+																							<div className="flex gap-12">
+																								
+																							</div>
+																						</td>
+																					</tr>
+																				</>
+																			);
+																		}
+																	)}
+																</tbody>
 						                     </div>
 
-											 <div className="flex flex-row items-start gap-4 ml-[160px]">
-                                                        
+											 <div className="flex flex-col items-start ml-[50px] mt-12 text-gray-700">
+											 <h1>
+												(Subscription)
+											</h1>
                                                         <div
-                                                            className="flex-1 text-justify font-qwitcher text-7xl text-gray-500" 
+                                                            className="flex-1 text-justify text-md font-medium ml-5 text-gray-800" 
                                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recommendation) }} 
                                                         />
                                                     </div>
-
-													<div className="flex flex-col items-center mt-[500px] ml-[450px]">
+											
+											
+													<div className="flex flex-col items-center mt-[300px]  ">
                                                 {imageSrc && (
                                                     <div className="  flex flex-col justify-end items-center">
                                                     <img
@@ -353,9 +428,35 @@ const onHematologyChecked = (name) => {
                                                 )}
                                                 <span className="border-t-gray-500 border-t px-9">Prescribed by: </span>
                                                 </div>
+
+
+														
+
+											<div className="ml-[650px] flex flex-col">
+												<span className="flex w-full">
+													℞ Number:<span className="underline" 
+													dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recommendation) }} 
+													/>
+												</span>
+
+												<span className="flex w-full">
+													S/N:<span className="underline" 
+													dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recommendation) }} 
+													/>
+												</span>
+
+												<span className="flex w-full">
+													Exp. Date:<span className="underline" 
+													dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(recommendation) }} 
+													/>
+												</span>
+												
+												
+											</div>
+											
+
 										</div>
 										
-
 									
 									
 
@@ -467,7 +568,7 @@ const onHematologyChecked = (name) => {
 
 									</div>
 
-									<Draggable>
+	<Draggable>
       <div className={`bg-gray-300 w-[3.5in] gap-y-2 border rounded-md py-2 px-2 shadow-2xl ml-[10px] mt-[10px] absolute ${isMinimized ? 'minimized' : ''}`}>
         <div className="flex justify-between">
           <h2 className="block text-sm font-xs leading-6 text-gray-800 font-semibold">
@@ -486,7 +587,6 @@ const onHematologyChecked = (name) => {
 
         {!isMinimized && (
           <>
-
 			<div className="border mt-7 rounded-lg px-2 shadow-lg py-2">
               <div className="flex flex-row gap-2 items-center">
                 <FlatIcon icon="fi fi-rr-edit" className="block text-xs font-sm leading-6 text-gray-900" />

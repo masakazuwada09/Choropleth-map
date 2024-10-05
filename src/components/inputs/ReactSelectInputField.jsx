@@ -89,8 +89,8 @@ const ReactSelectInputField = (props, ref) => {
 		});
 	console.log("optionsoptions", options);
 	return (
-		<form className={`${className} w-full text-xs`} autoComplete="off">
-			<label className="w-full">
+		<form className={`${className} w-full text-xs `} autoComplete="off">
+			<label className="w-full ">
 				{label && (
 					<span
 						className={`text-gray-700 dark:text-gray-700 mb-1 font-roboto ${
@@ -123,9 +123,9 @@ const ReactSelectInputField = (props, ref) => {
 								: ""
 						}
 						classNamePrefix="react-select"
-						className={`react-select-container text-xs ${selectClassName}`}
+						className={`react-select-container text-xs  ${selectClassName}`}
 						controlClassName={`text-xs flex flex-row  duration-200 ${
-							icon && "pl-7"
+							icon && "pl- "
 						} ${error ? "error-input" : "default-input"} ${
 							label && "mt-2"
 						} ${inputClassName}`}
@@ -156,7 +156,7 @@ const ReactSelectInputField = (props, ref) => {
 						classNamePrefix="react-select"
 						className={`react-select-container text-xs ${selectClassName}`}
 						controlClassName={`text-xs flex flex-row duration-200 overflow-auto max-h-[300px] ${
-							icon && "pl-2 "
+							icon && " "
 						} ${error ? "error-input " : "default-input"} ${
 							label && "mt-2 text-xs "
 						} ${inputClassName}`}

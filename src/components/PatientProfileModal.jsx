@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react-refresh/only-export-components */
-import {
+import React, {
 	Fragment,
 	forwardRef,
 	useEffect,
@@ -25,7 +25,7 @@ import PatientVitals from "./PatientVitals";
 import FlatIcon from "./FlatIcon";
 import Img from "./Img";
 import PatientPrescriptions from "./PatientPrescriptions";
-import LaboratoryOrders from "./patient-modules/LaboratoryOrders";
+import LaboratoryOrders from "../pages/diagnostic-center/dc-doctor/components/LaboratoryOrders";
 import AddPrescription from "../pages/department/his-md/components/AddPrescription";
 import TBConfirmation from "../pages/department/his-md/components/TBConfirmation";
 import AppointmentDetails from "../pages/appointments/components/AppointmentDetails";
@@ -182,8 +182,6 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 		</div>
 	);
 };
-
-
 
 const PatientProfileModal = (props, ref) => {
 	const { mutateAll, pendingOrdersRef } = props;

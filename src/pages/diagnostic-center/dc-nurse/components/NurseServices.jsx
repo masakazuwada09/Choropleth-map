@@ -177,7 +177,7 @@ const NurseServices = ({
 	  };
 	  const approveRelease = () => {
 		setLoading(true);
-		Axios.post(`v1/clinic/tb-approve-release-medication/${order?.id}`, {
+		Axios.post(`v1/clinic/tb-approve-release-medication/${appointment?.id}`, {
 			_method: "PATCH",
 		}).then((res) => {
 			toast.success(
@@ -704,7 +704,6 @@ const NurseServices = ({
 								<div className="overflow-x-auto transform ">
 								<div className="transform ">
 									<Diagnosis
-									
 									loading={loading}
 									appointment={appointment}
 									patient={appointment?.patient}
@@ -715,22 +714,18 @@ const NurseServices = ({
 							},
 							{
 								title: (
-									<MenuTitle src="/send-to-billing.png">
-									Send to Billing
-									</MenuTitle>
-								),
-								content: (
-									
-					<div className="flex items-center w-full justify-center pb-4 gap-4">
 						<ActionBtn
 							className="text-gray-700 flex items-center justify-center  cursor-pointer rounded-lg gap-2 "
 							onClick={approveRelease}
-							type="secondary"
+							type="teal"
 							>
 							<FlatIcon icon="rs-document" />
 							Send to Billing
 						</ActionBtn>
-					</div>
+								),
+								content: (
+									
+					""
 								),
 								},
 							
@@ -834,7 +829,6 @@ const NurseServices = ({
 							Send to Doctor
 							</ActionBtn>
 							</div>
-						
 						</div>
 
 							{/* <div className="flex justify-end">

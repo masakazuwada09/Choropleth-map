@@ -52,7 +52,7 @@ const TabGroupHorizontal = ({
 						}
 						as="div"
 						className={`p-0 duration-200 text-base rounded-xl flex flex-col overflow-auto ${contentClassName} ${
-							contentClassName?.includes("max-h")
+							contentClassName?.includes("max-h-[200px]")
 								? ""
 								: "min-h-[288px] max-h-[calc(100vh-428px)]"
 						}`}

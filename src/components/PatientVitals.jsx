@@ -126,7 +126,7 @@ const PatientVitals = (props) => {
 				<div className="p-5 flex items-center justify-center w-full">
 					<h2 className="text-2xl font-bold animate-pulse flex items-center gap-2">
 							<l-cardio
-							size="35"
+							size="65"
 							stroke="4"
 							speed="2" 
 							color="black" 

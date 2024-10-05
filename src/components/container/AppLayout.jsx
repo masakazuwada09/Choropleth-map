@@ -238,7 +238,7 @@ const AppLayout = (props) => {
 		</div>
 
 
-	<div className="h-full w-full ">
+	<div className="h-[100vh] w-full overflow-auto  flex flex-col ">
 
 		
 		<Header

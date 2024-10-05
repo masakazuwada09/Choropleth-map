@@ -18,6 +18,7 @@ import TemperatureChart from "./vitals/TemperatureChart";
 import GlucoseChart from "./vitals/GlucoseChart";
 import HumanBiometric from "../spline/components/HumanBiometric";
 import HumanLungs from "../spline/components/HumanLungs";
+import ThermoStat from "../spline/components/Thermostat";
 
 const PatientVitalCharts = (props) => {
 	const { patient, allowCreate } = props;
@@ -139,12 +140,16 @@ const PatientVitalCharts = (props) => {
 										/>
 										Temperature
 									</h3>
-
+									
 									<TemperatureChart
 										patient={patient}
-										w={512}
+										w={912}
 										h={384}
 									/>
+									<ThermoStat
+									className=""
+									/>
+									
 								</div>
 							),
 						},

@@ -27,10 +27,10 @@ const TH = (props) => {
 				}
 			}}
 		>
-			<div className="relative text-xs flex flex-col w-[210px]">
+			<div className="text-xs flex flex-col w-[125px]">
 				{col?.header}
 				{col?.sortable ? (
-					<span className="flex flex-col absolute right-1 top-[-2px] scale-125">
+					<span className="flex flex-col absolute  top-[-2px] scale-125">
 						<FlatIcon
 							icon="sr-caret-up"
 							className={`!-mt-0 ${
@@ -71,7 +71,7 @@ const PaymentTable = (props) => {
 		onSort,
 	} = props;
 	return (
-		<div className={`w-full ${className} ${tableClassName} ${theadClassName} ${tbodyClassName}`}>
+		<div className={`${className} ${tableClassName} ${theadClassName} ${tbodyClassName}`}>
 			<table className=" min-h-[70px]">
 				<thead className="">
 					<tr>
@@ -88,7 +88,7 @@ const PaymentTable = (props) => {
 				</thead>
 				<tbody className="relative">
 					{loading ? (
-						<div className="flex items-center justify-center  absolute top-0 left-0 h-full w-[700px] bg-gray-200  text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
+						<div className="flex items-center justify-center mt-1 absolute top-0 left-0 h-full w-[555px] bg-gray-200  text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
 							Loading Payment Details...
 						</div>
 					) : data?.length == 0 ? (
@@ -103,7 +103,7 @@ const PaymentTable = (props) => {
 										return (
 											<td
 												key={`${uniqID}-td-${trIndex}-${tdIndex}`}
-												className={`font-mono ${col?.tdClassName}`}
+												className={` ${col?.tdClassName}`}
 											>
 												{col?.cell
 													? col?.cell(rowData)

@@ -58,8 +58,8 @@ const Patients = () => {
 				icon="rr-users"
 			/> */}
 			<div className="p-4 h-full ">
-				<div className="grid grid-cols-1 lg:grid-cols-12">
-					<div className=" lg:col-span-4 xl:col-span-3 flex flex-col gap-y-4">
+				<div className="grid grid-cols-1 lg:grid-cols-12 ">
+					<div className=" lg:col-span-4 xl:col-span-3 flex flex-col gap-y-4 ">
 						<div className="flex items-center pr-4">
 							<div>
 								<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1 ">
@@ -128,7 +128,7 @@ const Patients = () => {
 							/>
 						</div>
 					</div>
-					<div className=" lg:col-span-8 xl:col-span-9">
+					<div className=" lg:col-span-8 xl:col-span-9 px-2">
 						{patient ? (
 							<Fade 
 								key={`patient-profile-${patient?.id}`}>

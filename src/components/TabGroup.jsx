@@ -108,7 +108,7 @@ const TabGroup = ({
 							selectedIndex == i ? "selected" : ""
 						}
 						as="div"
-						className={` mt-2 duration-200 text-base rounded-xl  flex flex-col ${contentClassName} ${
+						className={`px-1 duration-200 text-base rounded-xl  flex flex-col ${contentClassName} ${
 							contentClassName.includes("")
 								? ""
 								: ""

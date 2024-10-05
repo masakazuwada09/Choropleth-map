@@ -8,6 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import Axios from "../../libs/axios";
 import TextInputField from "../../components/inputs/TextInputField";
 import HumanBiometric from "../../spline/components/HumanBiometric";
+import Distorting from "../../spline/components/Distorting";
+import FlatIcon from "../../components/FlatIcon";
+import HumanLungs from "../../spline/components/HumanLungs";
 
 const Login = () => {
 	const {
@@ -20,6 +23,7 @@ const Login = () => {
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState("");
 	const submitBtnRef = useRef(null);
+	const [showPassword, setShowPassword] = useState(false);
 	// const [password, setPassword] = useState("");
 	const { login } = useAuth({
 		middleware: "guest",
@@ -48,12 +52,22 @@ const Login = () => {
 			toast.error("Login failed! Please check your credentials.");
 		}
 	};
-
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
 	return (
 		<LayoutContainer>
 			<HumanBiometric 
 				
 			/>
+
+			<HumanLungs 
+				
+				/>
+
+			{/* <Distorting
+				className="z-10" 
+				/> */}
 			<ToastContainer theme="colored" />
 			<div className=" z-20 mx-auto w-4/5 lg:w-[384px] p-11  absolute opacity rounded-xl flex flex-col items-center  bg-clip-padding shadow-lg">
 			
@@ -75,16 +89,23 @@ const Login = () => {
 						})}
 						error={errors?.username?.message}
 					/>
+					<div className="relative w-full mb-3">
 					<TextInputField
-						className="w-full mb-6"
-				
-						placeholder="Input password"
-						type="password"
-						error={errors?.password?.message}
-						{...register("password", {
-							required: "This field is required",
-						})}
-					/>
+							className="w-full pr-10"
+							placeholder="Input password"
+							type={showPassword ? "text" : "password"} // Toggle input type
+							error={errors?.password?.message}
+							{...register("password", {
+								required: "This field is required",
+							})}
+						/>
+						<span
+							className="absolute justify-center bg-teal-600 inset-y-0 right-0 flex items-center px-4 cursor-pointer"
+							onClick={togglePasswordVisibility}
+						>
+							{showPassword ? <FlatIcon className="text-teal-800" icon="fi fi-rs-crossed-eye"/> : <FlatIcon className="text-teal-300" icon="fi fi-rs-eye"/>} {/* Show eye icon */}
+						</span>
+						</div>
 					<ActionBtn
 						buttonType="submit"
 						type="teal"

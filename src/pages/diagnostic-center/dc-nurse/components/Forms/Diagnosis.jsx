@@ -43,6 +43,7 @@ import Img from "../../../../../components/Img";
 import InfoText from "../../../../../components/InfoText";
 import CaseDetails from "./CaseDetails";
 import { caseCodes } from "../../../../../libs/caseCodes";
+import AppointmentDetails from "../../../../appointments/components/AppointmentDetails";
 
 const laboratory_tests = chemistry?.map((data) => data?.name);
 
@@ -92,7 +93,22 @@ const Diagnosis = (props, ref) => {
 	const [hasChemistry, setHasChemistry] = useState(0);
 	const [hasHematology, setHasHematology] = useState(0);
 	const [isMinimized, setIsMinimized] = useState(true);
-  
+	const [stat, setStat] = useState(null);
+	
+	
+	useEffect(() => {
+        const fetchCaseCodes = async () => {
+            try {
+                const response = await Axios.get("/v1/doctor/diagnosis/list");
+                setCaseCodes(response.data.data); // Assuming the API response is in the format { data: [...] }
+                setFilteredTests(response.data.data);
+            } catch (error) {
+                console.error("Error fetching case codes", error);
+            }
+        };
+
+        fetchCaseCodes();
+    }, []);
 	const handleToggleAdvanced = () => {
 	  setShowAdvanced(!showAdvanced);
 	};
@@ -190,7 +206,8 @@ const approveRelease = () => {
         setOrder(null);
     });
 };
-	
+console.log("CASEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", caseCodes
+);
 	return (
 		<>
             <div className=" flex flex-row gap-y-4 relative gap-5">
@@ -334,26 +351,25 @@ const approveRelease = () => {
 														<div className="flex flex-col px-5 py-5 bg-[linear-gradient(to_right,_var(--tw-gradient-stops))] rounded-xl  ">
 															<div className="flex flex-row justify-between">
 															</div>
-															<div>
-															<CaseDetails
-																code={
-																	order?.diagnosis_code
-																}
-																title="Diagnosis Details"
+		
+																<CaseDetails
 																
+																code={
+																	appointment?.diagnosis_code
+																}
 																cases={
 																	caseCodes ||
 																	[]
 																}
-															/>
-															<InfoText
-																className=""
-																title="Diagnosed By"
-																value={doctorName(
-																	order?.prescribedByDoctor
-																)}
-															/>
-															</div>	
+																title="Diagnosis Details"
+																/>
+																		<InfoText
+																			className=""
+																			title="Diagnosed By"
+																			value={doctorName(appointment?.prescribedByDoctor)}
+																		/>
+															
+													
 														</div>	
 
 							<div className=" border border-gray-200 rounded-xl bg-gray-50">
@@ -365,7 +381,7 @@ const approveRelease = () => {
 														
 														title="Prescribed By"
 														value={doctorName(
-															order?.prescribedByDoctor
+															appointment?.prescribedByDoctor
 														)}
 													/>
 													</div>
@@ -388,7 +404,7 @@ const approveRelease = () => {
 																</tr>
 															</thead>
 															<tbody>
-																{order?.prescriptions?.map(
+																{appointment?.prescriptions?.map(
 																	(item) => {
 																		return (
 																			<>

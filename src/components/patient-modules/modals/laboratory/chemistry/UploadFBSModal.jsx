@@ -109,15 +109,7 @@ const UploadFBSModal = (props, ref) => {
 										})}
 										errors={errors?.fbs?.message}
 									/>
-									{/* <TextAreaField
-										label="Remarks"
-										placeholder=""
-                                        rows={3}
-										{...register("rcbc", {
-											required: "The rcbc is required.",
-										})}
-										errors={errors?.rcbc?.message}
-									/> */}
+									
 								</div>
 
 								<div className="px-4 py-4 border-t flex items-center justify-end bg-slate-">

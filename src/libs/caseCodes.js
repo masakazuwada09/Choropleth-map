@@ -2,7 +2,7 @@ export const caseCodes = [
 	{
 		CASE_CODE: "A00.0",
 		CASE_DESCRIPTION: "Cholera due to Vibrio cholerae 01",
-		CASE_TYPE: " biovar cholerae",
+		CASE_TYPE: "biovar cholerae",
 		CASE_RATE: "M",
 		PROFESSIONAL_FEE_PF_SHARE: "6000",
 		HOSPITAL_SHARE: "1800",

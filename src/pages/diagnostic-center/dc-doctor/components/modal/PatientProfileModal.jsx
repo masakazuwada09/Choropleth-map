@@ -20,8 +20,8 @@ import MenuTitle from "../../../../../components/buttons/MenuTitle";
 import PatientProfileDetails from "../../../../../components/PatientProfileDetails";
 import FlatIcon from "../../../../../components/FlatIcon";
 import PatientPrescriptions from "../../../../../components/PatientPrescriptions";
-import LaboratoryOrders from "../../../../../components/patient-modules/LaboratoryOrders";
-import AddPrescription from "../../../../department/his-md/components/AddPrescription";
+import LaboratoryOrders from "../LaboratoryOrders";
+import AddPrescription from "../AddPrescription";
 import TBConfirmation from "../../../../department/his-md/components/TBConfirmation";
 import AppointmentDetails from "../../../../appointments/components/AppointmentDetails";
 import PatientInfo from "../../../../patients/components/PatientInfo";
@@ -31,8 +31,7 @@ import PatientCSROrder from "../../../../department/his-nurse/components/Patient
 import PatientPharmacyOrder from "../../../../department/his-nurse/components/PatientPharmacyOrder";
 import MedicalCertificate from "../MedicalCertificate";
 
-
-const AppointmentData = ({ mutateAll, appointment = null }) => {
+const AppointmentData = ({ caseCodes, mutateAll, appointment = null }) => {
 	const {
 		register,
 		setValue,
@@ -44,6 +43,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 		formState: { errors },
 	} = useForm();
 	const [selectedItems, setSelectedItems] = useState([]);
+	const [selectedDiagnosis, setSelectedDiagnosis] = useState([]);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [diagnosis, setDiagnosis] = useState(null);
@@ -102,6 +102,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 			formData.append("type", "rhu");
 		}
 		formData.append("appointment_id", appointment?.id);
+		// formData.append("case_date", case_date);
 		formData.append("_method", "PATCH");
 		if (diagnosis) formData.append("diagnosis_code", diagnosis);
 		if (procedure) formData.append("procedure_code", procedure);
@@ -110,7 +111,8 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 			formData.append("inventory_id[]", data?.item?.inventory?.id);
 			formData.append("quantity[]", data.quantity);
 			formData.append("items[]", data?.item?.id);
-			formData.append("sig[]", data?.notes || "");
+			formData.append("sig[]", data?.notes || " ");
+			
 		});
 		// return;
 		Axios.post(`/v1/clinic/tb-prescribe/${appointment?.id}`, formData)
@@ -130,7 +132,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 	return (
 		<div className="">
 			
-			<div className="px-2">
+			<div className="">
 
 				<AppointmentDetails
 					appointment={appointment}
@@ -157,6 +159,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 								appointment?.prescribed_by == null) ||
 								appointment?.has_for_reading?.length > 0 ? (
 								<AddPrescription
+									caseCodes={caseCodes}
 									diagnosis={diagnosis}
 									setDiagnosis={setDiagnosis}
 									procedure={procedure}
@@ -165,6 +168,8 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 									setItems={setItems}
 									selectedItems={selectedItems}
 									setSelectedItems={setSelectedItems}
+									selectedDiagnosis={selectedDiagnosis}
+									setSelectedDiagnosis={setSelectedDiagnosis}
 									prescribeItems={prescribeItems}
 									loading={loading}
 								/>
@@ -269,7 +274,7 @@ const PatientProfileModal = (props, ref) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur z-20" />
+					<div className="fixed inset-0 bg-black opacity-70 backdrop-blur z-20" />
 				</Transition.Child>
 
 				<div className="fixed inset-0 overflow-y-auto !z-[100]">
@@ -284,7 +289,7 @@ const PatientProfileModal = (props, ref) => {
 							leaveTo="opacity-0 scale-95"
 						>
 							<Dialog.Panel
-								className={`w-full transform overflow-hidden rounded-xl bg-white text-left align-middle shadow-xl transition-all ${
+								className={`w-full transform overflow-hidden rounded-xl border bg-white text-left align-middle transition-all ${
 									full
 										? " lg:max-w-[99vw]"
 										: " lg:max-w-[80vw]"
@@ -292,7 +297,7 @@ const PatientProfileModal = (props, ref) => {
 							>
 								<Dialog.Title
 									as="div"
-									className="p-2 font-medium leading-6 flex relative flex-col items-start text-gray-900 bg-slate-50 border-b"
+									className="p-2 font-medium leading-6 flex relative flex-col items-start text-gray-900 bg-slate-100 border-b"
 								>
 									<span className="text-xl text-left font-bold  text-blue-900">
 										Patient Profile
@@ -321,18 +326,17 @@ const PatientProfileModal = (props, ref) => {
 										<FlatIcon icon="br-cross-small" /> Close
 									</ActionBtn>
 								</Dialog.Title>
-								<div className="flex flex-col relative min-h-[calc(100dvh-152px)] bg-slate-400">
+								<div className="flex flex-col relative min-h-[calc(100dvh-190px)] bg-slate-200">
 									<div className="flex flex-col">
-										<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-1 border-b md:justify-start bg-slate-50  h-full">
+										<div className="flex flex-col lg:flex-row gap-4 items-center px-2 pt-2 border-b md:justify-start bg-slate-50  h-full">
 											<PatientInfo 
 											patient={patient} 
 											
 											/>
-											<div className="flex items-center justify-end w-1/2 flex-wrap gap-3 ml-auto">
-												{showData?.status ==
-												"in-service-consultation" ? (
+											<div className="flex items-center justify-end flex-wrap gap-3 ml-auto">
+												
 													<>
-														<ActionBtn
+														{/* <ActionBtn
 															type="secondary"
 															loading={loading}
 															size="lg"
@@ -369,12 +373,9 @@ const PatientProfileModal = (props, ref) => {
 																	laboratory/imaging
 																</span>
 															</div>
-														</ActionBtn>
+														</ActionBtn> */}
 													</>
-												) : (
-													""
-												)}
-
+											
 												
 												{/* <ActionBtn
 															loading={

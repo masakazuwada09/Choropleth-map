@@ -12,6 +12,7 @@ const AppointmentStatus = ({
 				<span className="text-orange-500">
 					Pending for patient vitals
 				</span>
+				
 			);
 		}
 		if (appointment?.status == "pending-for-service" && appointment?.vital_id != null) {

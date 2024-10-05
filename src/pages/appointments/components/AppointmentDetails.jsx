@@ -126,7 +126,12 @@ const AppointmentDetails = ({
 						(appointment?.vital_id ||
 							appointment?.has_for_reading?.length) ? (
 								<>
-								<CollapseDiv
+								
+								{serviceComponent}
+
+								</>
+						) : (
+							<CollapseDiv
 								defaultOpen={true}
 								withCaret={true}
 								title="Diagnosis and Procedure"
@@ -135,19 +140,7 @@ const AppointmentDetails = ({
 							>
 								{serviceComponent}
 							</CollapseDiv>
-							{/* <CollapseDiv
-							defaultOpen={true}
-							withCaret={true}
-							title="Medical Certificate"
-							headerClassName="bg-blue-50"
-							bodyClassName="p-0"
-						>
-							{medicalcertificateComponent}
-						</CollapseDiv> */}
-								</>
 							
-						) : (
-							""
 						)}
 					</div>
 				</>

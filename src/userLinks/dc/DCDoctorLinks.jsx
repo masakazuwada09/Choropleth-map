@@ -30,6 +30,18 @@ const DCDoctorLinks = ({ isActive }) => {
 				text="Patient Queue"
 				counter={pending?.data?.length}
 			/>
+			<MenuLink
+				to="/diagnosis-rate"
+				active={isActive("/patient-queue")}
+				icon="rr-clipboard-list-check"
+				text="Diagnosis Rate"
+			/>
+			<MenuLink
+				to="/inventory-pharmacy"
+				active={isActive("/inventory-pharmacy")}
+				icon="rr-clipboard-list-check"
+				text="Inventory Pharmacy"
+			/>
 			
 			
 			

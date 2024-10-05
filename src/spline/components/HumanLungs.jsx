@@ -16,7 +16,7 @@ function HumanLungs() {
   }
 
   return (
-    <div className = "absolute ml-[350px] mt-[-180px]" style={{ width: '20vw', height: '40vh' }}>
+    <div className = "absolute mr-[290px] mt-[-380px]" style={{ width: '20vw', height: '40vh' }}>
       <Spline
         scene="/src/spline/human_lungs3.spline"
         onLoad={onLoad}

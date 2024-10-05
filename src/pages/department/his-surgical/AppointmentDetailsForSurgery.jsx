@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { viral_infectious } from "../../../libs/appointmentOptions";
 import AppLayout from "../../../components/container/AppLayout";
@@ -21,7 +21,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import useDoctorQueue from "../../../hooks/useDoctorQueue";
 import useLabQueue from "../../../hooks/useLabQueue";
 import Img from "../../../components/Img";
-import LaboratoryOrders from "../../../components/patient-modules/LaboratoryOrders";
+import LaboratoryOrders from "../../diagnostic-center/dc-doctor/components/LaboratoryOrders";
 import { Fade } from "react-reveal";
 import UploadLabResultModal from "../../../components/patient-modules/modals/UploadLabResultModal";
 import ActionBtn from "../../../components/buttons/ActionBtn";

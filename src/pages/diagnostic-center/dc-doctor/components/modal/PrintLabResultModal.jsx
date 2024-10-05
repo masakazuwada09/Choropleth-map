@@ -27,21 +27,21 @@ import {
 	timeII,
 	calculateHemoglobin,
 	calculateBMI, calculateBPMeasurement
-} from "../../../libs/helpers";
-import ActionBtn from "../../buttons/ActionBtn";
-import Axios from "../../../libs/axios";
-import TextInputField from "../../inputs/TextInputField";
-import ReactSelectInputField from "../../inputs/ReactSelectInputField";
-import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
-import ReactQuillField from "../../inputs/ReactQuillField";
-import ImagePicker from "../../inputs/ImagePicker";
-import InfoText from "../../InfoText";
-import InfoTextForBilling from "../../cashier-billing/component/billing/InfoTextForBilling";
-import InfoTextForPrint from "../../InfoTextForPrint";
+} from "../../../../../libs/helpers";
+import ActionBtn from "../../../../../components/buttons/ActionBtn";
+import Axios from "../../../../../libs/axios";
+import TextInputField from "../../../../../components/inputs/TextInputField";
+import ReactSelectInputField from "../../../../../components/inputs/ReactSelectInputField";
+import useNoBugUseEffect from "../../../../../hooks/useNoBugUseEffect";
+import ReactQuillField from "../../../../../components/inputs/ReactQuillField";
+import ImagePicker from "../../../../../components/inputs/ImagePicker";
+import InfoText from "../../../../../components/InfoText";
+import InfoTextForBilling from "../../../../../components/cashier-billing/component/billing/InfoTextForBilling";
+import InfoTextForPrint from "../../../../../components/InfoTextForPrint";
 import { useReactToPrint } from "react-to-print";
-import FlatIcon from "../../FlatIcon";
+import FlatIcon from "../../../../../components/FlatIcon";
 import QRCode from "qrcode.react";
-import CollapseDiv from "../../CollapseDiv";
+import CollapseDiv from "../../../../../components/CollapseDiv";
 
 const FormHeading = ({ title }) => {
 	return (
@@ -196,7 +196,7 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 	);
 };
 
-const ViewLabResultModal = (props, ref) => {
+const PrintLabResultModal = (props, ref) => {
 	const { loading: btnLoading, appointment, onSave} = props;
 	const { patient, onSuccess } = props;
 	const {
@@ -285,13 +285,13 @@ const ViewLabResultModal = (props, ref) => {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-[1500px] transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+							<Dialog.Panel className="w-[1100px] transform rounded-2xl bg-white text-left align-middle shadow-xl transition-all overflow-hidden h-[900px]">
 								<Dialog.Title
 									as="div"
 									className=" p-4 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
 								>
 									<span className="text-xl text-center font-bold  text-blue-900">
-										View Laboratory Result
+										Print Laboratory Result
 									</span>
 								</Dialog.Title>
 								<div className="p-6 flex flex-col gap-y-4 relative">
@@ -306,10 +306,10 @@ const ViewLabResultModal = (props, ref) => {
 </ActionBtn>
 
 <div
-className="bg-white p-[0.5in] w-[9.5in] gap-y-6 mx-auto "
+className="bg-white p-[0.5in] w-[9.5in] gap-y-6 mx-auto overflow-y-scroll h-[900px]"
 id="phic-form-printable" ref={componentRef}
 >
-<div className="bg-white flex flex-col w-[8.5in] min-h-[13in]  border-gray-200 border-2 rounded-2xl px-4 py-4">
+<div className="bg-white flex flex-col w-[8.5in] min-h-[13in]  border-gray-200 border-2 rounded-2xl px-4 py-4 ">
 	<div className="flex flex-row">
 		<div>
 			<img
@@ -338,6 +338,8 @@ id="phic-form-printable" ref={componentRef}
 			</p>
 		</div>
 
+		<div className="flex ml-[25px] items-start gap-2">
+			
 		{showData?.type?.name == "CBC" ? (
 		<div className="flex flex-col text-sm items-end ml-12">
 		  <h1 className="text-4xl font-bold mb-0 ">CBC</h1>
@@ -364,6 +366,14 @@ id="phic-form-printable" ref={componentRef}
 			</div>
 	) : ( ""
 		)}
+
+					<QRCode
+						value={`user-${showData?.receivedBy?.username}`}
+						level="H"
+						size={100}
+					/>
+		</div>
+		
 
 	</div>
 	
@@ -420,12 +430,6 @@ id="phic-form-printable" ref={componentRef}
 							Admission Date: {dateMMDDYYYY()}
 						</div> */}
 						
-						
-
-						
-						
-						
-                        
                         </div>
 
 						
@@ -434,6 +438,29 @@ id="phic-form-printable" ref={componentRef}
 
 
                     <div className="items-center">
+					<div className="flex flex-col border-b-2 p-2 text-sm relative ">
+						<b>IMPORTANT REMINDERS:</b>
+						<div className="absolute top-2 right-2 ">
+							<div className="flex items-center gap-2 ml-auto ">
+								
+								
+							</div>
+						</div>
+						<p className="text-xs ">
+							PLEASE WRITE IN CAPITAL <b>LETTERS</b> AND{" "}
+							<b>CHECK</b> THE APPROPRIATE BOXES.
+						</p>
+						<p className="text-xs">
+							All information, fields and trick boxes required in
+							this form are necessary. Claim forms with incomplete
+							information shall not be processed.
+						</p>{" "}
+						<b className="text-xs">
+							FALSE/INCORRECT INFORMATION OR MISREPRESENTATION
+							SHALL BE SUBJECT TO CRIMINAL, CIVIL OR
+							ADMINISTRATIVE LIABILITIES.
+						</b>
+					</div>
 
 		
                     </div>
@@ -441,43 +468,11 @@ id="phic-form-printable" ref={componentRef}
                 </div>
 	  		
 	  </div>
-	  <div className="flex flex-col text-center right-2 top-0">
-	  <p className="text-sm">Revised September 2018</p>
-					 <QRCode
-						value={`user-${showData?.receivedBy?.username}`}
-						level="H"
-						size={50}
-					/>
-		
-		 
-		  
-	  </div>
+	 
+	 
   </div>
 
-  <div className="flex flex-col border-b-2 p-2 text-sm relative ">
-	  <b>IMPORTANT REMINDERS:</b>
-	  <div className="absolute top-2 right-2 ">
-		  <div className="flex items-center gap-2 ml-auto ">
-			  
-			 
-		  </div>
-	  </div>
-	  <p className="text-xs ">
-		  PLEASE WRITE IN CAPITAL <b>LETTERS</b> AND{" "}
-		  <b>CHECK</b> THE APPROPRIATE BOXES.
-	  </p>
-	  <p className="text-xs">
-		  All information, fields and trick boxes required in
-		  this form are necessary. Claim forms with incomplete
-		  information shall not be processed.
-	  </p>{" "}
-	  <b className="text-xs">
-		  FALSE/INCORRECT INFORMATION OR MISREPRESENTATION
-		  SHALL BE SUBJECT TO CRIMINAL, CIVIL OR
-		  ADMINISTRATIVE LIABILITIES.
-	  </b>
-  </div>
-
+ 
 
   							{showData?.type?.name == "CBC" ? (
 										<div className="px-5 py-5 font-mono justify-center items-center">
@@ -824,4 +819,4 @@ id="phic-form-printable" ref={componentRef}
 	);
 };
 
-export default forwardRef(ViewLabResultModal);
+export default forwardRef(PrintLabResultModal);

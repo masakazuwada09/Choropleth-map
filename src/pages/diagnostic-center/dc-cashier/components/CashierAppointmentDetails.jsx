@@ -22,7 +22,7 @@ import Axios from "../../../../libs/axios";
 import AppointmentStatus from "../../../../components/AppointmentStatus";
 import CashierApproval from "../../../appointments/components/CashierApproval";
 
-import LaboratoryOrders from '../../../../components/patient-modules/LaboratoryOrders';
+import LaboratoryOrders from '../../dc-doctor/components/LaboratoryOrders';
 import TabGroup from '../../../../components/TabGroup';
 import MenuTitle from '../../../../components/buttons/MenuTitle';
 import PatientProfileDetails from '../../../../components/PatientProfileDetails';

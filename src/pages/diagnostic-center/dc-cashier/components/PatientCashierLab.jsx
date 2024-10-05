@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from "react";
 import Axios from "../../../../libs/axios";
 import AppLayout from "../../../../components/container/AppLayout";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
@@ -13,6 +13,7 @@ import {
 	doctorSpecialty,
 	formatDate,
 	patientFullName,
+	formatDateTime
 } from "../../../../libs/helpers";
 import ReferToSPHModal from "../../../../components/modal/ReferToSPHModal";
 import { useAuth } from "../../../../hooks/useAuth";
@@ -47,11 +48,11 @@ import LoadingScreen from "../../../../components/loading-screens/LoadingScreen"
 import PatientMenu from "./PatientMenu";
 import LaboratoryOrders from "./LaboratoryOrders";
 import BillingStatement from "./BillingStatement";
+import CaseDetails from "../../dc-nurse/components/Forms/CaseDetails";
+import { caseCodes } from "../../../../libs/caseCodes";
 
 
-
-
-const PatientCashierLab = () => {
+const PatientCashierLab = (props, ref) => {
 	const {
 		data: patients,
 		setData: setPatients,
@@ -76,6 +77,7 @@ const PatientCashierLab = () => {
 		mutatePendingForResultReading,
 		mutateNowServing,
 	} = useCashierQueue();//cashier to pendingorder to laboratory to doctor
+	
 	const { pending, nowServing } = useCashierQueue();
 	const patientProfileRef = useRef(null);
 	const pendingOrdersRef = useRef(null);
@@ -89,8 +91,23 @@ const PatientCashierLab = () => {
 	const uploadLabResultRef = useRef(null);
 	const [selectedTab, setSelectedTab] = useState("");
 	const billingStatus = patient?.billing_status || "pending";
+	const [modalOpen, setModalOpen] = useState(false);
 	
 	
+	useImperativeHandle(ref, () => ({
+		show: show,
+		hide: hide,
+	}));
+
+	const show = (data) => {
+		setFull(false);
+		setShowData(data);
+		setPatient(data?.patient);
+		setModalOpen(true);
+	};
+	const hide = () => {
+		setModalOpen(false);
+	};
 
 	const listPending = () => {
 		return pending?.data || [];
@@ -105,6 +122,7 @@ const PatientCashierLab = () => {
 		setOrder(queue);
 		setPatient(queue?.relationships?.patient);
 	  };
+	  
 	
 	  const handleSearch = (e) => {
 		const keyword = e.target.value.toLowerCase();
@@ -144,7 +162,7 @@ const PatientCashierLab = () => {
 			/> */}
 			<div className="p-4  ">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x ">
-					<div className="lg:col-span-4 ">
+					<div className="lg:col-span-3">
 						<h1 className="text-lg font-semibold font-opensans text-gray-400 tracking-wider -mb-1">
 							Patient Queue
 						</h1>
@@ -158,7 +176,7 @@ const PatientCashierLab = () => {
                 onChange={handleSearch}
               />
             </div>
-			<div className="flex flex-col gap-y-4 relative  overflow-auto ">
+			<div className="flex flex-col gap-y-2 relative  overflow-auto ">
               {loading && <LoadingScreen />}
               <div className="flex flex-col gap-y-2 max-h-[calc(100vh-312px)] overflow-auto pr-5">
                 {filteredPatients.length === 0 ? (
@@ -170,8 +188,13 @@ const PatientCashierLab = () => {
                     const patientData = queue?.relationships?.patient;
                     return (
                       <PatientMenu
+					  	date={formatDateTime(
+						new Date(queue?.created_at)
+						)}
                         key={index}
-                        onClick={() => handlePatientClick(queue)}
+						
+                        onClick={() => {
+							handlePatientClick(queue)}}
                         patient={patientData}
                         active={queue?.id === patient?.id}
                         patientName={patientFullName(patientData)}
@@ -189,17 +212,17 @@ const PatientCashierLab = () => {
               />
             </div>
 					</div>
-					<div className="lg:col-span-8 pl-4  ">
-						<div className="flex items-center gap-4 pb-4 ">
-							<h1 className="text-lg font-semibold font-opensans text-gray-400 mb-1 ">
+					<div className="lg:col-span-7">
+						<div className="flex items-center">
+							<h1 className="text-lg font-semibold font-opensans text-gray-500 mb-1 ml-7">
 								In Service...
 							</h1>
 						</div>
 						<div className="">
 						{order?.relationships?.patient ? (
 								<Fade key={`order-${order?.id}`}>
-									<div className="flex flex-col items-center justify-center gap-2">
-										<div className="w-[840px] rounded-lg shadow-lg p-2">
+									<div className="flex flex-col items-center justify-start gap-2">
+										<div className="w-[840px] rounded-lg shadow-lg ">
 										<PatientInfo
 											patient={
 												order?.relationships?.patient
@@ -208,10 +231,15 @@ const PatientCashierLab = () => {
 										/>
 										</div>
 										
-										<div className="py-2 overflow-auto ">
+										<div className=" overflow-hidden">
 										{billingStatus === "pending" ? (
-											<div className="">
+											<>
+											
+											<div className="ml-[190px]">
+												
+											
 											<LaboratoryOrders
+												appointment={appointment}
 												pendingOrdersRef={pendingOrdersRef}
 												patient={
 													order?.relationships
@@ -219,16 +247,15 @@ const PatientCashierLab = () => {
 												}
 												mutateAll={mutateAll}
 											/>
-
-											<BillingStatement
+												</div>
+										<BillingStatement
 											loading={loading}
 											// onSave={cashierApproval}
 											appointment={appointment}
 											patient={patient}
-											/>
+										/>
 
-											
-											</div>
+												</>
                             
 						
                         ) : (
@@ -262,4 +289,4 @@ const PatientCashierLab = () => {
 	);
 };
 
-export default PatientCashierLab;
+export default forwardRef(PatientCashierLab);

@@ -3,12 +3,11 @@ import AppLayout from "../../../../components/container/AppLayout";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import PageHeader from "../../../../components/layout/PageHeader";
 import FlatIcon from "../../../../components/FlatIcon";
-import DoctorInQueueRegular from "../../../department/his-md/components/DoctorInQueueRegular";
+import DoctorInQueueRegular from "./modal/DoctorInQueueRegular";
 import useQueue from "../../../../hooks/useQueue";
 import {
 	formatDate,
 	formatDateTime,
-	patientRoomNumber,
 	patientFullName,
 } from "../../../../libs/helpers";
 import ReferToSPHModal from "../../../../components/modal/ReferToSPHModal";
@@ -16,13 +15,10 @@ import { useAuth } from "../../../../hooks/useAuth";
 import ConsultPatientModal from "../../../department/his-md/components/ConsultPatientModal";
 import DoctorInServiceItem from "../../../department/his-md/components/DoctorInServiceItem";
 import PatientProfileModal from "./modal/PatientProfileModal";
-import DoctorInQueuePriority from "../../../department/his-md/components/DoctorInQueuePriority";
+import DoctorInQueuePriority from "./modal/DoctorInQueuePriority";
 import PendingOrdersModal from "../../../../components/PendingOrdersModal";
-import useERQueue from "../../../../hooks/useERQueue";
-import useMDQueue from "../../../../hooks/useMDQueue";
 import useDoctorQueue from "./hooks/useDoctorQueue";
-
-
+import AcceptPatientModal from "./modal/AcceptPatientModal";
 
 const DoctorQueue = () => {
 	const { user } = useAuth();
@@ -30,7 +26,11 @@ const DoctorQueue = () => {
 	const patientProfileRef = useRef(null);
 	const acceptPatientRef = useRef(null);
 	const pendingOrdersRef = useRef(null);
-	const { pending, nowServing } = useERQueue();
+	const { pending, nowServing } = useDoctorQueue();
+	const [appointment, setAppointment] = useState(null);
+	const [patientData, setPatientData] = useState(null);
+	const [patient, setPatient] = useState(null);
+	
 
 	const {
 		pending: doctorsPending,
@@ -41,7 +41,6 @@ const DoctorQueue = () => {
 		mutateNowServing,
 	} = useDoctorQueue();
 
-	const [appointment, setAppointment] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useNoBugUseEffect({
@@ -63,11 +62,12 @@ const DoctorQueue = () => {
 	};
 
 	const handleAcceptAction = (queue) => {
-		if (isModalOpen) {
-			// Optionally, you can also disable the button or show a loading indicator
-			return;
+		if (acceptPatientRef.current) {
+			acceptPatientRef.current.show(queue);  // Open the modal with patient data
+			acceptPatientRef.current.setLoading(true); // Set loading to true when modal opens
+		} else {
+			console.error("acceptPatientRef is not initialized.");
 		}
-		acceptPatientRef.current.show(queue);
 	};
 
 	const handleModalOpen = () => setIsModalOpen(true);
@@ -180,16 +180,49 @@ const DoctorQueue = () => {
 			</div>
 			
 			<ReferToSPHModal ref={referToSphModalRef} mutateAll={mutateAll} />
-
-			<ConsultPatientModal 
+							
+			<AcceptPatientModal
+				patient={patientData?.patient} 
 				appointment={appointment}
 				ref={acceptPatientRef} 
 				mutateAll={mutateAll}
 				onOpen={() => handleModalOpen()}
 				onClose={() => handleModalClose()}
 			/>
+						{/* {order?.relationships?.patient ? (
+								<Fade key={`order-${order?.id}`}>
+									{billingStatus === "pending" ? (
+											<LaboratoryOrders
+												acceptPatientRef={acceptPatientRef}
+												patient={
+													order?.relationships
+														?.patient
+												}
+												mutateAll={mutateAll}
+											/>
+										) : (
+											<BillingStatement
+												loading={loading}
+												// onSave={cashierApproval}
+												appointment={appointment}
+												patient={patient}
+											/>
+							)}
+										</Fade>
+							) : (
+								<span className="w-full font-medium text-lg text-center py-20 text-slate-300">
+									No patient selected
+								</span>
+							)} */}
+
+
+
 			
 			<PatientProfileModal
+				patient={appointment?.patient}
+				laboratory_test_type={
+					2
+				}
 				appointment={appointment}
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}

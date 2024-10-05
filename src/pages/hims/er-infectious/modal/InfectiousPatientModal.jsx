@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react-refresh/only-export-components */
-import {
+import React, {
 	Fragment,
 	forwardRef,
 	useEffect,
@@ -24,7 +24,7 @@ import PatientAppointments from "../../../../components/PatientAppointments";
 import FlatIcon from "../../../../components/FlatIcon";
 import Img from "../../../../components/Img";
 import PatientPrescriptions from "../../../../components/PatientPrescriptions";
-import LaboratoryOrders from "../../../../components/patient-modules/LaboratoryOrders";
+import LaboratoryOrders from "../../../diagnostic-center/dc-doctor/components/LaboratoryOrders";
 import AddPrescription from "../../../department/his-md/components/AddPrescription";
 import TBConfirmation from "../../../department/his-md/components/TBConfirmation";
 import AppointmentDetails from "../../../../pages/appointments/components/AppointmentDetails";

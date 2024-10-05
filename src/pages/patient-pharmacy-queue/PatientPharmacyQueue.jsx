@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AppLayout from "../../components/container/AppLayout";
 import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
 import FlatIcon from "../../components/FlatIcon";
@@ -390,7 +390,7 @@ const PatientPharmacyQueue = () => {
 
 															<CaseDetails
 																code={
-																	order?.procedure_code
+																	order?.case_code
 																}
 																title="Procedure Details"
 																cases={

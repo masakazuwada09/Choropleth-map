@@ -16,7 +16,7 @@ import CreateLabOrderModal from "../../../../components/patient-modules/modals/C
 import { useAuth } from "../../../../hooks/useAuth";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import UploadLabResultModal from "../../../../components/patient-modules/modals/UploadLabResultModal";
-import ViewLabResultModal from "../../../../components/patient-modules/modals/ViewLabResultModal";
+import ViewLabResultModal from "../../dc-doctor/components/modal/ViewLabResultModal";
 import UploadCBCModal from "../../../../components/patient-modules/modals/UploadCBCModal";
 import DeleteOrderModal from "../../../../components/patient-modules/modals/DeleteOrderModal";
 import UploadOGTTModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadOGTTModal";
@@ -86,7 +86,7 @@ import UploadCrossMatchingModal from "../../../../components/patient-modules/mod
 import UploadMiscellaneousFormModal from "../../../../components/patient-modules/modals/laboratory/UploadMiscellaneousFormModal";
 import TextInputField from "../../../../components/inputs/TextInputField";
 import { useForm } from "react-hook-form";
-import PrintLabResultModal from "../../../../components/patient-modules/modals/PrintLabResultModal";
+import PrintLabResultModal from "../../dc-doctor/components/modal/PrintLabResultModal";
 import PrintAllLabResultModal from "../../../../components/patient-modules/modals/PrintAllLabResultModal";
 import PrintReceipt from "../../dc-cashier/components/PrintReceipt";
 import ImagingReceipt from "../../dc-imaging/components/ImagingReceipt";
@@ -373,8 +373,8 @@ const LaboratoryOrders = (props) => {
 };
 	return (
 		
-		<div className="flex flex-col items-start px-8">
-			<div className="flex flex-row justify-between w-full">
+		<div className="flex flex-col items-start px-8 ">
+			<div className="flex flex-row justify-between w-full py-2">
 			{/* <TextInputField
 										label="Date"
 										type="date"
@@ -390,40 +390,42 @@ const LaboratoryOrders = (props) => {
 									/> */}
 
 				{showTitle ? (
-				<ContentTitle
+					<>
+						<ContentTitle
 					title={
 						laboratory_test_type == 1
 							? "Imaging Order"
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "DC-NURSE"  &&  allowCreate ? (
-						<button
-							className="px-4 rounded-xl text-sm items-center justify-center text-blue-600 hover:text-blue-500"
-							size="sm"
-							
-							onClick={() => {
-								createLabOrderRef.current.show(
-									patient,
-									appointment,
-									laboratory_test_type == 1
-										? "imaging"
-										: "laboratory-test"
-								);
-								// setUpdate(true);
-							}}
-						>
-							<FlatIcon icon="rr-edit" className="mr-1" />
-							Create{" "}
-							{laboratory_test_type == 1
-								? "Imaging"
-								: "Laboratory"}{" "}
-							Order
-						</button>
-					) : (
-						""
-					)}
+					
 				</ContentTitle>
+					<button
+						className="px-2 py-1 rounded-lg border border-dashed border-gray-400 bg-gray-200 text-sm items-center justify-center text-gray-600 hover:text-gray-500"
+						size="sm"
+						
+						onClick={() => {
+							createLabOrderRef.current.show(
+								patient,
+								appointment,
+								laboratory_test_type == 1
+									? "imaging"
+									: "laboratory-test"
+							);
+							// setUpdate(true);
+						}}
+					>
+						<FlatIcon icon="rr-edit" className="mr-1 " />
+						Create{" "}
+						{laboratory_test_type == 1
+							? "Imaging"
+							: "Laboratory"}{" "}
+						Order
+					</button>
+		
+					</>
+				
+				
 
 			) : (
 
@@ -571,6 +573,7 @@ const LaboratoryOrders = (props) => {
 			</div>
 			
 			<CreateLabOrderModal
+				
 				patient={patient}
                 appointment={appointment?.id}
 				onSuccess={() => {
