@@ -31,7 +31,7 @@ import { mutate } from "swr";
 import { geolocations, locations } from "../../../../libs/geolocations";
 import { patientRooms } from "../../../../libs/patientRooms";
 import Stepper from "../../../hims/his-opd/Stepper/components/Stepper";
-import { UseContextProvider } from "../../../../libs/StepperContext";
+import { UseContextProvider } from "../../../../components/StepperContext";
 // import Account from "../Stepper/components/steps/PrescriptionStep";
 // import Details from "../Stepper/components/steps/SatisfactionStep";
 import Final from "../../../hims/his-opd/Stepper/components/steps/Final";
@@ -46,7 +46,8 @@ import MedicalCertificate from "./Forms/MedicalCertificate";
 import Prescription from "./Forms/Prescription";
 import Diagnosis from "./Forms/Diagnosis";
 import TabGroupHorizontal from "../../../../components/TabGroupHorizontal";
-import Chat from "../../../../libs/Chat";
+import Chat from "../../../../components/Chat";
+import BillingStatement from "../../dc-cashier/components/BillingStatement";
 
 
 
@@ -697,7 +698,7 @@ const NurseServices = ({
 							{
 							title: (
 								<MenuTitle src="/diagnosislogo.png">
-								Diagnosis
+									Diagnosis
 								</MenuTitle>
 							),
 							content: (
@@ -707,6 +708,13 @@ const NurseServices = ({
 									loading={loading}
 									appointment={appointment}
 									patient={appointment?.patient}
+									/>
+
+									<BillingStatement
+										loading={loading}
+										onSave={cashierApproval}
+										appointment={appointment}
+										patient={appointment?.patient}
 									/>
 								</div>
 								</div>

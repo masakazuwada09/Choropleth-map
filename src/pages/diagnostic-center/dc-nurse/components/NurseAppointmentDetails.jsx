@@ -25,7 +25,7 @@ import LaboratoryReceipt from '../../dc-cashier/components/LaboratoryReceipt';
 import PrescriptionReceipt from './PrescriptionReceipt';
 import TabGroupHorizontal from '../../../../components/TabGroupHorizontal';
 import TextInputField from '../../../../components/inputs/TextInputField';
-import Chat from '../../../../libs/Chat';
+import Chat from '../../../../components/Chat';
 
 const uniq_id = uuidv4();
 /* eslint-disable react/prop-types */
@@ -1313,6 +1313,7 @@ const NurseAppointmentDetails = ({
 														content: (
 															<>
 															<LaboratoryOrders
+																pendingOrdersRef={pendingOrdersRef}
 																patient={appointment?.patient}
 																laboratory_test_type={
 																	2
@@ -1322,6 +1323,7 @@ const NurseAppointmentDetails = ({
 																allowCreate={
 																	true
 																}
+																mutateAll={mutateAll}
 															/>
 															<LaboratoryReceipt
 																

@@ -11,10 +11,10 @@ import {
 import { Dialog, Transition } from "@headlessui/react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import TextInputField from "../../../components/inputs/TextInputField";
-import ReactSelectInputField from "../../../components/inputs/ReactSelectInputField";
-import Axios from "../../../libs/axios";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import TextInputField from "../../../../components/inputs/TextInputField";
+import ReactSelectInputField from "../../../../components/inputs/ReactSelectInputField";
+import Axios from "../../../../libs/axios";
 
 const LaboratoryTestFormModal = (props, ref) => {
 	const { onSuccess, healthUnits = [] } = props;

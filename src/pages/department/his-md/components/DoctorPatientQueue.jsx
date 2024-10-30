@@ -21,7 +21,7 @@ import DoctorInQueuePriority from "./DoctorInQueuePriority";
 import PendingOrdersModal from "../../../../components/PendingOrdersModal";
 import useERQueue from "../../../../hooks/useERQueue";
 import useMDQueue from "../../../../hooks/useMDQueue";
-import useOPDQueue from "../../../../hooks/useOPDQueue";
+import useOPDQueue from "../../../../hooks/useOPDQueue.js";
 import { data } from "autoprefixer";
 
 
@@ -189,21 +189,15 @@ const DoctorPatientQueue = () => {
 					</div>
 				</div>
 			</div>
-			
 			<ReferToSPHModal ref={referToSphModalRef} mutateAll={mutateAll} />
-
-			<ConsultPatientModal 
-				ref={acceptPatientRef} 
-				mutateAll={mutateAll}
-				
-				
+				<ConsultPatientModal 
+					ref={acceptPatientRef} 
+					mutateAll={mutateAll}
 				/>
-			
 			<PatientProfileModal
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}
 				mutateAll={mutateAll}
-				
 			/>
 			<PendingOrdersModal ref={pendingOrdersRef} />
 		</AppLayout>

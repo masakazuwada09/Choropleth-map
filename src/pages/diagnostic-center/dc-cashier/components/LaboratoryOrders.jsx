@@ -24,12 +24,13 @@ import Axios from "../../../../libs/axios";
 import { caseCodes } from "../../../../libs/caseCodes";
 import DeleteSingleOrderModal from "./modal/DeleteSingleOrderModal";
 import DeleteAllOrderModal from "./modal/DeleteAllOrderModal";
-
+import LaboratoryOrdersModal from "./modal/LaboratoryOrdersModal";
 
 const LaboratoryOrders = (props, ref) => {
 	const {
 		appointment,
 		patient,
+		setPatient,
 		laboratory_test_type,
 		lab_rate,
 		order_id,
@@ -44,7 +45,6 @@ const LaboratoryOrders = (props, ref) => {
 		formState: { errors },
 	} = useForm();
 	const { user } = useAuth();
-
 	const componentRef = React.useRef(null);
 	const deleteSingleOrderRef = useRef(null);
 	const deleteAllOrderRef = useRef(null);
@@ -57,8 +57,7 @@ const LaboratoryOrders = (props, ref) => {
 	const [isDeleteOrderChecked, setIsDeleteOrderChecked] = useState(false);
 	const [showData, setShowData] = useState(null);
 	const [loadingDone, setLoadingDone] = useState(false);
-	
-	
+
 	const {
 		loading,
 		setLoading,
@@ -83,7 +82,15 @@ const LaboratoryOrders = (props, ref) => {
 				: {}),
 		},
 	});
-	
+	const show = (data) => {
+		setFull(false);
+		setShowData(data);
+		setPatient(data?.patient);
+		setModalOpen(true);
+	};
+	const hide = () => {
+		setModalOpen(false);
+	};
 	const handlePrint = useReactToPrint({
         // content: () => componentRef.current,
 		content: () => {
@@ -134,27 +141,26 @@ const LaboratoryOrders = (props, ref) => {
 	
 	console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", lab_rate);
 	
-	const sendPatientToLab = () => {
-		setLoading(true);
-		Axios.post(
-			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${modalData?.id}`,
-			{
-				_method: "PATCH",
-			}
-		).then((res) => {
-			if (res?.data?.pending_lab_orders?.length == 0) {
-				toast.error("Error! NO PENDING LABORATORY ORDER.");
-			} else {
-				toast.success(
-					"Success! Patient sent to Laboratory for test(s)."
-				);
-				setLoading(false);
-				mutateAll();
-				hide();
-			}
-		});
-	};	
-
+	// const sendPatientToLab = () => {
+	// 	setLoading(true);
+	// 	Axios.post(
+	// 		`/v1/doctor/laboratory-order/send-patient-to-laboratory/${showData?.id}`,
+	// 		{
+	// 			_method: "PATCH",
+	// 		}
+	// 	).then((res) => {
+	// 		if (res?.data?.pending_lab_orders?.length == 0) {
+	// 			toast.error("Error! NO PENDING LABORATORY ORDER.");
+	// 		} else {
+	// 			toast.success(
+	// 				"Success! Patient sent to Laboratory for test(s)."
+	// 			);
+	// 			setLoading(false);
+	// 			mutateAll();
+	// 			hide();
+	// 		}
+	// 	});
+	// };
 	const markAsDone = () => {
 		setLoadingDone(true);
 		Axios.post(`/v1/doctor/mark-as-done/${showData?.id}`, {
@@ -167,7 +173,7 @@ const LaboratoryOrders = (props, ref) => {
 		});
 	};
 
-	const submit = () => {
+	const sendPatientToLab = () => {
 		
 		setLoading(true);
 		
@@ -185,7 +191,7 @@ const LaboratoryOrders = (props, ref) => {
 		// Check if patient is not null before accessing patient.id
 		if (patient) {
 			Axios.patch(
-				`/v1/doctor/laboratory-order/update/${patient.id}`,
+				`/v1/doctor/laboratory-order/send-cashier-to-laboratory/${showData?.id}`,
 				{
 					_method: "PATCH",
 					payments: paymentData,
@@ -304,7 +310,7 @@ const LaboratoryOrders = (props, ref) => {
 													>
 														<FlatIcon icon="rr-print" className="text-sm mr-1	"/> Print
 													</ActionBtn>
-													
+										
 													<ActionBtn
 															type="secondary"
 															loading={loading}
@@ -319,7 +325,7 @@ const LaboratoryOrders = (props, ref) => {
 																	);
 																	pendingOrdersRef?.current.show(
 																		{
-																			data: modalData,
+																			data: showData,
 																			fn: sendPatientToLab,
 																		}
 																	);
@@ -344,7 +350,10 @@ const LaboratoryOrders = (props, ref) => {
 															</div>
 														</ActionBtn>
 
-													<ActionBtn
+													
+
+
+													{/* <ActionBtn
 														type="secondary"
 														
 														size=""
@@ -361,7 +370,7 @@ const LaboratoryOrders = (props, ref) => {
 															</span>
 														
 														</div>
-													</ActionBtn>
+													</ActionBtn> */}
 
 													<ActionBtn
 															loading={
@@ -459,8 +468,6 @@ const LaboratoryOrders = (props, ref) => {
 											</div>
 
 											</div>
-		
-					
 
 					<div className="px-2 flex flex-row justify-end items-start  gap-2">
 										
@@ -468,22 +475,19 @@ const LaboratoryOrders = (props, ref) => {
 									<div className="font-semibold text-sm  text-gray-800 justify-end flex">
 										{patientFullName(patient)}
 									</div>
-									
 									<div className="text-xs font-mono justify-end flex">
 										{patientAddress(patient)}
 									</div>
-
 									<div className="text-xs justify-end flex">
 										{patient?.gender}
 									</div>
-
 									<div className="text-xs font-mono justify-end flex">
 										Admission Date: {dateMMDDYYYY()}
 									</div>
 									<h4 className="font-bold text-md font-mono text-gray-900 flex justify-end">
 										LABORATORY INVOICE
 									</h4>
-								</div>
+							</div>
 
 								<div className="mt-1">
 										<QRCode
@@ -560,7 +564,7 @@ const LaboratoryOrders = (props, ref) => {
 						  ]
 						: []),
 					]}
-					appointment={appointment}
+				
 					data={data}
 				  />
 				  
@@ -693,13 +697,12 @@ const LaboratoryOrders = (props, ref) => {
 												2
 											}
 											appointment={
-												modalData
+												showData
 											}
 											allowCreate={
 												false
 											}
 										 />
-											
 									</div>
 									
 		

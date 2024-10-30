@@ -5,7 +5,6 @@ export default {
 	content: [
 		"./index.html",
 		"./src/**/*.{js,ts,jsx,tsx}",
-		"./node_modules/tw-elements-react/dist/js/**/*.js",
 	],
 	darkMode:"class",
 	lightMode:"class",
@@ -83,5 +82,5 @@ export default {
 	},
 	
 	variants: {},
-	plugins: [require("tw-elements-react/dist/plugin.cjs")],
+	
 };

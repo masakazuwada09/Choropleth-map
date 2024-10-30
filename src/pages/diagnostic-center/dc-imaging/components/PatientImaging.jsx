@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppLayout from "../../../../components/container/AppLayout";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import TextInput from "../../../../components/inputs/TextInput";
@@ -12,6 +12,7 @@ import useLabQueue from "../../../../hooks/useLabQueue";
 import useDataTable from "../../../../hooks/useDataTable";
 import { Fade } from "react-reveal";
 import { patientFullName } from "../../../../libs/helpers";
+import useImgQueue from "../../../../hooks/useImgQueue";
 
 const PatientImaging = () => {
   const {
@@ -33,7 +34,7 @@ const PatientImaging = () => {
   const [patient, setPatient] = useState(null);
   const [order, setOrder] = useState(null);
   const [filteredPatients, setFilteredPatients] = useState([]);
-  const { pending, mutatePending } = useLabQueue();
+  const { pending, mutatePending } = useImgQueue();
 
   // List pending patients
   const listPending = () => {

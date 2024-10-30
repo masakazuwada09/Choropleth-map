@@ -78,7 +78,7 @@ const PromotionsModal = (props, ref) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur z-20" />
+					<div className="fixed inset-0  z-20" />
 				</Transition.Child>
 
 				<div className="fixed inset-0 overflow-y-auto !z-[100]">
@@ -102,7 +102,7 @@ const PromotionsModal = (props, ref) => {
 									</span>
 								</Dialog.Title>
 								<div className="pb-4 flex flex-col gap-y-4 text-center relative max-h-[80dvh] lg:max-h-[unset] overflow-auto">
-									<PromotionCarousels />
+									
 									<div className="flex flex-col gap-3 px-4">
 										<PromotionCard
 											src={image4}

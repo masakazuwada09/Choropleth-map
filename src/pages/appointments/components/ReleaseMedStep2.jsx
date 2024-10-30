@@ -2,7 +2,7 @@ import { useState } from "react";
 import ContentTitle from "../../../components/buttons/ContentTitle";
 import ActionBtn from "../../../components/buttons/ActionBtn";
 import FlatIcon from "../../../components/FlatIcon";
-import { useStepperContext } from "../../../libs/StepperContext";
+import { useStepperContext } from "../../../components/StepperContext";
 
 const ReleaseMedStep2 = ({
 	satisfaction,

@@ -189,6 +189,7 @@ const CreateLabOrderModal = (props, ref) => {
 	const handleStart = () => {
 		setDragging(true); // Set dragging state to true when dragging starts
 	  };
+	  
 	const submit = (data) => {
 	  let formData = new FormData();
 	  formData.append("laboratory_test_type", selectedTest?.id); // Use selectedTest for laboratory_test_type

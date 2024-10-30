@@ -12,6 +12,7 @@ import LaboratoryOrders from "../../../dc-doctor/components/LaboratoryOrders";
 import ActionBtn from "../../../../../components/buttons/ActionBtn";
 import Axios from "../../../../../libs/axios";
 import useDataTable from "../../../../../hooks/useDataTable";
+import LaboratoryOrdersModal from "./LaboratoryOrdersModal";
 
 const PendingOrdersModal = (props, ref) => {
 	const {
@@ -60,8 +61,8 @@ const PendingOrdersModal = (props, ref) => {
 			...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
 		},
 	});
-	const [showData, setShowData] = useState(null);
 	const [mount, setMount] = useState(0);
+	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalData, setModalData] = useState(null);
 	
@@ -79,12 +80,15 @@ const PendingOrdersModal = (props, ref) => {
 		hide: hide,
 	}));
 
-	const show = (showData = null) => {
+	const show = (data) => {
 		setModalOpen(true);
-		if (showData) {
-			setModalData(showData); // Ensure you are setting modalData correctly
+		if (data) {
+			setModalData(data);
+			setShowData(data); // Use setShowData to update the state
+			console.log("PENDING DATA TO SEND ORDER SERVICE", data); // Log the data only if it's not null
+		} else {
+			console.warn("No data provided to show function");
 		}
-		console.log("PENDING DATA TO SEND ORDER SERVICE", showData); // Log the data received
 	};
 
 	const hide = () => {
@@ -139,11 +143,11 @@ const PendingOrdersModal = (props, ref) => {
 								</Dialog.Title>
 								<div className="pt-5 grid grid-cols-1 gap-5 relative">
 									{console.log("PENDING DATA TO SEND ORDER SERVICE", modalData)} {/* Log the modalData */}
-									<LaboratoryOrders
+									<LaboratoryOrdersModal
 										showTitle={false}
 										patient={patient}
 										laboratory_test_type={"all"}
-										appointment={appointment} // Ensure modalData is used correctly
+										appointment={modalData?.data}
 										allowCreate={false}
 									/>
 								</div>

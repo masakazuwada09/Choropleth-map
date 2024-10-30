@@ -5,7 +5,7 @@ import FlatIcon from "../../../../components/FlatIcon";
 import InfoTextForPrint from "../../../../components/InfoTextForPrint";
 import {  dateMMDDYYYY, patientFullName, patientAddress, } from "../../../../libs/helpers";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
-import SummaryOfCharges from "../../../../components/cashier-billing/component/billing/SummaryOfCharges";
+import SummaryOfCharges from "./SummaryOfCharges";
 import SummaryWithPhic from "../../../../components/cashier-billing/component/billing/SummaryWithPhic";
 import ProfessionalFeeSOA from "../../../../components/cashier-billing/component/billing/ProfessionalFeeSOA";
 import { useAuth } from "../../../../hooks/useAuth";
@@ -25,6 +25,9 @@ import ReactQuillField from "../../../../components/inputs/ReactQuillField";
 import DOMPurify from "dompurify";
 import TextInputField from "../../../../components/inputs/TextInputField";
 import { FloatingDock } from "../../../../components/FloatingDock";
+import PaymentTable from "./PaymentTable";
+import useDataTable from "../../../../hooks/useDataTable";
+import { formatDateMMDDYYYY } from "../../../../libs/helpers";
 import {
   IconBrandGithub,
   IconBrandX,
@@ -59,9 +62,16 @@ const FormHeading = ({ title }) => {
 
 /* eslint-disable react/prop-types */
 const BillingStatement = (props) => {
-    const { loading: btnLoading, appointment, patient, onSave} = props;
+    const { loading: 
+            btnLoading, 
+            appointment, 
+            patient, 
+            onSave, 
+            laboratory_test_type,
+            lab_rate,
+            order_id,} = props;
+    
     const { user } = useAuth();
-    const [loading, setLoading] = useState(true);
     const [showData, setShowData] = useState(null);
     const componentRef = React.useRef(null);
     const billingStatus = patient?.billing_status || "pending";
@@ -89,7 +99,30 @@ const BillingStatement = (props) => {
             setIsEmploymentChecked(false);
         }
     };
-
+    const {
+      loading,
+      setLoading,
+      data,
+      setFilters,
+      reloadData,
+    } = useDataTable
+    ({
+      url: patient?.id ? `/v1/doctor/laboratory-order/patient/${patient?.id}` : null, 
+      defaultFilters: {
+        ...(order_id 
+          ? { order_id: order_id } 
+          : {}),
+        ...(laboratory_test_type
+          ? { laboratory_test_type: laboratory_test_type }
+          : {}),
+        ...(lab_rate
+          ? { lab_rate: lab_rate }
+          : {}),
+        ...(appointment?.id > 0 
+          ? { appointment_id: appointment?.id } 
+          : {}),
+      },
+    });
     useNoBugUseEffect({
         functions: () => {
             setTimeout(() => {
@@ -224,7 +257,7 @@ const BillingStatement = (props) => {
     return (
         
         <div
-			className=" w-[1070px] h-[7.7in] ml-[180px] ">
+			className=" w-[1110px] h-[7.7in] ml-[280px] ">
         <div className="relative">
             {loading ? (
                 <div className="absolute top-0 left-0 h-full w-full flex items-start justify-center bg-slate-200 bg-opacity-95 backdrop-blur pt-[244px] ">
@@ -251,20 +284,17 @@ const BillingStatement = (props) => {
               {isMinimized ?  <FlatIcon className="text-sm text-gray-500" icon="fi fi-rr-edit" /> : <FlatIcon className="text-sm text-gray-400" icon="fi fi-sr-edit" />}
               <span>Edit Billing</span>
             </ActionBtn>
-             {/* <FloatingDock
-        mobileClassName="translate-y-20" // only for demo, remove for production
-        items={links}
-      /> */}
+             
           </div>
         </div>
 
                
     <div className="p-1 flex w-[350vh]">
-      <div className={`bg-gray-200 rounded-lg duration-100 transform transition ease-in-out ${isMinimized ? "skew-x-3 opacity-50 " : "scale-100 opacity-100 w-[250px] "}`}>
+      <div className={`bg-gray-100 border border-gray-400 rounded-lg duration-100 transform transition ease-in-out ${isMinimized ? "skew-x-2 opacity-0 " : "scale-100 opacity-100 w-[250px] "}`}>
         {!isMinimized && (
           <>
             <div className="border mt-1 ml-1 mr-1 rounded-lg px-3 shadow-lg py-2">
-            <span className="text-sm flex justify-center text-gray-500">Edit Billing Details</span>
+            <span className="text-sm flex justify-start text-gray-500 border-b border-gray-300 mb-3">Edit Billing Details</span>
               <div className="flex flex-row gap-2 items-center">
                 <FlatIcon icon="fi fi-rr-hospital" className="block text-md font-sm leading-6 text-gray-500" />
                 <span className="text-xs text-gray-500">Diagnosis Name</span>
@@ -413,7 +443,7 @@ const BillingStatement = (props) => {
       </div>
 
     {/*DOCUMENT*/}
-    <div className="w-[8.8in] h-[6.9in] ml-1 overflow-auto">
+    <div className="w-[8.8in] h-[6.9in] ml-1 overflow-auto rounded-xl border-teal-500 border-2">
         <div className="bg-gradient-to-bl from-rose-100 to-teal-100 flex flex-col w-[8.6in] h-[11.8in] border-gray-200 border-2 mx-auto relative rounded-lg px-1 py-1" ref={componentRef}>   
             <header class="mb-1">
                 <div class="flex justify-between items-center border-b border-b-slate-500 border-dashed px-5">
@@ -479,7 +509,6 @@ const BillingStatement = (props) => {
 						         <div className="col-span-3">
                                 END DATE
                                 </div>
-                            
                                 
 					    </div>
                 
@@ -532,10 +561,10 @@ const BillingStatement = (props) => {
 
                     <div className="items-center">
 
-					<AmountDue
-						appointment={appointment}
-                        patient={patient}
-					/>
+					        <AmountDue
+						          appointment={appointment}
+                      patient={patient}
+					        />
 		
                     </div>
                     
@@ -553,28 +582,9 @@ const BillingStatement = (props) => {
 					BILLING STATEMENT
 				</h5>
                 </div>
-            
-          
-
-
-               
-
-                <div className="flex flex-row justify-between mt-2 items-center">
-                    
+                                        
                     
 
-                    <h5 className="text-xs font-bold justify-center w-[370px] text-gray-800">
-                        
-				    </h5>
-                
-                </div>
-                                                           
-                       
-                    <SummaryOfCharges
-                        appointment={appointment}
-                        patient={patient}
-                        className="m-2 font-bold"
-                    />
                     <SummaryWithPhic
                         code={
                             appointment?.diagnosis_code
@@ -587,16 +597,19 @@ const BillingStatement = (props) => {
                         patient={patient}
                         className="m-2"
                     />
+                    <SummaryOfCharges
+                        appointment={appointment}
+                        patient={patient}
+                        className="m-2 font-bold"
+                    />
                     <ProfessionalFeeSOA
                         appointment={appointment}
                         patient={patient}
                         className="m-2"
                     />
-
-      
-
+                    
                     <div className="grid grid-cols-2">
-                        <div className="mt-8 ml-4 ml">
+                        <div className="mt-2 ml-4 ml">
                             <InfoTextForPrint
                                 contentClassName="text-sm"
                                 title="CERTIFIED CORRECT BY"

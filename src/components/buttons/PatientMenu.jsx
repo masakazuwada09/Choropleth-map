@@ -3,7 +3,7 @@ import { calculateAge, formatDate, patientFullName } from "../../libs/helpers";
 import FlatIcon from "../FlatIcon";
 import Img from "../Img";
 import { useAuth } from "../../hooks/useAuth";
-import ProgressBar from '../../hooks/ProgressBar';
+import ProgressBar from '../ProgressBar';
 
 const PatientMenu = ({ patient, active = false, ...rest }) => {
   const { checkUserType } = useAuth();

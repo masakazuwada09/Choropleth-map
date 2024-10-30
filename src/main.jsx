@@ -28,7 +28,7 @@ import RHULists from "./pages/rhu-lists/RHULists.jsx";
 import DoctorSpecialties from "./pages/doctor-specialties/DoctorSpecialties.jsx";
 import RHUPersonnels from "./pages/rhu-personnels/RHUPersonnels.jsx";
 import RHURooms from "./pages/rhu-rooms/RHURooms.jsx";
-import LaboratoryTests from "./pages/laboratory-tests/LaboratoryTests.jsx";
+import LaboratoryTests from "./pages/diagnostic-center/dc-laboratory/components/LaboratoryTests.jsx";
 import DoctorPatientQueue from "./pages/department/his-md/components/DoctorPatientQueue.jsx";
 import PatientLabQueue from "./pages/patient-lab-queue/PatientLabQueue.jsx";
 import Error404 from "./Error404.jsx";
@@ -62,7 +62,9 @@ import LaboratoryTestsRate from "./pages/diagnostic-center/dc-cashier/components
 import Discounts from "./pages/diagnostic-center/dc-cashier/components/Discounts.jsx";
 import DiagnosisRate from "./pages/diagnostic-center/dc-doctor/components/DiagnosisRate.jsx";
 import InventoryPharmacy from "./pages/diagnostic-center/dc-doctor/components/InventoryPharmacy.jsx";
-
+import HumanBiometric from "./spline/components/HumanBiometric.jsx";
+import ImagingTests from "./pages/diagnostic-center/dc-imaging/components/ImagingTests.jsx";
+import MapMunicipalities from "./components/geomap/MapMunicipalities.jsx";
 
 
 
@@ -267,6 +269,11 @@ const router = createBrowserRouter(
 					path="laboratory-tests"
 					element={<LaboratoryTests />}
 				></Route>
+				<Route
+					path="imaging-tests"
+					element={<ImagingTests />}
+				></Route>
+				<Route path="map-municipalities" element = {<MapMunicipalities />}></Route>
 			</Route>
 			
 			<Route path="dc-doctor">
@@ -298,7 +305,7 @@ const router = createBrowserRouter(
 					element={<LaboratoryTests />}
 				></Route>
 			</Route>
-			
+
 			<Route path="dc-imaging">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element = {<Patients />}></Route>
@@ -465,3 +472,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 		</AppMain>
 	</React.StrictMode>
 );
+
+ReactDOM.render(
+	<React.StrictMode>
+	  <HumanBiometric />
+	</React.StrictMode>,
+	document.getElementById('root')
+  );

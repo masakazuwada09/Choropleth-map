@@ -62,9 +62,7 @@ const FormHeading = ({ title }) => {
 		  
 	  </div>
 	);
-};
-
-	
+};	
 
 const Prescription = (props, ref) => {
 	const { loading: btnLoading, appointment, onSave} = props;

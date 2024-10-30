@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { useStepperContext } from "../../../../../../libs/StepperContext";
+import { useStepperContext } from "../../../../../../components/StepperContext";
 import ReleaseMedStep1 from "../../../../../appointments/components/ReleaseMedStep1";
 import ContentTitle from "../../../../../../components/buttons/ContentTitle";
 import InfoText from "../../../../../../components/InfoText";

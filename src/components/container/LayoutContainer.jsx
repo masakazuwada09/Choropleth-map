@@ -37,7 +37,7 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 	//   };
 	return (
 		<div
-			className={`h-[100dvh] w-screen overflow-auto flex flex-col lg:flex-row items-center justify-center    ${className}`}
+			className={`h-[100dvh] w-screen overflow-auto flex flex-col lg:flex-row px-2 justify-center items-center ${className}`}
 		>
 	{/* <ParticleImage
       src={"/react-logo.png"}

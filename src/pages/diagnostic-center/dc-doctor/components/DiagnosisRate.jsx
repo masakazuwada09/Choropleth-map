@@ -12,7 +12,7 @@ import TextInput from "../../../../components/inputs/TextInput";
 import PageTitle from "../../../../components/layout/PageTitle";
 import Axios from "../../../../libs/axios";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
-import LaboratoryTestFormModal from "../../../laboratory-tests/components/LaboratoryTestFormModal";
+import LaboratoryTestFormModal from "../../dc-laboratory/modal/LaboratoryTestFormModal";
 import DiagnosisFormModal from "./modal/DiagnosisFormModal";
 const uniq_id = uuidv4();
 const DiagnosisRate = (props) => {

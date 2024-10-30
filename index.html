@@ -3,9 +3,12 @@
 
 <head>
 	<meta charset="UTF-8" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"/>
+	<link rel="stylesheet" href="dist\leaflet-routing-machine.css" />
+	<link rel="stylesheet" href="/path/to/leaflet.css" />
 	<link rel="icon" type="image/svg+xml" href="/logo.png" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Diagnostic Center</title>
 	<style>
@@ -63,6 +66,17 @@
 </head>
 
 <body>
+	<script src="dist\leaflet-routing-machine.js"></script>
+	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/lrm-google@1.0.1/lrm-google.min.js"></script>
+	<script src="https://open.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=IXeUegckPazCD4BEWR2CHZ494kZQdwBI"></script>
+    <script src="https://open.mapquestapi.com/sdk/leaflet/v2.2/mq-routing.js?key=IXeUegckPazCD4BEWR2CHZ494kZQdwBI"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWMNlDXolxfFVyAgDH64JzEaoodXi7AbE"></script>
+
 	<!-- Loader Element -->
 	<div id="loader-page">
 		<div class="container">
@@ -74,7 +88,24 @@
 
 	<!-- Root Element for React App -->
 	<div id="root"></div>
+	<script>
+        var map = L.map('barangay-map').setView([6.103330, 125.220560], 13);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
+        var marker = L.marker([6.196774473671084, 125.13154624218448]).addTo(map);
+
+        L.Routing.control({
+            waypoints: [
+                L.latLng(6.103330, 125.220560),
+                L.latLng(6.196774473671084, 125.13154624218448)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+    </script>
+	
 	<script>
 		// Remove the loader after 2.5 seconds
 		document.addEventListener("DOMContentLoaded", () => {

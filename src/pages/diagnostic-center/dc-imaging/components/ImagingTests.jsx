@@ -1,23 +1,24 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../../hooks/useAuth";
-import useDataTable from "../../hooks/useDataTable";
-import AppLayout from "../../components/container/AppLayout";
-import Table from "../../components/table/Table";
-import ActionBtn from "../../components/buttons/ActionBtn";
-import FlatIcon from "../../components/FlatIcon";
-import Pagination from "../../components/table/Pagination";
-import TextInput from "../../components/inputs/TextInput";
-import PageTitle from "../../components/layout/PageTitle";
-import Axios from "../../libs/axios";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import LaboratoryTestFormModal from "./components/LaboratoryTestFormModal";
+import { useAuth } from "../../../../hooks/useAuth";
+import useDataTable from "../../../../hooks/useDataTable";
+import AppLayout from "../../../../components/container/AppLayout";
+import Table from "../../../../components/table/Table";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../components/FlatIcon";
+import Pagination from "../../../../components/table/Pagination";
+import TextInput from "../../../../components/inputs/TextInput";
+import PageTitle from "../../../../components/layout/PageTitle";
+import Axios from "../../../../libs/axios";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import LaboratoryTestFormModal from "../../dc-laboratory/modal/LaboratoryTestFormModal";
+import ImagingTestFormModal from "../modal/ImagingTestFormModal";
 const uniq_id = uuidv4();
-const LaboratoryTests = (props) => {
+const ImagingTests = (props) => {
 	const { patient } = props;
 	const { user } = useAuth();
-	const laboratoryTestFormRef = useRef(null);
+	const imagingTestFormRef = useRef(null);
 	const deactivateRoomFormRef = useRef(null);
 	const activateRoomFormRef = useRef(null);
 	const [healthUnits, setHealthUnits] = useState([null]);
@@ -42,7 +43,7 @@ const LaboratoryTests = (props) => {
 		filters,
 		setFilters,
 	} = useDataTable({
-		url: `v1/laboratory/tests/list`,
+		url: `v1/laboratory/imaging/list`,
 		defaultFilters: {
 			
 			key: uniq_id,
@@ -73,14 +74,14 @@ const LaboratoryTests = (props) => {
 				<div className="sticky top-0 z-10 shadow py-4 px-5 flex items-center w-full bg-slate-100">
 					<PageTitle
 						icon={"rr-microscope"}
-						title={"Diagnosis Tests"}
+						title={"Imaging Tests"}
 						subtitle={"Add, edit and view all tests."}
 					/>
 					<ActionBtn
 						type="success"
 						className="ml-auto h-11"
 						onClick={() => {
-							laboratoryTestFormRef.current.show();
+							imagingTestFormRef.current.show();
 						}}
 					>
 						<FlatIcon icon="rr-layer-plus" className="mr-2" />
@@ -151,9 +152,9 @@ const LaboratoryTests = (props) => {
 								className: "text-left",
 								tdClassName: "text-left",
 								sortable: true,
-								key: "lab_rate",
+								key: "img_rate",
 								cell: (data) => {
-									return data?.lab_rate;
+									return data?.img_rate;
 								},
 							},
 							{
@@ -168,7 +169,7 @@ const LaboratoryTests = (props) => {
 												size="sm"
 												type="primary"
 												onClick={() => {
-													laboratoryTestFormRef.current.show(
+													imagingTestFormRef.current.show(
 														data
 													);
 												}}
@@ -197,8 +198,9 @@ const LaboratoryTests = (props) => {
 					
 				</div>
 			</div>
-			<LaboratoryTestFormModal
-				ref={laboratoryTestFormRef}
+
+			<ImagingTestFormModal
+				ref={imagingTestFormRef}
 				onSuccess={() => {
 					reloadData();
 				}}
@@ -206,7 +208,7 @@ const LaboratoryTests = (props) => {
 			/>
 
 			{/* <RoomFormModal
-				ref={laboratoryTestFormRef}
+				ref={imagingTestFormRef}
 				onSuccess={() => {
 					reloadData();
 				}}
@@ -228,4 +230,4 @@ const LaboratoryTests = (props) => {
 	);
 };
 
-export default LaboratoryTests;
+export default ImagingTests;

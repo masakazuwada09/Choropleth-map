@@ -11,14 +11,11 @@ function HumanBiometric() {
     cube.current = obj;
   }
 
-  function moveObj() {
-    cube.current.position.x += 50;
-  }
 
   return (
-    <div className = "absolute ml-[640px] mb-[150px]" style={{ width: '50vw', height: '60vh' }}>
+    <div className = "absolute ml-[1120px] mt-[90px]" style={{ width: '40vw', height: '90vh' }}>
       <Spline
-        scene="/src/spline/biometric.spline"
+        scene="/src/spline/human_scan.spline"
         onLoad={onLoad}
       />
     </div>

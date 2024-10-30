@@ -1,3 +1,4 @@
+import React from "react";
 import FlatIcon from "../../../../components/FlatIcon";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
 import { patientFullName, patientRoomNumber } from "../../../../libs/helpers";
@@ -18,7 +19,7 @@ const DoctorInServiceItem = ({
 }) => {
 	const isForResultReading = () => {
 		return (
-			data?.status == "in-service-result-reading" ||
+			data?.status == "pending" ||
 			data?.has_for_reading?.length
 		);
 	};

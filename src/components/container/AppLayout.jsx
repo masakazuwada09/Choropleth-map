@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import Header from "../layout/Header";
 import FlatIcon from "../FlatIcon";
 import MenuLink from "../buttons/MenuLink";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Img from "../Img";
 import { ToastContainer } from "react-toastify";
 import ConfirmLogoutModal from "../modal/ConfirmLogoutModal";
@@ -40,6 +40,7 @@ import DCPharmacyLinks from "../../userLinks/dc/DCPharmacyLinks";
 const AppLayout = (props) => {
     useReValidateAuth();
     const confirmLogoutRef = useRef(null);
+	const fullScreenRef = useRef(null);
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -62,7 +63,15 @@ const AppLayout = (props) => {
         },
         params: [],
     });
-
+	const toggleFullScreen = () => {
+        if (!document.fullscreenElement) {
+            fullScreenRef.current?.requestFullscreen().catch((err) => {
+                alert(`Error attempting to enable fullscreen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    };
     const renderLinks = () => {
         switch (String(user?.type).toLowerCase()) {
             case "his-nurse":
@@ -130,8 +139,8 @@ const AppLayout = (props) => {
 								
 							}}>
 
-		<div className=" dark:bg-white duration-500 shadow-2xl">
-			<div className=" flex w-[280px] h-[22px] dark:bg-blue-500 z-10 duration-400 items-center justify-start">
+		<div className="duration-500 ">
+			<div className=" flex w-[280px]  h-[22.6px] dark:bg-blue-500 z-10 duration-400 items-center justify-start">
 
 					<div className="px-5 py-6 mt-2  flex items-center gap-5">
 
@@ -163,7 +172,7 @@ const AppLayout = (props) => {
 
 
 
-			<div className="flex flex-col  dark:!bg-blue-500 bg-white">
+			<div className="flex flex-col  dark:!bg-blue-500 bg-white ">
 				<div  className={'flex flex-col mt-7 h-[calc(100dvh-123px)] '}>
 					
 					{renderLinks()}
@@ -201,7 +210,7 @@ const AppLayout = (props) => {
 				
 			</div>
 
-			<div className=" flex justify-start gap-2 px-2 py-2 pl-3 bg-white dark:!bg-blue-500 border-t-gray-300 dark:!border-t-blue-600 border-t dark:!border-opacity-70">
+			<div className=" flex justify-start gap-2 px-2 py-2 pl-3 bg-white dark:!bg-blue-500 ">
 						<Img
 							src={user?.avatar}   // PROFILE AVATAR
 							type="user"
@@ -238,12 +247,13 @@ const AppLayout = (props) => {
 		</div>
 
 
-	<div className="h-[100vh] w-full overflow-auto  flex flex-col ">
+	<div ref={fullScreenRef} className="h-[100vh] z-10 index-0 w-full overflow-auto bg-white flex flex-col ">
 
 		
 		<Header
 			setsidebarOpen={sidebarOpen}
 			setSidebarOpen={setSidebarOpen}
+			toggleFullScreen={toggleFullScreen}
 			/>
 		{children}
 

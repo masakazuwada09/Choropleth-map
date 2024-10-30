@@ -10,12 +10,12 @@ const Pagination = ({
 	pageCount,
 	pageSize,
 	setPageSize,
-	show = [1, 5, 10, 25, 50, 100],  // Ensure this list is included
+	show = [1, 5, 10, 25, 50, 100, 500],  // Ensure this list is included
 	paginationClassName = "",
 }) => {
 	// Ensure page is a valid number
 	const handlePageChange = (e) => {
-		const newPage = parseInt(e.target.value, 10);
+		const newPage = parseInt(e.target.value, 500);
 		if (!isNaN(newPage) && newPage >= 1 && newPage <= pageCount) {
 			setPage(newPage);
 		}

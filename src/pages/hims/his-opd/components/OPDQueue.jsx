@@ -13,7 +13,7 @@ import AppLayout from '../../../../components/container/AppLayout';
 import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
 import useDoctorQueue from '../../../../hooks/useDoctorQueue';
 import { useAuth } from '../../../../hooks/useAuth';
-import useOPDQueue from '../../../../hooks/useOPDQueue';
+import useOPDQueue from '../../../../hooks/useOPDQueue.js';
 import OPDAppointmentDetails from './OPDAppointmentDetails';
 
 

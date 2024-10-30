@@ -165,7 +165,7 @@ const PatientInfo = ({
 				</div>	
 			</div>
 
-	{/* <div className="flex flex-col items-center justify-center w-full">
+	<div className="flex flex-col items-center justify-center w-full">
       <img
         src="/vitals/philhealthlogo.png"
         className="w-8 h-8 object-contain "
@@ -178,7 +178,7 @@ const PatientInfo = ({
 		
 	</div>
 	<span >{patient?.philhealth}</span>
-    </div> */}
+    </div>
 
 	
 	

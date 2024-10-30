@@ -31,7 +31,7 @@ import { mutate } from "swr";
 import { geolocations, locations } from "../../../../libs/geolocations";
 import { patientRooms } from "../../../../libs/patientRooms";
 import Stepper from "../Stepper/components/Stepper";
-import { UseContextProvider } from "../../../../libs/StepperContext";
+import { UseContextProvider } from "../../../../components/StepperContext";
 import Account from "../Stepper/components/steps/PrescriptionStep";
 import Details from "../Stepper/components/steps/SatisfactionStep";
 import Final from "../Stepper/components/steps/Final";

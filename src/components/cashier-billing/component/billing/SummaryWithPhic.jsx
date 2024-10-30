@@ -49,9 +49,9 @@ const SummaryWithPhic = (props) => {
 	);
 	return (
 		<>
-			<div className="border border-slate-400 py-2">
-				<h5 className="text-xs font-md font-mono text-center py-3 text-slate-800">
-					SUMMARY OF CHARGES - PHIC
+			<div className=" py-2">
+				<h5 className="text-xs font-md font-mono text-center py-3 text-slate-800 border-b border-gray-400">
+					DIAGNOSIS CHARGES
 				</h5>
 
 				
@@ -94,7 +94,7 @@ const SummaryWithPhic = (props) => {
 					</div>
 					<div className="grid grid-cols-7 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2 ">
-							Hospital Charges
+							Clinic Charges
 						</div>
 						<div className="col-span-1">
 						<div className="col-span-1">

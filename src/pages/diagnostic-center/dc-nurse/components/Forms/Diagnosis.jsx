@@ -351,9 +351,8 @@ console.log("CASEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", caseC
 														<div className="flex flex-col px-5 py-5 bg-[linear-gradient(to_right,_var(--tw-gradient-stops))] rounded-xl  ">
 															<div className="flex flex-row justify-between">
 															</div>
-		
-																<CaseDetails
-																
+													
+															<CaseDetails
 																code={
 																	appointment?.diagnosis_code
 																}
@@ -362,7 +361,8 @@ console.log("CASEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", caseC
 																	[]
 																}
 																title="Diagnosis Details"
-																/>
+															/>
+
 																		<InfoText
 																			className=""
 																			title="Diagnosed By"

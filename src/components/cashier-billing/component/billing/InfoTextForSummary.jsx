@@ -7,6 +7,7 @@ const InfoTextForSummary = ({
 	icon,
 	title,
 	value,
+	data,
 	...rest
 }) => {
 	return (

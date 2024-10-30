@@ -271,6 +271,9 @@ const AddPrescription = forwardRef(({
                                                                                 <span>
                                                                                     DESCRIPTION: {item?.name}
                                                                                 </span>
+                                                                                <span>
+                                                                                    Price: {item?.price}
+                                                                                </span>
                                                                             </div>
                                                                         ),
                                                                         item: item,

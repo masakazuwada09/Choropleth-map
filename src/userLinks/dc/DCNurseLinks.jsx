@@ -43,6 +43,18 @@ const DCNurseLinks = ({ isActive }) => {
 				icon="rr-microscope"
 				text="Laboratory Tests"
 			/>
+			<MenuLink
+				to="/imaging-tests"
+				active={isActive("/imaging-tests")}
+				icon="fi fi-rr-skeleton"
+				text="Imaging Tests"
+			/>
+			<MenuLink
+				to="/map-municipalities"
+				active={isActive("/map-municipalities")}
+				icon="fi fi-rr-map"
+				text="Map Municipalities"
+			/>
 			{/* <MenuLink
 				to="/surgical-queue"
 				active={isActive("/surgical-queue")}

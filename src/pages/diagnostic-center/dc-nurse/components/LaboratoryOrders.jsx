@@ -91,6 +91,7 @@ import PrintAllLabResultModal from "../../../../components/patient-modules/modal
 import PrintReceipt from "../../dc-cashier/components/PrintReceipt";
 import ImagingReceipt from "../../dc-imaging/components/ImagingReceipt";
 import LaboratoryReceipt from "../../dc-cashier/components/LaboratoryReceipt";
+import CreateImagingOrderModal from "../../dc-imaging/modal/CreateImagingOrderModal";
 
 const Status = ({ status }) => {
 	const color = () => {
@@ -180,6 +181,7 @@ const LaboratoryOrders = (props) => {
 		},
 	});
 	const createLabOrderRef = useRef(null);
+	const createImgOrderRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 	const printLabResultRef = useRef(null);
 	const viewLabResultRef = useRef(null);
@@ -541,8 +543,8 @@ const renderPrintCell = (data) => {
 				>
 					
 				</ContentTitle>
-					<button
-						className="px-2 py-1 rounded-lg border border-dashed border-gray-400 bg-gray-200 text-sm items-center justify-center text-gray-600 hover:text-gray-500"
+				{/* <button
+						className="px-2 py-1 w-[250px] rounded-lg border border-dashed border-gray-400 bg-gray-200 text-sm items-center justify-center text-gray-600 hover:text-gray-500"
 						size="sm"
 						
 						onClick={() => {
@@ -551,7 +553,7 @@ const renderPrintCell = (data) => {
 								appointment,
 								laboratory_test_type == 1
 									? "imaging"
-									: "laboratory-test"
+									: "laboratory"
 							);
 							// setUpdate(true);
 						}}
@@ -562,7 +564,26 @@ const renderPrintCell = (data) => {
 							? "Imaging"
 							: "Laboratory"}{" "}
 						Order
-					</button>
+					</button> */}
+
+
+
+				<button
+				  className="px-2 py-1 w-[250px] rounded-lg border border-dashed border-gray-400 bg-gray-200 text-sm items-center justify-center text-gray-600 hover:text-gray-500"
+				  size="sm"
+				  onClick={() => {
+				    if (laboratory_test_type == 1) {
+				      // For Imaging Orders
+				      createImgOrderRef.current.show(patient, appointment, "imaging");
+				    } else {
+				      // For Laboratory Orders
+				      createLabOrderRef.current.show(patient, appointment, "laboratory");
+				    }
+				  }}
+				>
+				  <FlatIcon icon="rr-edit" className="mr-1 " />
+				  Create {laboratory_test_type == 1 ? "Imaging" : "Laboratory"} Order
+				</button>
 		
 					</>
 				
@@ -582,14 +603,8 @@ const renderPrintCell = (data) => {
                 <FlatIcon icon="rs-document" />
                 Print Receipt
             </ActionBtn> */}
-
-			
-			
 			</div>
-			
-
-			
-					
+				
 			<div className="flex flex-col w-full">
 				<div>
 				<Table
@@ -699,6 +714,7 @@ const renderPrintCell = (data) => {
 				]}
 				data={data}
 			/>
+
 				</div>
 			
 			<div classname="flex justify-end">
@@ -712,9 +728,15 @@ const renderPrintCell = (data) => {
 			</div>
 			
 			</div>
-			
+			<CreateImagingOrderModal
+				patient={patient}
+                appointment={appointment?.id}
+				onSuccess={() => {
+					reloadData();
+				}}
+				ref={createImgOrderRef}
+			/>
 			<CreateLabOrderModal
-				
 				patient={patient}
                 appointment={appointment?.id}
 				onSuccess={() => {

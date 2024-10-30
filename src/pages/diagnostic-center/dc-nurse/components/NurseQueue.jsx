@@ -1,4 +1,4 @@
-import  { React, useRef, useState, useEffect, Fragment, forwardRef, useImperativeHandle, } from 'react'
+import React, {  useRef, useState, useEffect, Fragment, forwardRef, useImperativeHandle, } from 'react'
 import { Controller, useForm } from "react-hook-form";
 import ReferToSPHModal from '../../../../components/modal/ReferToSPHModal';
 import InServiceER from '../../../hims/his-er/InServiceER';
@@ -13,7 +13,7 @@ import AppLayout from '../../../../components/container/AppLayout';
 import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
 import useDoctorQueue from '../../../../hooks/useDoctorQueue';
 import { useAuth } from '../../../../hooks/useAuth';
-import useOPDQueue from '../../../../hooks/useOPDQueue';
+import useOPDQueue from '../../../../hooks/useOPDQueue.js';
 import OPDAppointmentDetails from '../../../hims/his-opd/components/OPDAppointmentDetails';
 import NurseAppointmentDetails from './NurseAppointmentDetails';
 import FlatIcon from '../../../../components/FlatIcon';

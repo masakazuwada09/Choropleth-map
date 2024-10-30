@@ -3,15 +3,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;700&family=Open+Sans:wght@300;500;700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:wght@300;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@200..800&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&display=swap');
+@import 'leaflet/dist/leaflet.css';
 
 
 
 html {
 	font-family: "Noto Sans", sans-serif !important;
 	/* font-family: "Open Sans", sans-serif; */
-}
-.leaflet-container {
-	height: 100%;
 }
 .rotate-icon {
 	transition: transform 0.3s ease; /* Smooth rotation effect */
@@ -132,7 +130,7 @@ html {
 .tele-bg {
 	background: linear-gradient(
 			0deg,
-			rgba(255, 255, 255, 0.8),
+			rgba(255, 72, 0, 0.8),
 			rgba(255, 255, 255, 0.8)
 		),
 		url("./white-bg.jpg");
@@ -367,7 +365,166 @@ body{
 	  transform:rotate(57deg);
 	}
 	
+	.info {
+		padding: 9px 8px;
+		font: 14px/16px Arial, Helvetica, sans-serif;
+		background: white;
+		background: rgb(233, 233, 233);
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+		border-radius: 5px;
+		
+	}
+	/* Style adjustments for mobile responsiveness */
+	@media (max-width: 768px) {
+	.info.legend,
+	.info.legend .list-container {
+	  font-size: 12px;
+	  width: 50%;
+	  height: 50%;
+	  max-width: 250px;
+	}
   
+	.info.legend {
+	  position: fixed;
+	  bottom: 10px;
+	  left: 10px;
+	  z-index: 1000;
+	  background: rgba(255, 255, 255, 0.8);
+	  padding: 10px;
+	  border-radius: 8px;
+	}
+    }
+  
+	.info h4 {
+		margin: 0 0 5px;
+		color: #777;
+		
+	}
+	.info.centered-info {
+		position: relative;
+		top: 700px;
+		right: 50%;
+		transform: translateX(-200%);
+		font: 14px/16px Arial, Helvetica, sans-serif;
+		background: rgba(104, 104, 104, 0.774);
+		padding: 4px;
+		border-radius: 5px;
+		font-size: 14px;
+		width: 300px;
+		color: white; /* Sets the font color to white */
+		text-align: center; /* Centers the text */
+	}
+	.legend {
+		line-height: 18px;
+		color: #555;
+		
+	}
+	.legend i {
+		width: 180px;
+		height: 18px;
+		float: left;
+		margin-right: 8px;
+		opacity: 0.7;
+		
+	}
+
+	.list-container {
+		max-height: 600px; /* Adjust the height as needed */
+		max-width: 300px;
+		overflow-y: auto;
+		
+	  }
+	
+	.poi-search-center {
+	position: absolute;
+	top: 0%; /* Adjust as needed */
+	left: 0%;
+	transform: translateX(0%);
+	transform: translateY(0px);
+	z-index: 1000; /* Ensure it appears above other map elements */
+	background: white;
+	padding: 5px;
+	border-radius: 4px;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+	}
+	.get-location-btn {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		padding: 8px 16px;
+		background-color: #007bff;
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		z-index: 1000;
+	  }
+	  .get-location-btn:hover {
+		background-color: #0056b3;
+	  }
+
+	  .calculate-distance-btn:hover {
+		background-color: #0056b3;
+	  }
+	  .leaflet-container {
+		height: 100%;
+		width: 100%;
+	  }
+
+	  .map-side-menu {
+		position: fixed; /* To stay in place on zoom */
+		top: 0;
+		left: 0;
+		z-index: 1000; /* Higher than the map’s layers */
+		/* Additional styling as needed */
+	  }
+	  .marker-details {
+		position: relative; /* To stay in place on zoom */
+		height: 20%;
+		width: 30vh;
+		margin-top: 70vh;
+		margin-left: 70vh;
+		background-color: #ffffffc5;
+		top: 0;
+		left: 0;
+		z-index: 1000; /* Higher than the map’s layers */
+		/* Additional styling as needed */
+	  }
+
+	  .pulse-marker {
+		position: relative;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background-color: #3388ff; /* Initial blue color */
+		border: 3px solid #3388ff;
+	  }
+	  
+	  .pulse-marker::before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		background-color: rgba(51, 136, 255, 0.3);
+		animation: pulse 1.5s infinite ease-in-out;
+	  }
+	  
+	  @keyframes pulse {
+		0% {
+		  transform: scale(1);
+		  opacity: 1;
+		}
+		50% {
+		  transform: scale(1.5);
+		  opacity: 0.5;
+		}
+		100% {
+		  transform: scale(2);
+		  opacity: 0;
+		}
+	  }
+	  
 	@keyframes rotate{
   
 	  100%{

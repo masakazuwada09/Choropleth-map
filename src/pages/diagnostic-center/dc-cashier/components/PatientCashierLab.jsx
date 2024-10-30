@@ -235,7 +235,7 @@ const PatientCashierLab = (props, ref) => {
 										{billingStatus === "pending" ? (
 											<>
 											
-											<div className="ml-[190px]">
+											<div className="ml-[290px]">
 												
 											
 											<LaboratoryOrders
@@ -248,11 +248,18 @@ const PatientCashierLab = (props, ref) => {
 												mutateAll={mutateAll}
 											/>
 												</div>
+
+												
 										<BillingStatement
 											loading={loading}
 											// onSave={cashierApproval}
 											appointment={appointment}
-											patient={patient}
+											
+											patient={
+												order?.relationships
+													?.patient
+											}
+											mutateAll={mutateAll}
 										/>
 
 												</>

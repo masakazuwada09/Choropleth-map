@@ -314,7 +314,7 @@ const PatientProfileModal = (props, ref) => {
 											/>
 											<div className="flex items-center justify-end  w-1/2 flex-wrap gap-3 ml-auto">
 												{showData?.status ==
-												"in-service-consultation" ? (
+												"pending" ? (
 													<>
 														<ActionBtn
 															type="secondary"

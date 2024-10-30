@@ -132,9 +132,8 @@ const ImagingOrders = (props) => {
 		formState: { errors },
 	} = useForm();
 	const { user } = useAuth();
-
 	const isLaboratoryUser = () => {
-		return user?.type == "DC-NURSE" || user?.type == "DC-IMAGING";
+		return user?.type == "DC-IMAGING" || user?.type == "DC-IMAGING";
 	};
 	const isXrayUser = () => {
 		return user?.type === "HIS-IMAGING";

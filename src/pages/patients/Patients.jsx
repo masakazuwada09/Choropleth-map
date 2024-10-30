@@ -40,7 +40,7 @@ const Patients = () => {
 
 	useNoBugUseEffect({
 		functions: () => {
-			setPaginate(10);
+			setPaginate(500);
 		},
 	});
 	const refreshList = () => {
@@ -50,6 +50,10 @@ const Patients = () => {
 			key: uuidv4(),
 		}));
 	};
+
+	// Patient count
+	const patientCount = patients ? patients.length : 0;
+
 	return (
 		<AppLayout>
 			{/* <PageHeader
@@ -63,7 +67,7 @@ const Patients = () => {
 						<div className="flex items-center pr-4">
 							<div>
 								<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1 ">
-									Patients Lists
+									Patients Lists ({patientCount})
 								</h1>
 								<span className="noto-sans-thin text-slate-500 text-sm font-light">
 									Search and view patient data.
@@ -71,16 +75,16 @@ const Patients = () => {
 							</div>
 							{checkUserType("NURSE") || checkUserType("ER") ? (
 								<ActionBtn
-								className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100 "
-								onClick={() => {
-									newPatientFormRef.current.show();
-								}}
-								title="Add new patient"
-								type="foreground-dark"
-							>
-								<FlatIcon icon="fi fi-ss-clipboard-user" /> Add new patient
-							</ActionBtn>
-								
+									className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100 "
+									onClick={() => {
+										newPatientFormRef.current.show();
+									}}
+									title="Add new patient"
+									type="foreground-dark"
+								>
+									<FlatIcon icon="fi fi-ss-clipboard-user" />{" "}
+									Add new patient
+								</ActionBtn>
 							) : (
 								""
 							)}
@@ -120,7 +124,6 @@ const Patients = () => {
 								})}
 							</div>
 							<Pagination
-								
 								setPageSize={setPaginate}
 								page={page}
 								setPage={setPage}
@@ -130,10 +133,9 @@ const Patients = () => {
 					</div>
 					<div className=" lg:col-span-8 xl:col-span-9 px-2">
 						{patient ? (
-							<Fade 
-								key={`patient-profile-${patient?.id}`}>
-								<PatientProfile 
-									patient={patient} 
+							<Fade key={`patient-profile-${patient?.id}`}>
+								<PatientProfile
+									patient={patient}
 									newPatientFormRef={newPatientFormRef}
 								/>
 							</Fade>
