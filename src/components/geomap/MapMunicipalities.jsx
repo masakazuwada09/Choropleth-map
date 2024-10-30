@@ -6,9 +6,6 @@ import { barangayData } from './libs/gensanBarangay';
 import AppLayout from '../container/AppLayout';
 import GeneralSantosMap from './GeneralSantosMap';
 import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
-import { MapContainer } from 'react-leaflet';
-import ActionBtn from '../buttons/ActionBtn';
-import FlatIcon from '../FlatIcon';
 
 const MapMunicipalities = () => {
   const mapRef = useRef(null);
