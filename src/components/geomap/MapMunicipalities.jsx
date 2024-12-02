@@ -41,7 +41,7 @@ const MapMunicipalities = () => {
     { id: 3, location: [6.105330, 125.235000], category: "hospital", name: "General Hospital" }, 
     { id: 3, location: [6.121127443341872, 125.17942051390148], category: "hospital", name: "General Santos Hospital" },
     { id: 3, location: [6.125607844882643, 125.18002132870912], category: "hospital", name: "Dadiangas Hospital" },
-    {id: 3, location: [6.0835590264497394, 125.15014535374044], category: "hospital", name: "General Hospital" }
+    { id: 3, location: [6.0835590264497394, 125.15014535374044], category: "hospital", name: "General Hospital" }
   ];
 
 

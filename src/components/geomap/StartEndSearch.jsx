@@ -39,7 +39,9 @@ const StartEndSearch = () => {
   const [startLocationName, setStartLocationName] = useState("");
   const [endLocationName, setEndLocationName] = useState("");
   const [currentLocationMarker, setCurrentLocationMarker] = useState(null);
-  
+  const [isSwapped, setIsSwapped] = useState(false);
+  const [endPlaceholder, setEndPlaceholder] = useState("End location...");
+  const [originalEndPlaceholder] = useState("End location...");
 
   const handleSearchTermChange = (e) => {
     const term = e.target.value;
@@ -115,7 +117,7 @@ const StartEndSearch = () => {
   const handleEndSearchTermChange = (e) => {
     const term = e.target.value;
     setEndSearchTerm(term);
-
+  
     if (term.length > 2) {
       const geocoder = L.Control.Geocoder.nominatim();
       geocoder.geocode(term, (results) => {
@@ -129,13 +131,13 @@ const StartEndSearch = () => {
   const handleStartSuggestionSelect = (suggestion) => {
     setStartSearchTerm(suggestion);
     setStartSuggestions([]);
-    handleStartSearch(suggestion);
+    handleStartSearch(suggestion); // Make sure to call the search function
   };
 
   const handleEndSuggestionSelect = (suggestion) => {
     setEndSearchTerm(suggestion);
     setEndSuggestions([]);
-    handleEndSearch(suggestion);
+    handleEndSearch(suggestion); // Make sure to call the search function
   };
   const handleSuggestionSelect = (suggestion) => {
     setSearchTerm(suggestion);
@@ -246,18 +248,19 @@ const StartEndSearch = () => {
   
 
   const handleToggleSearchTerms = () => {
+    setIsSwapped(!isSwapped);
+
+    // Swap positions and names without changing the placeholders
     const tempStart = startPosition;
     const tempStartName = startLocationName;
-    const tempStartTerm = startSearchTerm;
-  
+
+
     setStartPosition(endPosition);
     setStartLocationName(endLocationName);
-    setStartSearchTerm(endSearchTerm);
-  
     setEndPosition(tempStart);
     setEndLocationName(tempStartName);
-    setEndSearchTerm(tempStartTerm);
-  };
+};
+  
   
   useEffect(() => {
     // Clear existing markers
@@ -289,9 +292,30 @@ const StartEndSearch = () => {
   
   
   const handleSearchModeToggle = () => {
-  
-    setSearchMode((prevMode) => (prevMode === 'single' ? 'directions' : 'single'));
+    // Check if switching from 'directions' to 'single'
+    if (searchMode === 'directions') {
+      clearMarkers(); // Clear the markers
+      if (routeControl) {
+        map.removeControl(routeControl); // Remove the route control
+        setRouteControl(null); // Clear the route control state
+      }
+    }
+    
+    // Toggle search mode
+    setSearchMode(prevMode => (prevMode === 'single' ? 'directions' : 'single'));
   };
+  
+  // Function to clear markers from the map
+  const clearMarkers = () => {
+    // Clear existing markers for start and end positions
+    map.eachLayer((layer) => {
+      if (layer instanceof L.Marker && (layer.options.icon === startIcon || layer.options.icon === endIcon)) {
+        map.removeLayer(layer);
+      }
+    });
+  };
+  
+  
   
 
   const createRoute = (start, end) => {
@@ -350,7 +374,7 @@ const StartEndSearch = () => {
     };
   }, []);
   return (
-    <div className="flex-col z-[1000] left-1 index-0 absolute w-[30vh] mt-1 border shadow-md rounded-lg bg-white p-1 flex gap-2">
+    <div className="flex-col z-[1000] left-1 index-0 absolute w-[25vh] mt-1 border shadow-md rounded-lg bg-white p-2 flex gap-2">
        
 
       {searchMode === "single" && (
@@ -396,6 +420,7 @@ const StartEndSearch = () => {
         >
           Use Current Location
         </button>
+
         <button 
         className={`p-2 rounded-md flex items-center ${searchMode === 'single' ? 'text-xl text-blue-500' : ' text-md text-gray-500'}`}
         onClick={() => setSearchMode(prevMode => prevMode === 'single' ? 'directions' : 'single')}
@@ -406,45 +431,67 @@ const StartEndSearch = () => {
       </button>
           </div>
          
-            <div className="flex items-center">
-            <input
-                className="flex-1 p-1 rounded-md"
-                type="text"
-                value={startSearchTerm}
-                onChange={handleStartSearchTermChange}
-                placeholder={startSearchTerm || "Start location..."} // This will show "My Location" when set
-              />
+            <div className="grid grid-cols-2 items-center gap-2">
+                
+              <div className="flex flex-col gap-1">
 
-              <button className="text-gray-300 rounded-md flex items-center" onClick={() => handleStartSearch(startSearchTerm)}>
-         
-              </button>
-        
-              {/* Toggle Button for Search Terms */}
-            <button
-              className="ml-2 p-2 bg-gray-200 rounded-md"
+                {/*Start Input box*/}
+                <div className="flex items-center gap-2">
+                <FlatIcon icon="fi fi-ss-marker" className="text-lg text-gray-400"/>
+                <div className={`flex-1 flex gap-2 transition-transform duration-500 ${isSwapped ? 'translate-y-8' : 'translate-y-0'}`}>
+                
+                    <input
+                      className="flex-1 p-1 rounded-md border border-green-500"
+                      type="text"
+                      value={startSearchTerm}
+                      onChange={handleStartSearchTermChange}
+                      placeholder={startLocationName || "Start location..."} // This will show "My Location" when set
+                    />
+
+                     <button className="text-gray-300 rounded-md flex items-center" onClick={() => handleStartSearch(startSearchTerm)}>
+
+                     </button>
+                </div>
+                </div>
+
+              {/*End Input box*/}
+              <div className="flex items-center gap-2">
+              <FlatIcon icon="fi fi-ss-flag" className="text-lg text-gray-400"/>
+              <div className={`flex-1 flex gap-2 transition-transform duration-500 ${isSwapped ? '-translate-y-8' : 'translate-y-0'}`}>
+                
+                  <input
+                    className="flex-1 p-1 rounded-md border border-red-500"
+                    type="text"
+                    value={endSearchTerm}
+                    onChange={handleEndSearchTermChange}
+                    placeholder={endLocationName || originalEndPlaceholder} // Show name or default text
+                  />
+                  <button className="text-gray-300 rounded-md flex items-center" onClick={() => handleEndSearch(endSearchTerm)}>
+          
+                  </button>
+                  </div>
+               </div>
+                
+              </div>
+
+                {/* Toggle Button for Search Terms */}
+                <div className="flex justify-end">
+                <button
+              className="bg-gray-100 p-2 rounded-md rotate-90"
               onClick={handleToggleSearchTerms}
               title="Swap Start and End Locations"
             >
               <FlatIcon icon="fi fi-rr-exchange" /> {/* Use an appropriate icon for toggling */}
             </button>
+                </div>
+            
             </div>
         
 
           
-          <div className="flex gap-2 justify-between">
-            <div className="flex items-center">
-              <input
-                className="flex-1 p-1 rounded-md"
-                type="text"
-                value={endSearchTerm}
-                onChange={handleEndSearchTermChange}
-                placeholder={endLocationName || "End location..."} // Show name or default text
-              />
-              <button className="text-gray-300 rounded-md flex items-center" onClick={() => handleEndSearch(endSearchTerm)}>
-
-              </button>
-            </div>
-          </div>
+            
+            
+          
         </>
       )}
       {/* Start Suggestions Dropdown */}
@@ -506,11 +553,11 @@ const StartEndSearch = () => {
 </div>
 
 
-      <div className="flex justify-between mt-2">
+      <div className="flex justify-between mt-1">
         <button className="text-red-500" onClick={clearRecentSearches}>
           Clear Recent Searches
         </button>
-        <div className="text-gray-500 text-sm">{recentSearches.length} recent searches</div>
+        <div className="text-gray-500 text-xs">{recentSearches.length} recent searches</div>
       </div>
     </div>
   );

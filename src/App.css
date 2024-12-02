@@ -480,11 +480,10 @@ body{
 	  }
 	  .marker-details {
 		position: relative; /* To stay in place on zoom */
-		height: 20%;
-		width: 30vh;
-		margin-top: 70vh;
-		margin-left: 70vh;
-		background-color: #ffffffc5;
+		height: 50px;
+		width: 50vh;
+		margin-top: 30vh;
+		margin-left: 0;
 		top: 0;
 		left: 0;
 		z-index: 1000; /* Higher than the map’s layers */
@@ -506,10 +505,19 @@ body{
 		width: 100%;
 		height: 100%;
 		border-radius: 50%;
-		background-color: rgba(51, 136, 255, 0.3);
+		background-color: rgba(255, 255, 255, 0.075);
 		animation: pulse 1.5s infinite ease-in-out;
 	  }
+	  /* Customize the Leaflet Routing Machine route control panel */
+		.leaflet-routing-container {
+		background-color: white; /* Set a white, semi-transparent background */
+		padding: 5px; /* Add padding for a cleaner look */
+		border-radius: 8px; /* Round the corners */
+		border: 1px solid #ddd; /* Add a subtle border */
+	  }
 	  
+	  
+  
 	  @keyframes pulse {
 		0% {
 		  transform: scale(1);
